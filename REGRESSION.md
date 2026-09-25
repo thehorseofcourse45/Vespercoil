@@ -39,6 +39,13 @@ or economy must zero `bonuses` / `gold` first or they inherit a maxed Observator
 | 17 | Rooms | `rooms` | Six distinct off-map interiors, wall layouts, caches |
 | 18 | Map / UI | `map_upgrades_characters` | M overlay and pause return, field guide, characters |
 | 19 | Keepers | `keeper_unlocks` | A fresh save wakes only Ranger; all nineteen earnable keepers have both a ground and a milestone, a portrait, and a signature stat that survives `apply()`; each ground clear awakens exactly its own keeper and a loss awakens nobody; every threshold is one short of firing next to its own value; repeat clears are idempotent; clearing every ground completes the roster; the seven deep keepers boot a real run and open with their own weapon and power; the Library's Keepers screen lists the roster and every sealed keeper's route |
+| 20 | World geometry | `walls_cache` | `interior_walls()` memo returns walls byte-identical to a fresh rebuild for all 6 rooms, repeated calls are stable, and switching rooms invalidates the cache |
+
+> **Sandboxed suites.** `wipe_save`, `observatory_tree` and `thirtyfive_upgrades` write
+> `user://vespercoil.cfg`. Each now REFUSES to start unless `APPDATA` contains
+> `large-tree-test-profile`. Run them as:
+> `APPDATA="$LOCALAPPDATA/large-tree-test-profile" "$G" --headless --path "C:/Godot/Vespercoil" --script tests/<name>.gd`
+> Without the sandbox they exit 1 immediately rather than touching the player's save.
 
 ## Pack IV notes (2026-09-24)
 

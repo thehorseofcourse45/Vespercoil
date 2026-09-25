@@ -37,6 +37,10 @@ var terrain: Array[Dictionary] = []
 var zones: Array[Dictionary] = []
 var rooms: Array[Dictionary] = []
 var inside_room: int = -1
+# Memo for interior_walls(): see the comment on that function. _walls_key is the room
+# index the cache was built for, so a room transition invalidates it automatically.
+var _walls_cache: Array[Rect2] = []
+var _walls_key: int = -999
 var beacon_relics: Array[RelicData] = []
 # Felling a guardian hands over its own relic, in ladder order.
 var guardian_relics: Array[RelicData] = []
@@ -201,9 +205,15 @@ func building_walls(at: Vector2) -> Array[Rect2]:
 	]
 
 func interior_walls(center: Vector2) -> Array[Rect2]:
-	const t := 16.0
-	const ox := 300.0
-	const oy := 220.0
+	# Room geometry is static for a given room, but this was rebuilt for EVERY active
+	# enemy EVERY physics frame (enemy_manager calls it per unit). Memoize on room index:
+	# inside_room only changes on a room transition, so this hits ~always.
+	var cached_key: int = inside_room
+	if _walls_key == cached_key and not _walls_cache.is_empty():
+		return _walls_cache
+	var t := 16.0
+	var ox := 300.0
+	var oy := 220.0
 	var walls: Array[Rect2] = [
 		Rect2(center.x - ox, center.y - oy, ox * 2.0, t),
 		Rect2(center.x - ox, center.y + oy - t, ox * 2.0, t),
@@ -235,6 +245,8 @@ func interior_walls(center: Vector2) -> Array[Rect2]:
 				walls.append(Rect2(center + Vector2(x, -185), Vector2(20, 72)))
 			walls.append(Rect2(center + Vector2(-170, 70), Vector2(95, 18)))
 			walls.append(Rect2(center + Vector2(80, 70), Vector2(75, 18)))
+	_walls_key = cached_key
+	_walls_cache = walls
 	return walls
 
 func _vault_at(center: Vector2) -> Vector2:

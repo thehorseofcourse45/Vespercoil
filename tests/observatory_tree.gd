@@ -5,6 +5,13 @@ func _initialize() -> void:
 
 func run() -> void:
 	var meta = root.get_node("MetaProgression")
+	# This suite calls meta.buy(), which calls save_data() and writes user://vespercoil.cfg.
+	# Refuse to run outside the isolated profile rather than trusting a comment to protect
+	# the player's save. Same guard as thirtyfive_upgrades.gd.
+	if not OS.get_environment("APPDATA").to_lower().contains("large-tree-test-profile"):
+		print("OBSERVATORY TREE FAIL: refusing save test outside isolated large-tree-test-profile")
+		quit(1)
+		return
 	meta.launching = false
 	meta.future_version = true
 	var game = load("res://scenes/main.tscn").instantiate()

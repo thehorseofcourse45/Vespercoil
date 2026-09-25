@@ -2,6 +2,9 @@ extends SceneTree
 # The main-menu save wipe: it must erase progress and keep preferences, write a fresh file,
 # still write when the old file was unreadable/newer, and be reachable from the title menu
 # only on the SECOND press. The real save file is snapshotted first and restored at the end.
+# This suite writes to the real save path, so it refuses to run outside the isolated profile:
+# the snapshot/restore only covers a clean exit, and an assertion abort or a kill leaves the
+# player's save wiped. Same guard as thirtyfive_upgrades.gd.
 var fails: Array[String] = []
 var save_path: String = ProjectSettings.globalize_path("user://vespercoil.cfg")
 var snapshot: PackedByteArray = PackedByteArray()
@@ -32,6 +35,10 @@ func find_button(node: Node, text: String) -> Button:
 			return found
 	return null
 func _initialize() -> void:
+	if not OS.get_environment("APPDATA").to_lower().contains("large-tree-test-profile"):
+		print("WIPE SAVE FAIL: refusing save test outside isolated large-tree-test-profile")
+		quit(1)
+		return
 	call_deferred("run")
 func run() -> void:
 	snapshot_save()

@@ -72,7 +72,7 @@ func tick(delta: float, distance: float) -> void:
 		if inst.tick <= 0.0:
 			inst.tick = effect.tick_interval
 			effect.apply_tick(target, inst.stacks, delta)
-		effect.on_move(target, distance)
+		effect.on_move(target, distance, inst.stacks)
 		if inst.remaining <= 0.0:
 			var e: StatusEffect = inst.effect
 			if not e.converts_to.is_empty() and e.convert_after_stacks > 0 and inst.stacks >= e.convert_after_stacks:

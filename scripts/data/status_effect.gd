@@ -24,5 +24,5 @@ func on_applied(_target, _stacks: int) -> void:
 	pass
 func on_removed(_target) -> void:
 	pass
-func on_move(_target, _distance: float) -> void:
+func on_move(_target, _distance: float, _stacks: int = 1) -> void:
 	pass

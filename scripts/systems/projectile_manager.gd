@@ -6,6 +6,16 @@ var free: Array = []
 var active: Array = []
 var enemies
 var player
+# Single entry point for "damage this enemy, then apply this projectile's statuses".
+# hit() can kill and recycle() the target, so the status must not be applied to the corpse
+# that is already back in the pool -- doing that fired status/reaction signals on a dead
+# enemy. Five call sites had this open-coded, hence the helper.
+func hit_with_status(enemy, shot, damage: float, push: Vector2, heavy: bool = false) -> void:
+	enemies.hit(enemy, damage, shot.weapon_id, push, heavy, shot.hitbox.damage_type)
+	if not enemy.active:
+		return
+	for status_id in shot.status_payload:
+		enemy.status.apply(StatusLibrary.get_effect(status_id))
 func _ready() -> void:
 	grow(initial_capacity)
 func grow(count: int) -> void:
@@ -48,9 +58,7 @@ func _physics_process(delta: float) -> void:
 			if shot.remaining <= 0.0:
 				GameEvents.impact.emit(shot.position, 5.0, shot.tint)
 				for enemy in enemies.nearby(shot.position, shot.hitbox.radius):
-					enemies.hit(enemy, shot.hitbox.damage, shot.weapon_id, (enemy.position - shot.position).normalized() * shot.knockback, true, shot.hitbox.damage_type)
-					for status_id in shot.status_payload:
-						enemy.status.apply(StatusLibrary.get_effect(status_id))
+					hit_with_status(enemy, shot, shot.hitbox.damage, (enemy.position - shot.position).normalized() * shot.knockback, true)
 		elif shot.kind == &"flask":
 			var progress: float = clampf(shot.age / shot.flight_time, 0.0, 1.0)
 			shot.position = shot.start.lerp(shot.destination, progress)
@@ -67,17 +75,13 @@ func _physics_process(delta: float) -> void:
 			if shot.tick_clock <= 0.0:
 				shot.tick_clock = 0.4
 				for enemy in enemies.nearby(shot.position, shot.hitbox.radius):
-					enemies.hit(enemy, shot.hitbox.damage, shot.weapon_id, (enemy.position - shot.position).normalized() * shot.knockback, false, shot.hitbox.damage_type)
-					for status_id in shot.status_payload:
-						enemy.status.apply(StatusLibrary.get_effect(status_id))
+					hit_with_status(enemy, shot, shot.hitbox.damage, (enemy.position - shot.position).normalized() * shot.knockback)
 		elif shot.behavior != null and shot.behavior.kind == ProjectileBehavior.Kind.PERSISTENT:
 			shot.tick_clock -= delta
 			if shot.tick_clock <= 0.0:
 				shot.tick_clock = 0.4
 				for enemy in enemies.nearby(shot.position, shot.hitbox.radius):
-					enemies.hit(enemy, shot.hitbox.damage, shot.weapon_id, (enemy.position - shot.position).normalized() * shot.knockback, false, shot.hitbox.damage_type)
-					for status_id in shot.status_payload:
-						enemy.status.apply(StatusLibrary.get_effect(status_id))
+					hit_with_status(enemy, shot, shot.hitbox.damage, (enemy.position - shot.position).normalized() * shot.knockback)
 		elif shot.behavior != null and shot.behavior.kind == ProjectileBehavior.Kind.ORBIT:
 			shot.behavior_state.angle += delta * shot.behavior.orbit_speed
 			shot.position = shot.behavior_state.origin + Vector2.from_angle(shot.behavior_state.angle) * shot.behavior.orbit_radius
@@ -86,9 +90,7 @@ func _physics_process(delta: float) -> void:
 				if shot.hit_ids.has(enemy.serial):
 					continue
 				shot.hit_ids[enemy.serial] = true
-				enemies.hit(enemy, shot.hitbox.damage, shot.weapon_id, shot.direction * shot.knockback, false, shot.hitbox.damage_type)
-				for status_id in shot.status_payload:
-					enemy.status.apply(StatusLibrary.get_effect(status_id))
+				hit_with_status(enemy, shot, shot.hitbox.damage, 				shot.direction * shot.knockback)
 		else:
 			if shot.behavior != null:
 				match shot.behavior.kind:
@@ -126,6 +128,10 @@ func _physics_process(delta: float) -> void:
 				var point: Vector2 = Geometry2D.get_closest_point_to_segment(player.position, old, shot.position)
 				if player.hurtbox.contains_point(player.position, point, shot.hitbox.radius):
 					player.take_damage(shot.hitbox.damage, shot.hitbox.damage_type)
+					# hostile() accepts a status payload and projectile.gd stores it, but this branch
+					# only ever applied damage -- statuses on boss projectiles were silently dropped.
+					for status_id in shot.status_payload:
+						player.status.apply(StatusLibrary.get_effect(status_id))
 					shot.remaining = 0.0
 			else:
 				var midpoint: Vector2 = (old + shot.position) * 0.5
@@ -136,9 +142,7 @@ func _physics_process(delta: float) -> void:
 					if not enemy.hurtbox.contains_point(enemy.position, closest, shot.hitbox.radius):
 						continue
 					shot.hit_ids[enemy.serial] = true
-					enemies.hit(enemy, shot.hitbox.damage, shot.weapon_id, shot.direction * shot.knockback, false, shot.hitbox.damage_type)
-					for status_id in shot.status_payload:
-						enemy.status.apply(StatusLibrary.get_effect(status_id))
+					hit_with_status(enemy, shot, shot.hitbox.damage, shot.direction * shot.knockback)
 					if shot.behavior != null and shot.behavior.kind == ProjectileBehavior.Kind.SPLIT_HIT:
 						_split(shot, shot.behavior.split_count)
 						shot.remaining = 0.0

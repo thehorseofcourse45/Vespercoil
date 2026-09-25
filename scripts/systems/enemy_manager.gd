@@ -181,6 +181,15 @@ func _physics_process(delta: float) -> void:
 			enemy.position = world.push_out(enemy.position, enemy.hurtbox.radius, world.interior_walls(world.rooms[world.inside_room].center))
 		if has_status:
 			enemy.status.tick(delta, enemy.position.distance_to(previous_position))
+			# A burn/poison tick can call the status sink -> hit() -> recycle(), which sets
+			# enemy.active = false and returns the object to the pool. Everything below
+			# would then reinsert the corpse into the hash and let it deal contact damage.
+			if not enemy.active:
+				i -= 1
+				continue
+			# A burn/poison tick can call the status sink -> hit() -> recycle(), which sets
+			# enemy.active = false and returns the object to the pool. Everything below
+			# would then reinsert the corpse into the hash and let it deal contact damage.
 		var new_cell: Vector2i = hash.cell(enemy.position)
 		if new_cell != enemy.grid_cell:
 			hash.remove(enemy, enemy.grid_cell)
