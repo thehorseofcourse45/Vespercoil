@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"meteor"
+title = "Cinderfall"
+description = "Mark enemy positions, then drop explosive meteors."
+behavior = &"meteor"
+base_damage = 40.0
+cooldown = 3.8
+projectile_count = 1
+pierce = 0
+knockback = 100.0
+duration = 0.85
+projectile_speed = 0.0
+radius = 66.0
+color = Color(1, 0.35, 0.16, 1)
+weight = 1.3
+level_changes = Array[Dictionary]([{"base_damage": 12.0, "cooldown": -0.266}, {"base_damage": 12.0, "projectile_count": 1}, {"base_damage": 12.0, "area_scale": 0.25}, {"base_damage": 12.0}, {"base_damage": 12.0, "cooldown": -0.266}, {"base_damage": 12.0, "projectile_count": 1}, {"base_damage": 12.0, "area_scale": 0.25}])
+evolution_passive = &"might"
+evolution_title = "Extinction"
+tags = Array[StringName]([&"fire", &"area"])

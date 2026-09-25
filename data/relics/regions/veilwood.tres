@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RelicData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/relic_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"veilwood_boss_relic"
+title = "Heartwood Sigil"
+description = "A trophy from The Verdant Warden, deepening every expedition's experience."
+stat = &"xp"
+flat = 0.0
+percent = 0.08
+source = &"boss_veilwood_relic"

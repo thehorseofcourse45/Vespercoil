@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PassiveData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/passive_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"stormlace"
+title = "Stormlace"
+stat = &"mult_lightning"
+flat_per_level = 0.0
+percent_per_level = 0.07
+stat2 = &"cdr"
+flat2_per_level = 0.02
+percent2_per_level = 0.0
+max_level = 5
+weight = 1.0
+color = Color(0.82, 0.72, 1, 1)

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrinketData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/trinket_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"cinder_burst"
+title = "Cinder Burst"
+description = "Each kill leaves a lick of flame that ignites the vessels beside it."
+effect = &"cinder_burst"
+magnitude = 0.0
+weight = 1.0
+color = Color(1, 0.55, 0.3, 1)

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "garden"
+name = "HOLLOW GARDEN"
+subtitle = "Something beautiful took root in the catastrophe."
+perk = "+35% pickup radius / Brood Oracle incursions"
+color = Color(0.45, 0.95, 0.55, 1)
+floor = Color(0.025, 0.065, 0.05, 1)
+motif = &"garden"
+hazard = &""
+veil = 0.0
+incursion = &"summoner"
+enemy_roster = Array[StringName]([&"summoner", &"shepherd", &"thornling"])
+bonus = Array[Dictionary]([{"stat": &"pickup", "flat": 0.0, "percent": 0.35}])
+unlock = {"type": "default"}
+unlock_hint = "Open from the first expedition."
+reward_character = "Arcanist"
+reward_note = "Clearing the Garden awakens the Arcanist."
+music = 2
+pitch = 1.0
+danger = 2

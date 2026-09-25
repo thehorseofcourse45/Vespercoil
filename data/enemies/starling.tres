@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"starling"
+title = "Starling"
+health = 28.0
+speed = 69.0
+damage = 9.0
+radius = 13.0
+xp = 2
+color = Color(0.3451, 0.7882, 0.9059, 1)
+behaviour = &"orbiter"

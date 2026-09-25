@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "bastion"
+name = "CLOCKWORK BASTION"
+subtitle = "A city of gears still obeys orders from a lost age."
+perk = "+12% cooldown recovery / Gearling incursions / charged ground"
+color = Color(0.851, 0.7804, 0.4824, 1)
+floor = Color(0.1451, 0.1451, 0.1059, 1)
+motif = &"bastion"
+hazard = &"storm"
+veil = 0.0
+incursion = &"gearling"
+enemy_roster = Array[StringName]([&"gearling", &"clock_guard", &"foundry_cannon"])
+bonus = Array[Dictionary]([{"stat": &"cdr", "flat": 0.12, "percent": 0.0}])
+unlock = {"type": "clear", "id": "spire"}
+unlock_hint = "Clear Gilded Spire."
+reward_character = "Artificer"
+reward_note = "Clearing the Bastion awakens the Artificer."
+music = 12
+pitch = 1.0
+danger = 4

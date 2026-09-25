@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "mirror"
+name = "GLASS EXPANSE"
+subtitle = "A flat white nowhere that copies whatever walks across it."
+perk = "+25% area of effect / Burrower incursions / featureless sightlines"
+color = Color(0.8, 0.88, 0.95, 1)
+floor = Color(0.05, 0.06, 0.07, 1)
+motif = &"mirror"
+hazard = &""
+veil = 0.0
+incursion = &"splitter"
+enemy_roster = Array[StringName]([&"splitter", &"gloomjack", &"glass_mimic"])
+bonus = Array[Dictionary]([{"stat": &"area", "flat": 0.0, "percent": 0.25}])
+unlock = {"type": "wins", "count": 6}
+unlock_hint = "Win six expeditions."
+reward_character = "Glazier"
+reward_note = "Clearing the Glass Expanse"
+music = 9
+pitch = 1.0
+danger = 5

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "dunes"
+name = "SUNDERED DUNES"
+subtitle = "Buried towers pulse beneath a sea of red sand."
+perk = "+15% movement speed / Dune Raider incursions / burning ground"
+color = Color(0.9098, 0.6667, 0.4118, 1)
+floor = Color(0.1882, 0.1255, 0.0902, 1)
+motif = &"dunes"
+hazard = &"burn"
+veil = 0.0
+incursion = &"dune_raider"
+enemy_roster = Array[StringName]([&"dune_raider", &"glass_scorpion", &"sand_sentinel"])
+bonus = Array[Dictionary]([{"stat": &"speed", "flat": 0.0, "percent": 0.15}])
+unlock = {"type": "clear", "id": "ember"}
+unlock_hint = "Clear Ember Foundry."
+reward_character = "Cinderkeeper"
+reward_note = "Clearing the Dunes awakens the Cinderkeeper."
+music = 11
+pitch = 1.0
+danger = 4

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PassiveData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/passive_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"lens"
+title = "Lens"
+stat = &"area"
+flat_per_level = 0.0
+percent_per_level = 0.12
+tags = Array[StringName]([&"area"])

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"colossus"
+title = "Ruin Colossus"
+health = 320.0
+speed = 28.0
+damage = 28.0
+radius = 32.0
+xp = 18
+color = Color(0.55, 0.45, 0.35, 1)
+shield = 0.0
+behaviour = &"chaser"

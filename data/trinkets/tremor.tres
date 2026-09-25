@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrinketData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/trinket_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"tremor"
+title = "Tremor Core"
+description = "The ground shudders around you every few seconds."
+effect = &"tremor"
+magnitude = 42.0
+weight = 1.0
+color = Color(1, 0.62, 0.4, 1)

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"astral_orbiter"
+title = "Astral Orbiter"
+health = 240.0
+speed = 84.0
+damage = 38.0
+radius = 17.0
+xp = 22
+color = Color(0.7490, 0.4667, 1.0, 1)
+shield = 20.0
+behaviour = &"orbiter"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PassiveData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/passive_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"razor"
+title = "Razor"
+stat = &"crit_damage"
+flat_per_level = 0.15
+color = Color(0.94, 0.57, 0.59, 1)
+tags = Array[StringName]([&"physical"])

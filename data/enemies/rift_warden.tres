@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"rift_warden"
+title = "Rift Warden"
+health = 150.0
+speed = 62.0
+damage = 24.0
+radius = 15.0
+xp = 12
+color = Color(0.6196078431372549, 0.8, 0.9215686274509803, 1)
+shot_interval = 2.4
+shield = 0.0
+behaviour = &"mender"

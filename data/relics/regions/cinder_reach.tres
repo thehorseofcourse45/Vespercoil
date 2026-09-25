@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RelicData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/relic_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"cinder_reach_boss_relic"
+title = "Emberwake"
+description = "A trophy from The Cinder Monarch, feeding fire damage into every expedition."
+stat = &"mult_fire"
+flat = 0.0
+percent = 0.10
+source = &"boss_cinder_reach_relic"

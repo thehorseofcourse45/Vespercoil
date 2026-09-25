@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"thornling"
+title = "Thornling"
+health = 36.0
+speed = 72.0
+damage = 11.0
+radius = 13.0
+xp = 2
+color = Color(0.5137, 0.749, 0.4118, 1)
+behaviour = &"swarm"

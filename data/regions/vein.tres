@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "vein"
+name = "CRIMSON VEIN"
+subtitle = "The ground drinks. Keep moving and it will not drink you."
+perk = "+25% damage, -25 max HP / burning ground / Exploder incursions"
+color = Color(1, 0.35, 0.42, 1)
+floor = Color(0.075, 0.02, 0.03, 1)
+motif = &"vein"
+hazard = &"burn"
+veil = 0.0
+incursion = &"exploder"
+enemy_roster = Array[StringName]([&"exploder", &"breaker", &"blood_leech"])
+bonus = Array[Dictionary]([{"stat": &"damage", "flat": 0.0, "percent": 0.25}, {"stat": &"max_health", "flat": -25.0, "percent": 0.0}])
+unlock = {"type": "grounds", "count": 5}
+unlock_hint = "Clear five different grounds."
+reward_character = "Ravager"
+reward_note = "Clearing the Crimson Vein"
+music = 8
+pitch = 1.0
+danger = 5

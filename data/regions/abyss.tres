@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "abyss"
+name = "SABLE ABYSS"
+subtitle = "A lightless trench where the coil first took root."
+perk = "+10% critical chance / darkness veil / Warden Herald incursions"
+color = Color(0.74, 0.6, 1, 1)
+floor = Color(0.02, 0.015, 0.055, 1)
+motif = &"abyss"
+hazard = &""
+veil = 1.0
+incursion = &"wraith"
+enemy_roster = Array[StringName]([&"wraith", &"screamer", &"voidling"])
+bonus = Array[Dictionary]([{"stat": &"crit_chance", "flat": 0.1, "percent": 0.0}])
+unlock = {"type": "wins", "count": 1}
+unlock_hint = "Clear any ground once."
+reward_character = "Salvager"
+reward_note = "Clearing the Abyss awakens the Salvager."
+music = 3
+pitch = 1.0
+danger = 3

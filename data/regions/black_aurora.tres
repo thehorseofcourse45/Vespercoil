@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "black_aurora"
+name = "BLACK AURORA"
+subtitle = "The last dark between stars, cold enough to freeze a memory."
+perk = "+10% critical chance / Eclipse Mender incursions / freezing ground"
+color = Color(0.7059, 0.4, 0.9490, 1)
+floor = Color(0.0706, 0.0431, 0.1373, 1)
+motif = &"black_aurora"
+hazard = &"frost"
+veil = 0.6
+incursion = &"eclipse_mender"
+enemy_roster = Array[StringName]([&"eclipse_mender", &"void_leaper", &"astral_orbiter"])
+bonus = Array[Dictionary]([{"stat": &"crit_chance", "flat": 0.1, "percent": 0.0}])
+unlock = {"type": "wins", "count": 12}
+unlock_hint = "Win twelve expeditions."
+reward_character = "Polaris"
+reward_note = "Clearing the Black Aurora awakens Polaris."
+music = 19
+pitch = 0.88
+danger = 5

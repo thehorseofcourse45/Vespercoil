@@ -1,0 +1,54 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
+[application]
+
+config/name="Vespercoil"
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[autoload]
+
+GameEvents="*res://scripts/autoload/game_events.gd"
+RunManager="*res://scripts/autoload/run_manager.gd"
+MetaProgression="*res://scripts/autoload/meta_progression.gd"
+Controls="*res://scripts/autoload/controls.gd"
+Steam="*res://scripts/systems/steam.gd"
+Achievements="*res://scripts/autoload/achievements.gd"
+Damage="*res://scripts/systems/damage.gd"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg")
+
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Enemy"
+2d_physics/layer_3="PlayerShot"
+2d_physics/layer_4="HostileShot"
+2d_physics/layer_5="Pickup"
+2d_physics/layer_6="World"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.025, 0.035, 0.065, 1)

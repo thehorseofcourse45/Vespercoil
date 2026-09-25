@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffe3bb" />
+      <stop offset="38%" stop-color="#ffcf8a" />
+      <stop offset="100%" stop-color="#856c48" />
+    </linearGradient>
+    <clipPath id="hull">
+      <ellipse cx="32" cy="22" rx="9" ry="5" fill="white" stroke="none" stroke-width="2" />
+    </clipPath>
+  </defs>
+  <path d="M20 54 26 22h12l6 32Z" fill="#3a2218" stroke="#e07a48" stroke-width="3" stroke-linejoin="round" />
+  <ellipse cx="32" cy="22" rx="9" ry="5" fill="#1b1010" stroke="#f0a06a" stroke-width="2" />
+  <g clip-path="url(#hull)">
+    <path d="M0 0H64.0L16.0 64.0H0Z" fill="#e4f8ff" opacity=".10" />
+    <path d="M32.0 0L44.8 64.0H64.0V0Z" fill="#000b20" opacity=".20" />
+    <path d="M0 26.88L64.0 11.52M0 51.2L64.0 35.84" fill="none" stroke="#eaf6ff" stroke-width="0.768" opacity=".20" />
+  </g>
+  <circle cx="32" cy="14" r="6" fill="url(#metal0)" />
+  <path d="M14 46h36M18 54h28" stroke="#c26a3c" stroke-width="3" stroke-linecap="round" />
+  <circle cx="33.92" cy="31.36" r="2.24" fill="#f4edc6" opacity=".85" />
+</svg>

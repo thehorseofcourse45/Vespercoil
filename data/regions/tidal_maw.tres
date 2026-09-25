@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "tidal_maw"
+name = "TIDAL MAW"
+subtitle = "A drowned city folding in and out of the tide."
+perk = "+20% pickup radius / Tide Sniper incursions / open ground"
+color = Color(0.2039, 0.7294, 0.8392, 1)
+floor = Color(0.0314, 0.1216, 0.1804, 1)
+motif = &"tidal_maw"
+hazard = &""
+veil = 0.4
+incursion = &"tide_sniper"
+enemy_roster = Array[StringName]([&"tide_sniper", &"abyss_summoner", &"reef_warden"])
+bonus = Array[Dictionary]([{"stat": &"pickup", "flat": 0.0, "percent": 0.2}])
+unlock = {"type": "clear", "id": "storm_citadel"}
+unlock_hint = "Clear Storm Citadel."
+reward_character = "Brinelord"
+reward_note = "Clearing the Tidal Maw awakens the Brinelord."
+music = 18
+pitch = 1.08
+danger = 5

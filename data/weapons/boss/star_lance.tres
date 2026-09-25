@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"star_lance"
+title = "Star Lance"
+description = "Boss weapon: astral bolts pierce the horde."
+behavior = &"forward"
+color = Color(0.3451, 0.7882, 0.9059, 1)
+base_damage = 23.0
+cooldown = 0.95
+projectile_count = 2
+pierce = 4
+knockback = 45.0
+duration = 1.8
+projectile_speed = 720.0
+radius = 7.0
+level_changes = Array[Dictionary]([{"base_damage": 4.0}, {"cooldown": -0.07}, {"projectile_count": 1}, {"base_damage": 5.0}, {"pierce": 1}, {"base_damage": 5.0}, {"projectile_count": 1}])
+evolution_passive = &"might"
+evolution_title = "Star Lance Ascendant"
+tags = Array[StringName]([&"physical", &"projectile"])

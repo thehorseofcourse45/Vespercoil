@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PassiveData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/passive_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"gamblers_ledger"
+title = "Gambler's Ledger"
+stat = &"gold"
+flat_per_level = 0.0
+percent_per_level = 0.12
+stat2 = &"curse"
+flat2_per_level = 0.34
+percent2_per_level = 0.0
+max_level = 3
+weight = 0.8
+color = Color(0.98, 0.8, 0.4, 1)

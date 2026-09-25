@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e9dfb2" />
+      <stop offset="38%" stop-color="#d9c77b" />
+      <stop offset="100%" stop-color="#716740" />
+    </linearGradient>
+    <clipPath id="hull">
+      <polygon points="32.0,9.0 37.3,24.7 59.6,23.0 41.5,35.1 49.6,56.3 32.0,44.0 17.3,52.2 17.7,36.6 5.4,23.3 22.6,19.1" fill="white" fill-opacity=".8" stroke="none" stroke-width="1.5" />
+    </clipPath>
+  </defs>
+  <circle cx="32" cy="32" r="29" fill="#25251b" stroke="#d9c77b" stroke-width="2" />
+  <polygon points="32.0,9.0 37.3,24.7 59.6,23.0 41.5,35.1 49.6,56.3 32.0,44.0 17.3,52.2 17.7,36.6 5.4,23.3 22.6,19.1" fill="url(#metal0)" fill-opacity=".8" stroke="#f2e9d7" stroke-width="1.5" />
+  <g clip-path="url(#hull)">
+    <path d="M0 0H64.0L16.0 64.0H0Z" fill="#e4f8ff" opacity=".10" />
+    <path d="M32.0 0L44.8 64.0H64.0V0Z" fill="#000b20" opacity=".20" />
+    <path d="M0 26.88L64.0 11.52M0 51.2L64.0 35.84" fill="none" stroke="#eaf6ff" stroke-width="0.768" opacity=".20" />
+  </g>
+  <circle cx="32" cy="32" r="4" fill="#25251b" stroke="#f2e9d7" stroke-width="2" />
+  <circle cx="33.92" cy="31.36" r="2.24" fill="#f4edc6" opacity=".85" />
+</svg>

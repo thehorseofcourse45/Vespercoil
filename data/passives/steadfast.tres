@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PassiveData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/passive_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"steadfast"
+title = "Steadfast"
+stat = &"resist_physical"
+flat_per_level = 0.04
+percent_per_level = 0.0
+stat2 = &"resist_true"
+flat2_per_level = 0.04
+percent2_per_level = 0.0
+max_level = 5
+weight = 1.0
+color = Color(0.78, 0.82, 0.85, 1)

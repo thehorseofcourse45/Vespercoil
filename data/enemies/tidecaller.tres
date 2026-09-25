@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"tidecaller"
+title = "Tidecaller"
+health = 76.0
+speed = 67.0
+damage = 19.0
+radius = 14.0
+xp = 8
+color = Color(0.4431, 0.7255, 0.8235, 1)
+behaviour = &"summoner"

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "storm_citadel"
+name = "STORM CITADEL"
+subtitle = "A fortress of charged air and patient machinery."
+perk = "+10% cooldown recovery / Storm Caller incursions / charged ground"
+color = Color(0.5961, 0.4706, 0.9569, 1)
+floor = Color(0.0745, 0.0667, 0.1608, 1)
+motif = &"storm_citadel"
+hazard = &"storm"
+veil = 0.25
+incursion = &"storm_caller"
+enemy_roster = Array[StringName]([&"arc_sentinel", &"storm_caller", &"static_colossus"])
+bonus = Array[Dictionary]([{"stat": &"cdr", "flat": 0.1, "percent": 0.0}])
+unlock = {"type": "clear", "id": "cinder_reach"}
+unlock_hint = "Clear Cinder Reach."
+reward_character = "Stormwright"
+reward_note = "Clearing the Storm Citadel awakens the Stormwright."
+music = 17
+pitch = 0.92
+danger = 5

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"orbit"
+title = "Orbit"
+behavior = &"orbit"
+color = Color(1, 0.72, 0.2, 1)
+base_damage = 8.0
+cooldown = 0.65
+projectile_count = 2
+pierce = 0
+knockback = 45.0
+duration = 0.0
+projectile_speed = 2.4
+radius = 74.0
+level_changes = Array[Dictionary]([{"base_damage": 2.8, "cooldown": -0.052000000000000005}, {"base_damage": 2.8, "projectile_count": 1}, {"base_damage": 2.8, "area_scale": 0.25}, {"base_damage": 2.8, "projectile_count": 1}, {"base_damage": 2.8, "cooldown": -0.052000000000000005}, {"base_damage": 2.8, "projectile_count": 1}, {"base_damage": 2.8, "area_scale": 0.25}])
+evolution_passive = &"lens"
+evolution_title = "Solar Crown"
+description = "Orbiting satellites punish enemies who get close."
+tags = Array[StringName]([&"physical", &"area"])

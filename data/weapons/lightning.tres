@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"lightning"
+title = "Lightning"
+behavior = &"lightning"
+color = Color(0.6, 0.8, 1, 1)
+base_damage = 24.0
+cooldown = 2.0
+projectile_count = 3
+pierce = 0
+knockback = 10.0
+duration = 0.15
+projectile_speed = 0.0
+radius = 170.0
+level_changes = Array[Dictionary]([{"base_damage": 8.4, "cooldown": -0.16}, {"base_damage": 8.4, "projectile_count": 1}, {"base_damage": 8.4, "area_scale": 0.25}, {"base_damage": 8.4, "projectile_count": 1}, {"base_damage": 8.4, "cooldown": -0.16}, {"base_damage": 8.4, "projectile_count": 1}, {"base_damage": 8.4, "area_scale": 0.25}])
+evolution_passive = &"duplicator"
+evolution_title = "Tempest"
+tags = Array[StringName]([&"area", &"projectile"])
+description = "Arc between distinct enemies in a chain."

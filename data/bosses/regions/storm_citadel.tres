@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BossData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/boss_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"storm_citadel_guardian"
+title = "THE STORM ARCHON"
+kind = &"static_colossus"
+health = 2700.0
+shield = 120.0
+stage = 0
+ability_normal = 2.2
+ability_enraged = 1.45
+attack = &"cross"

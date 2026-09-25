@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"thorn_bloom"
+title = "Thorn Bloom"
+description = "Boss weapon: brambles spread from your path."
+behavior = &"forward"
+color = Color(0.5137, 0.749, 0.4118, 1)
+base_damage = 17.0
+cooldown = 0.7
+projectile_count = 2
+pierce = 5
+knockback = 45.0
+duration = 1.8
+projectile_speed = 610.0
+radius = 7.0
+level_changes = Array[Dictionary]([{"base_damage": 4.0}, {"cooldown": -0.07}, {"projectile_count": 1}, {"base_damage": 5.0}, {"pierce": 1}, {"base_damage": 5.0}, {"projectile_count": 1}])
+evolution_passive = &"might"
+evolution_title = "Thorn Bloom Ascendant"
+tags = Array[StringName]([&"physical", &"projectile"])

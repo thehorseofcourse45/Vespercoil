@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"spore_singer"
+title = "Spore Singer"
+health = 72.0
+speed = 74.0
+damage = 18.0
+radius = 14.0
+xp = 10
+color = Color(0.4824, 0.8588, 0.4902, 1)
+shot_interval = 3.0
+behaviour = &"screamer"

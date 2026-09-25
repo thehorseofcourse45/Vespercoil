@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"arc_sentinel"
+title = "Arc Sentinel"
+health = 150.0
+speed = 82.0
+damage = 28.0
+radius = 15.0
+xp = 15
+color = Color(0.5961, 0.4706, 0.9569, 1)
+shield = 25.0
+shot_interval = 2.2
+behaviour = &"shielder"

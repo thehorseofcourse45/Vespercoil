@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#daf6ff" />
+      <stop offset="38%" stop-color="#bff0ff" />
+      <stop offset="100%" stop-color="#637d85" />
+    </linearGradient>
+    <clipPath id="hull">
+      <circle cx="32" cy="32" r="6" fill="white" stroke="none" />
+    </clipPath>
+  </defs>
+  <circle cx="32" cy="32" r="16" fill="#122b3a" stroke="#6fc7e8" stroke-width="3" />
+  <circle cx="32" cy="32" r="6" fill="url(#metal0)" />
+  <g clip-path="url(#hull)">
+    <path d="M0 0H64.0L16.0 64.0H0Z" fill="#e4f8ff" opacity=".10" />
+    <path d="M32.0 0L44.8 64.0H64.0V0Z" fill="#000b20" opacity=".20" />
+    <path d="M0 26.88L64.0 11.52M0 51.2L64.0 35.84" fill="none" stroke="#eaf6ff" stroke-width="0.768" opacity=".20" />
+  </g>
+  <path d="M32 8v10M32 46v10M8 32h10M46 32h10" stroke="#6fc7e8" stroke-width="4" stroke-linecap="round" />
+  <path d="M18 18l7 7M46 18l-7 7M18 46l7-7M46 46l-7-7" stroke="#3d8fb0" stroke-width="3" stroke-linecap="round" />
+  <circle cx="33.92" cy="31.36" r="2.24" fill="#f4edc6" opacity=".85" />
+</svg>

@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=6 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/firing_pattern.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/projectile_behavior.gd" id="3"]
+[sub_resource type="Resource" id="pattern"]
+script = ExtResource("2")
+kind = 0
+count = 1
+[sub_resource type="Resource" id="behavior"]
+script = ExtResource("3")
+kind = 0
+[resource]
+script = ExtResource("1")
+id = &"railshot"
+title = "Railshot"
+description = "A slow, punishing lance that punches through an entire column."
+behavior = &"composed"
+color = Color(0.85, 0.95, 1, 1)
+base_damage = 34.0
+cooldown = 2.5
+projectile_count = 1
+pierce = 8
+knockback = 90.0
+duration = 1.4
+projectile_speed = 1150.0
+radius = 7.0
+weight = 0.9
+pattern = SubResource("pattern")
+proj_behavior = SubResource("behavior")
+level_changes = Array[Dictionary]([{"base_damage": 10.5, "cooldown": -0.14}, {"base_damage": 10.5, "pierce": 2}, {"base_damage": 10.5, "cooldown": -0.14}, {"base_damage": 10.5, "pierce": 2}, {"base_damage": 10.5, "cooldown": -0.14}, {"base_damage": 10.5, "pierce": 2}, {"base_damage": 10.5, "area_scale": 0.3}])
+evolution_passive = &"razor"
+evolution_title = "Lance Cascade"
+tags = Array[StringName]([&"physical", &"projectile"])

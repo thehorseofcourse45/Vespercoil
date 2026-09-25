@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=6 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/firing_pattern.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/projectile_behavior.gd" id="3"]
+[sub_resource type="Resource" id="pattern"]
+script = ExtResource("2")
+kind = 4
+count = 4
+spiral_turn_degrees = 22.0
+[sub_resource type="Resource" id="behavior"]
+script = ExtResource("3")
+kind = 0
+[resource]
+script = ExtResource("1")
+id = &"halo"
+title = "Purging Halo"
+description = "Rings of consecrated flame sweep outward in a slow spiral."
+behavior = &"composed"
+color = Color(1, 0.85, 0.55, 1)
+base_damage = 13.0
+cooldown = 0.75
+projectile_count = 1
+pierce = 2
+knockback = 30.0
+duration = 2.0
+projectile_speed = 520.0
+radius = 6.0
+weight = 1.0
+damage_type = 1
+on_hit_status = Array[StringName]([&"burn"])
+pattern = SubResource("pattern")
+proj_behavior = SubResource("behavior")
+level_changes = Array[Dictionary]([{"base_damage": 4.0, "cooldown": -0.04}, {"base_damage": 4.0, "projectile_count": 1}, {"base_damage": 4.0, "area_scale": 0.25}, {"base_damage": 4.0, "projectile_count": 1}, {"base_damage": 4.0, "cooldown": -0.04}, {"base_damage": 4.0, "pierce": 1}, {"base_damage": 4.0, "area_scale": 0.25}])
+evolution_passive = &"ember_sigil"
+evolution_title = "Sainted Halo"
+tags = Array[StringName]([&"fire", &"projectile"])

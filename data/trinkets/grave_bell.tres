@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrinketData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/trinket_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"grave_bell"
+title = "Grave Bell"
+description = "Each level-up tolls a damaging nova around you."
+effect = &"grave_bell"
+magnitude = 26.0
+weight = 1.0
+color = Color(0.78, 0.62, 0.95, 1)

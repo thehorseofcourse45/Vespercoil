@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "cinder_reach"
+name = "CINDER REACH"
+subtitle = "A volcanic frontier where the sky never stops falling."
+perk = "+12% fire damage / Flare Charger incursions / burning ground"
+color = Color(0.9569, 0.4078, 0.2353, 1)
+floor = Color(0.1608, 0.0627, 0.0471, 1)
+motif = &"cinder_reach"
+hazard = &"burn"
+veil = 0.0
+incursion = &"flare_charger"
+enemy_roster = Array[StringName]([&"ember_archer", &"slag_maker", &"flare_charger"])
+bonus = Array[Dictionary]([{"stat": &"mult_fire", "flat": 0.0, "percent": 0.12}])
+unlock = {"type": "wins", "count": 8}
+unlock_hint = "Win eight expeditions."
+reward_character = "Ashcaller"
+reward_note = "Clearing Cinder Reach awakens the Ashcaller."
+music = 16
+pitch = 1.04
+danger = 5

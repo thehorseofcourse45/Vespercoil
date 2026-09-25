@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrinketData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/trinket_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"second_wind"
+title = "Second Wind"
+description = "Below a third of your vitality you knit back together."
+effect = &"second_wind"
+magnitude = 2.5
+weight = 1.0
+color = Color(0.6, 0.95, 0.7, 1)

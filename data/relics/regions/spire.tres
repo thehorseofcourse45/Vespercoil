@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RelicData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/relic_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"spire_boss_relic"
+title = "Gilded Seal"
+description = "A trophy taken from The Gilded Warden, granting a permanent run bonus."
+stat = &"area"
+flat = 0.18
+percent = 0.0
+source = &"boss_spire"

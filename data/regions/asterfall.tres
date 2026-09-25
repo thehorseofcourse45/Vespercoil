@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "asterfall"
+name = "ASTERFALL RUINS"
+subtitle = "A shattered observatory beneath an endless aurora."
+perk = "Balanced ground / Rift Hound incursions"
+color = Color(0.22, 0.85, 0.92, 1)
+floor = Color(0.025, 0.055, 0.08, 1)
+motif = &"observatory"
+hazard = &""
+veil = 0.0
+incursion = &"charger"
+enemy_roster = Array[StringName]([&"charger", &"spire", &"starling"])
+bonus = Array[Dictionary]([])
+unlock = {"type": "default"}
+unlock_hint = "Open from the first expedition."
+reward_character = ""
+reward_note = ""
+music = 0
+pitch = 1.0
+danger = 1

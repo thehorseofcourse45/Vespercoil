@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"lantern_lurker"
+title = "Lantern Lurker"
+health = 54.0
+speed = 76.0
+damage = 14.0
+radius = 15.0
+xp = 6
+color = Color(0.4627, 0.7216, 0.6275, 1)
+behaviour = &"stalker"

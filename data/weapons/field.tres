@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"field"
+title = "Field"
+behavior = &"field"
+color = Color(1, 0.3, 0.7, 1)
+base_damage = 5.0
+cooldown = 0.8
+projectile_count = 1
+pierce = 0
+knockback = 12.0
+duration = 0.0
+projectile_speed = 0.0
+radius = 90.0
+level_changes = Array[Dictionary]([{"base_damage": 1.75, "cooldown": -0.064}, {"base_damage": 1.75, "projectile_count": 1}, {"base_damage": 1.75, "area_scale": 0.25}, {"base_damage": 1.75, "projectile_count": 1}, {"base_damage": 1.75, "cooldown": -0.064}, {"base_damage": 1.75, "projectile_count": 1}, {"base_damage": 1.75, "area_scale": 0.25}])
+evolution_passive = &"magnet"
+evolution_title = "Event Horizon"
+description = "A persistent energy field surrounds you."
+tags = Array[StringName]([&"area"])

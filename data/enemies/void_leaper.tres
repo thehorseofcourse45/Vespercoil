@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"void_leaper"
+title = "Void Leaper"
+health = 210.0
+speed = 92.0
+damage = 36.0
+radius = 16.0
+xp = 20
+color = Color(0.4118, 0.2039, 0.7412, 1)
+shot_interval = 2.0
+behaviour = &"leaper"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PassiveData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/passive_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"emberdrift"
+title = "Emberdrift"
+stat = &"mult_fire"
+flat_per_level = 0.0
+percent_per_level = 0.07
+stat2 = &"speed"
+flat2_per_level = 0.0
+percent2_per_level = 0.02
+max_level = 5
+weight = 1.0
+color = Color(1, 0.6, 0.35, 1)
+tags = Array[StringName]([&"fire", &"mobility"])

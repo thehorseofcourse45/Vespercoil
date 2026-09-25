@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=6 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/firing_pattern.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/projectile_behavior.gd" id="3"]
+[sub_resource type="Resource" id="pattern"]
+script = ExtResource("2")
+kind = 2
+count = 1
+burst_shots = 4
+burst_interval = 0.11
+[sub_resource type="Resource" id="behavior"]
+script = ExtResource("3")
+kind = 6
+split_count = 3
+[resource]
+script = ExtResource("1")
+id = &"shardstorm"
+title = "Shard Storm"
+description = "A four-shot volley of frost shards that shatter into splinters."
+behavior = &"composed"
+color = Color(0.7, 0.92, 1, 1)
+base_damage = 10.0
+cooldown = 2.2
+projectile_count = 1
+pierce = 1
+knockback = 20.0
+duration = 1.1
+projectile_speed = 460.0
+radius = 6.0
+weight = 1.0
+damage_type = 2
+on_hit_status = Array[StringName]([&"chill"])
+pattern = SubResource("pattern")
+proj_behavior = SubResource("behavior")
+level_changes = Array[Dictionary]([{"base_damage": 3.2, "cooldown": -0.12}, {"base_damage": 3.2, "projectile_count": 1}, {"base_damage": 3.2, "area_scale": 0.25}, {"base_damage": 3.2, "projectile_count": 1}, {"base_damage": 3.2, "cooldown": -0.12}, {"base_damage": 3.2, "area_scale": 0.25}, {"base_damage": 3.2, "projectile_count": 1}])
+evolution_passive = &"rime_sigil"
+evolution_title = "Glacier Requiem"
+tags = Array[StringName]([&"ice", &"projectile"])

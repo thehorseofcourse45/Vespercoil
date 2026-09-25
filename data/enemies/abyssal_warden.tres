@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"abyssal_warden"
+title = "Abyssal Warden"
+health = 240.0
+speed = 68.0
+damage = 36.0
+radius = 16.0
+xp = 19
+color = Color(0.6196078431372549, 0.8, 0.9215686274509803, 1)
+shot_interval = 2.0
+shield = 30.0
+behaviour = &"shielder"

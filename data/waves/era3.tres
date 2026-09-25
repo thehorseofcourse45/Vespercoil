@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WaveData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/wave_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+start_time = 1800.0
+end_time = 2400.0
+enemy_types = Array[StringName]([&"chaser", &"swarmer", &"bruiser", &"shooter", &"exploder", &"splitter", &"shielded", &"stalker", &"spire", &"mender", &"colossus", &"wraith", &"spitter", &"burrower", &"charger", &"sniper", &"herald", &"screamer", &"gloomjack", &"sentinel", &"mortar", &"shepherd", &"breaker"])
+weights = Array[float]([3.0, 6.0, 3.0, 3.0, 3.0, 3.0, 3.0, 4.0, 2.0, 2.0, 3.0, 3.0, 3.0, 2.0, 2.0, 2.0, 1.5, 2.5, 3.0, 3.0, 2.5, 2.0, 2.0])
+spawn_interval = 0.34
+batch_size = 16
+formation = "pincer"

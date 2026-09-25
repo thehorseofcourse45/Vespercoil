@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "mire"
+name = "FALLOW MARSH"
+subtitle = "Lanterns drift above flooded stone and hungry roots."
+perk = "+20% pickup radius / Mire Spore incursions / sinking ground"
+color = Color(0.4627, 0.7216, 0.6275, 1)
+floor = Color(0.0627, 0.149, 0.1451, 1)
+motif = &"mire"
+hazard = &""
+veil = 0.25
+incursion = &"mire_spore"
+enemy_roster = Array[StringName]([&"mire_spore", &"bog_skitter", &"lantern_lurker"])
+bonus = Array[Dictionary]([{"stat": &"pickup", "flat": 0.0, "percent": 0.2}])
+unlock = {"type": "clear", "id": "garden"}
+unlock_hint = "Clear Hollow Garden."
+reward_character = "Fenwalker"
+reward_note = "Clearing the marsh awakens the Fenwalker."
+music = 10
+pitch = 1.0
+danger = 3

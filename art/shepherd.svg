@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#f0fff2" />
+      <stop offset="38%" stop-color="#e6ffe9" />
+      <stop offset="100%" stop-color="#788579" />
+    </linearGradient>
+    <clipPath id="hull">
+      <circle cx="25" cy="30" r="3.5" fill="white" stroke="none" />
+    </clipPath>
+  </defs>
+  <path d="M32 10c9 0 15 7 15 16v18c0 5-6 9-15 9s-15-4-15-9V26c0-9 6-16 15-16Z" fill="#1d3424" stroke="#7fd08c" stroke-width="3" />
+  <circle cx="25" cy="30" r="3.5" fill="url(#metal0)" />
+  <g clip-path="url(#hull)">
+    <path d="M0 0H64.0L16.0 64.0H0Z" fill="#e4f8ff" opacity=".10" />
+    <path d="M32.0 0L44.8 64.0H64.0V0Z" fill="#000b20" opacity=".20" />
+    <path d="M0 26.88L64.0 11.52M0 51.2L64.0 35.84" fill="none" stroke="#eaf6ff" stroke-width="0.768" opacity=".20" />
+  </g>
+  <circle cx="39" cy="30" r="3.5" fill="url(#metal0)" />
+  <path d="M20 40c7 5 17 5 24 0" stroke="#a8e8b0" stroke-width="3" fill="none" stroke-linecap="round" />
+  <path d="M32 10V4" stroke="#7fd08c" stroke-width="3" stroke-linecap="round" />
+  <circle cx="33.92" cy="31.36" r="2.24" fill="#f4edc6" opacity=".85" />
+</svg>

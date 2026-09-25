@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"sawdisc"
+title = "Sawdisc"
+description = "Serrated discs ricochet between fresh targets."
+behavior = &"sawdisc"
+base_damage = 16.0
+cooldown = 1.65
+projectile_count = 1
+pierce = 3
+knockback = 25.0
+duration = 4.0
+projectile_speed = 440.0
+radius = 10.0
+color = Color(1, 0.72, 0.28, 1)
+weight = 1.3
+level_changes = Array[Dictionary]([{"base_damage": 4.8, "cooldown": -0.1155}, {"base_damage": 4.8, "projectile_count": 1}, {"base_damage": 4.8, "area_scale": 0.25, "pierce": 2}, {"base_damage": 4.8}, {"base_damage": 4.8, "cooldown": -0.1155}, {"base_damage": 4.8, "projectile_count": 1}, {"base_damage": 4.8, "area_scale": 0.25, "pierce": 2}])
+evolution_passive = &"duplicator"
+evolution_title = "Razortide"
+tags = Array[StringName]([&"physical", &"projectile"])

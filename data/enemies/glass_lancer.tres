@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"glass_lancer"
+title = "Glass Lancer"
+health = 85.0
+speed = 70.0
+damage = 27.0
+radius = 13.0
+xp = 10
+color = Color(0.6196078431372549, 0.8, 0.9215686274509803, 1)
+shot_interval = 1.8
+shield = 0.0
+behaviour = &"sniper"

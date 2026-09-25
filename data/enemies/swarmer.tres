@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"swarmer"
+title = "Swarmer"
+health = 9.0
+speed = 110.0
+damage = 5.0
+radius = 8.0
+xp = 1
+color = Color(1, 0.6, 0.3, 1)
+shield = 0.0
+behaviour = &"swarm"

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "ember"
+name = "EMBER FOUNDRY"
+subtitle = "The old engines still hunger for a keeper."
+perk = "+15% damage, -15 max HP / burning ground / Prism Stalker incursions"
+color = Color(1, 0.48, 0.23, 1)
+floor = Color(0.085, 0.035, 0.035, 1)
+motif = &"foundry"
+hazard = &"burn"
+veil = 0.0
+incursion = &"sniper"
+enemy_roster = Array[StringName]([&"sniper", &"mortar", &"cinderling"])
+bonus = Array[Dictionary]([{"stat": &"damage", "flat": 0.0, "percent": 0.15}, {"stat": &"max_health", "flat": -15.0, "percent": 0.0}])
+unlock = {"type": "default"}
+unlock_hint = "Open from the first expedition."
+reward_character = "Warden"
+reward_note = "Clearing the Foundry awakens the Warden."
+music = 1
+pitch = 1.0
+danger = 2

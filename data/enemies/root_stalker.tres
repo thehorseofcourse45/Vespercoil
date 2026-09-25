@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"root_stalker"
+title = "Root Stalker"
+health = 90.0
+speed = 86.0
+damage = 22.0
+radius = 13.0
+xp = 11
+color = Color(0.1804, 0.5608, 0.3216, 1)
+behaviour = &"burrower"

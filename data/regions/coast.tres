@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "coast"
+name = "DROWNED COAST"
+subtitle = "The tide took the shore, but its sentries still march."
+perk = "+25% gold / Brine Wraith incursions / darkness veil"
+color = Color(0.4431, 0.7255, 0.8235, 1)
+floor = Color(0.0627, 0.1373, 0.1725, 1)
+motif = &"coast"
+hazard = &""
+veil = 0.5
+incursion = &"brine_wraith"
+enemy_roster = Array[StringName]([&"brine_wraith", &"tidecaller", &"reef_stalker"])
+bonus = Array[Dictionary]([{"stat": &"gold", "flat": 0.0, "percent": 0.25}])
+unlock = {"type": "clear", "id": "abyss"}
+unlock_hint = "Clear Sable Abyss."
+reward_character = "Frostweaver"
+reward_note = "Clearing the Coast awakens the Frostweaver."
+music = 13
+pitch = 1.0
+danger = 4

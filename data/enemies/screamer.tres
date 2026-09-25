@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"screamer"
+title = "Void Screamer"
+health = 30.0
+speed = 62.0
+damage = 8.0
+radius = 14.0
+xp = 6
+color = Color(0.75, 0.5, 1, 1)
+shot_interval = 3.4
+behaviour = &"screamer"

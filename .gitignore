@@ -1,0 +1,12 @@
+.godot/
+*.import
+*.pck
+*.exe
+*.dll
+*.so
+*.dylib
+*.zip
+preview-*.png
+crop-*.png
+*.tmp
+.DS_Store

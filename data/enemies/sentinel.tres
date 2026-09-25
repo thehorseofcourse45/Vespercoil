@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"sentinel"
+title = "Coil Sentinel"
+health = 42.0
+speed = 96.0
+damage = 9.0
+radius = 14.0
+xp = 4
+color = Color(0.42, 0.8, 0.95, 1)
+shot_interval = 2.0
+behaviour = &"orbiter"

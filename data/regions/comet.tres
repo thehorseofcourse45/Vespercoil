@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "comet"
+name = "COMET FIELDS"
+subtitle = "Fallen constellations burn through an endless night."
+perk = "+10% critical chance / Ash Meteor incursions / charged ground"
+color = Color(0.7216, 0.6314, 0.9216, 1)
+floor = Color(0.0902, 0.0863, 0.149, 1)
+motif = &"comet"
+hazard = &"storm"
+veil = 0.35
+incursion = &"ash_meteor"
+enemy_roster = Array[StringName]([&"ash_meteor", &"orbit_shade", &"star_colossus"])
+bonus = Array[Dictionary]([{"stat": &"crit_chance", "flat": 0.1, "percent": 0.0}])
+unlock = {"type": "clear", "id": "mirror"}
+unlock_hint = "Clear Glass Expanse."
+reward_character = "Starwright"
+reward_note = "Clearing the Comet Fields awakens the Starwright."
+music = 14
+pitch = 1.0
+danger = 5

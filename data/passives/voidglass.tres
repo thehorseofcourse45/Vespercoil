@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PassiveData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/passive_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"voidglass"
+title = "Voidglass"
+stat = &"mult_true"
+flat_per_level = 0.0
+percent_per_level = 0.07
+stat2 = &"crit_damage"
+flat2_per_level = 0.05
+percent2_per_level = 0.0
+max_level = 5
+weight = 1.0
+color = Color(0.72, 0.6, 0.95, 1)

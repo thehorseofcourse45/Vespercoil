@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"seeker"
+title = "Seeker"
+behavior = &"seeker"
+color = Color(0.8, 0.4, 1, 1)
+base_damage = 18.0
+cooldown = 1.4
+projectile_count = 1
+pierce = 0
+knockback = 20.0
+duration = 3.0
+projectile_speed = 340.0
+radius = 7.0
+level_changes = Array[Dictionary]([{"base_damage": 6.3, "cooldown": -0.11199999999999999}, {"base_damage": 6.3, "projectile_count": 1}, {"base_damage": 6.3, "area_scale": 0.25}, {"base_damage": 6.3, "projectile_count": 1}, {"base_damage": 6.3, "cooldown": -0.11199999999999999}, {"base_damage": 6.3, "projectile_count": 1}, {"base_damage": 6.3, "area_scale": 0.25}])
+evolution_passive = &"clock"
+evolution_title = "Starfall"
+description = "Guided stars chase nearby targets."
+tags = Array[StringName]([&"projectile", &"mobility"])

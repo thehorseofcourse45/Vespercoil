@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="RelicData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/relic_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"clockwork_heart"
+title = "Clockwork Heart / +8% cooldown reduction"
+stat = &"cdr"
+flat = 0.08
+percent = 0.0
+source = &"beacon_2"

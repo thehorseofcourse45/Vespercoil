@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "spire"
+name = "GILDED SPIRE"
+subtitle = "Avert your eyes; the vaults were built to dazzle."
+perk = "+25% gold / Prism Stalker sentries / no cover on the ramparts"
+color = Color(1, 0.85, 0.38, 1)
+floor = Color(0.07, 0.055, 0.02, 1)
+motif = &"spire"
+hazard = &""
+veil = 0.0
+incursion = &"sentinel"
+enemy_roster = Array[StringName]([&"sentinel", &"shielded", &"gilt_guard"])
+bonus = Array[Dictionary]([{"stat": &"gold", "flat": 0.0, "percent": 0.25}])
+unlock = {"type": "clear", "id": "ember"}
+unlock_hint = "Clear Ember Foundry."
+reward_character = "Archivist"
+reward_note = "Clearing the Spire awakens the Archivist."
+music = 4
+pitch = 1.0
+danger = 3

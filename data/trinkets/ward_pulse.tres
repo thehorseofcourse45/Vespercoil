@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrinketData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/trinket_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"ward_pulse"
+title = "Ward Pulse"
+description = "Every eight seconds a ward absorbs incoming harm."
+effect = &"ward_pulse"
+magnitude = 8.0
+weight = 1.0
+color = Color(0.6, 0.78, 1, 1)

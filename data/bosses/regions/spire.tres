@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BossData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/boss_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"spire_guardian"
+title = "THE GILDED WARDEN"
+kind = &"sentinel"
+health = 1000.0
+shield = 80.0
+stage = 0
+ability_normal = 3.40
+ability_enraged = 2.20
+attack = &"ring"

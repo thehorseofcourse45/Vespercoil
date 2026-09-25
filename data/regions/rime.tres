@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "rime"
+name = "RIME HOLLOW"
+subtitle = "The cold here remembers every keeper it kept."
+perk = "+20% ice damage, -5% speed / freezing ground / Veil Wraith incursions"
+color = Color(0.62, 0.9, 1, 1)
+floor = Color(0.03, 0.06, 0.085, 1)
+motif = &"rime"
+hazard = &"frost"
+veil = 0.0
+incursion = &"stalker"
+enemy_roster = Array[StringName]([&"stalker", &"mender", &"rimefang"])
+bonus = Array[Dictionary]([{"stat": &"mult_ice", "flat": 0.0, "percent": 0.2}, {"stat": &"speed", "flat": 0.0, "percent": -0.05}])
+unlock = {"type": "clear", "id": "garden"}
+unlock_hint = "Clear Hollow Garden."
+reward_character = "Hexblade"
+reward_note = "Clearing Rime Hollow awakens the Hexblade."
+music = 5
+pitch = 1.0
+danger = 3

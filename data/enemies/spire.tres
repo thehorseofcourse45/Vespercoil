@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"spire"
+title = "Still Spire"
+health = 55.0
+speed = 0.0
+damage = 14.0
+radius = 16.0
+xp = 6
+color = Color(0.6, 0.7, 0.9, 1)
+shield = 0.0
+shot_interval = 2.0
+behaviour = &"kiter"

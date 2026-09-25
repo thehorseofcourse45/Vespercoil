@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=6 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/firing_pattern.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/projectile_behavior.gd" id="3"]
+[sub_resource type="Resource" id="pattern"]
+script = ExtResource("2")
+kind = 0
+count = 1
+[sub_resource type="Resource" id="behavior"]
+script = ExtResource("3")
+kind = 8
+chain_range = 260.0
+[resource]
+script = ExtResource("1")
+id = &"chain_bolt"
+title = "Chain Bolt"
+description = "A bolt that leaps between vessels, shocking each one it touches."
+behavior = &"composed"
+color = Color(0.75, 0.85, 1, 1)
+base_damage = 16.0
+cooldown = 1.5
+projectile_count = 1
+pierce = 4
+knockback = 30.0
+duration = 1.6
+projectile_speed = 700.0
+radius = 6.0
+weight = 1.0
+damage_type = 3
+on_hit_status = Array[StringName]([&"shock"])
+pattern = SubResource("pattern")
+proj_behavior = SubResource("behavior")
+level_changes = Array[Dictionary]([{"base_damage": 5.0, "cooldown": -0.06}, {"base_damage": 5.0, "pierce": 1}, {"base_damage": 5.0, "cooldown": -0.06}, {"base_damage": 5.0, "pierce": 1}, {"base_damage": 5.0, "cooldown": -0.06}, {"base_damage": 5.0, "pierce": 1}, {"base_damage": 5.0, "area_scale": 0.25}])
+evolution_passive = &"storm_sigil"
+evolution_title = "Tesla Noose"
+tags = Array[StringName]([&"projectile"])

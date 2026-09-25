@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"chronarch_spawn"
+title = "Chronarch Spawn"
+health = 250.0
+speed = 74.0
+damage = 38.0
+radius = 16.0
+xp = 21
+color = Color(0.6196078431372549, 0.8, 0.9215686274509803, 1)
+shot_interval = 2.0
+shield = 18.0
+contact_status = &"freeze"
+behaviour = &"wraith"

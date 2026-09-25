@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrinketData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/trinket_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"frostbite"
+title = "Frostbite"
+description = "Each kill chills the vessels standing near where it fell."
+effect = &"frostbite"
+magnitude = 0.0
+weight = 1.0
+color = Color(0.66, 0.9, 1, 1)

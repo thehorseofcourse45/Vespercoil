@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"burrower"
+title = "Grave Maw"
+health = 42.0
+speed = 55.0
+damage = 15.0
+radius = 15.0
+xp = 7
+color = Color(0.55, 0.4, 0.25, 1)
+shield = 0.0
+behaviour = &"burrower"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrinketData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/trinket_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"brambles"
+title = "Bramble Heart"
+description = "When you are struck, nearby foes take a retaliatory burst."
+effect = &"thorns"
+magnitude = 22.0
+weight = 1.0
+color = Color(0.55, 0.85, 0.5, 1)

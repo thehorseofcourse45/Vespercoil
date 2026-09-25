@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"glass_mimic"
+title = "Glass Mimic"
+health = 64.0
+speed = 82.5
+damage = 18.0
+radius = 13.0
+xp = 5
+color = Color(0.7255, 0.6314, 0.8588, 1)
+behaviour = &"stalker"

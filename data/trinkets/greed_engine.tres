@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrinketData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/trinket_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"greed_engine"
+title = "Greed Engine"
+description = "Every coin you recover is also read as experience."
+effect = &"greed_engine"
+magnitude = 0.5
+weight = 1.0
+color = Color(0.98, 0.88, 0.5, 1)

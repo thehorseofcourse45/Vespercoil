@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PassiveData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/passive_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"whetstone"
+title = "Whetstone"
+stat = &"mult_physical"
+flat_per_level = 0.0
+percent_per_level = 0.09
+stat2 = &"crit_chance"
+flat2_per_level = 0.01
+percent2_per_level = 0.0
+max_level = 5
+weight = 1.0
+color = Color(0.86, 0.76, 0.6, 1)
+tags = Array[StringName]([&"physical"])

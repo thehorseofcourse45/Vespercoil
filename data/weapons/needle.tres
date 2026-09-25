@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"needle"
+title = "Needle"
+behavior = &"forward"
+color = Color(0.2, 0.95, 1, 1)
+base_damage = 12.0
+cooldown = 0.85
+projectile_count = 1
+pierce = 2
+knockback = 35.0
+duration = 1.8
+projectile_speed = 600.0
+radius = 6.0
+level_changes = Array[Dictionary]([{"base_damage": 4.2, "cooldown": -0.068}, {"base_damage": 4.2, "projectile_count": 1}, {"base_damage": 4.2, "area_scale": 0.25, "pierce": 2}, {"base_damage": 4.2, "projectile_count": 1}, {"base_damage": 4.2, "cooldown": -0.068}, {"base_damage": 4.2, "projectile_count": 1}, {"base_damage": 4.2, "area_scale": 0.25, "pierce": 2}])
+evolution_passive = &"might"
+evolution_title = "Railstorm"
+description = "Piercing bolts follow your movement direction."
+tags = Array[StringName]([&"physical", &"projectile", &"mobility"])

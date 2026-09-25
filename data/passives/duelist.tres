@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PassiveData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/passive_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"duelist"
+title = "Duelist"
+stat = &"crit_chance"
+flat_per_level = 0.03
+percent_per_level = 0.0
+stat2 = &"crit_damage"
+flat2_per_level = 0.06
+percent2_per_level = 0.0
+max_level = 5
+weight = 1.0
+color = Color(0.94, 0.5, 0.5, 1)
+tags = Array[StringName]([&"physical"])

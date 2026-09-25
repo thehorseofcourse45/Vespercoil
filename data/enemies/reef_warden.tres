@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"reef_warden"
+title = "Reef Warden"
+health = 220.0
+speed = 82.0
+damage = 35.0
+radius = 18.0
+xp = 19
+color = Color(0.2706, 0.8039, 0.7373, 1)
+shield = 30.0
+behaviour = &"shielder"

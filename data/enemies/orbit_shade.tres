@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"orbit_shade"
+title = "Orbit Shade"
+health = 86.0
+speed = 67.0
+damage = 21.0
+radius = 14.0
+xp = 9
+color = Color(0.7216, 0.6314, 0.9216, 1)
+behaviour = &"orbiter"

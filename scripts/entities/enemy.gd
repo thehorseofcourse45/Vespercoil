@@ -1,0 +1,94 @@
+extends Node2D
+@export var data: EnemyData
+@onready var health: HealthComponent = $HealthComponent
+@onready var hurtbox: HurtboxComponent = $HurtboxComponent
+@onready var hitbox: HitboxComponent = $HitboxComponent
+@onready var movement: VelocityComponent = $VelocityComponent
+@onready var drop: ExperienceDropComponent = $ExperienceDropComponent
+@onready var status: StatusEffectComponent = $StatusEffectComponent
+@onready var body: Sprite2D = $Body
+var active: bool = false
+var serial: int = 0
+var active_index: int = -1
+var grid_cell: Vector2i = Vector2i.ZERO
+var elite: bool = false
+var boss: bool = false
+var final_boss: bool = false
+var shield: float = 0.0
+var shield_max: float = 0.0
+var since_hit: float = 10.0
+var shot_clock: float = 0.0
+var flash: float = 0.0
+var ability_clock: float = 2.0
+var ability_normal: float = 4.0
+var ability_enraged: float = 2.5
+var windup: float = 0.0
+var charge_time: float = 0.0
+var aim: Vector2 = Vector2.RIGHT
+var boss_title: String = ""
+var boss_attack: StringName = &"ring"
+var boss_stage: int = 0
+var ai_state: int = 0
+var ai_timer: float = 0.0
+var strafe_sign: float = 1.0
+var strafe_clock: float = 0.0
+var flee_timer: float = 0.0
+var attack_tick: float = 0.0
+var underground_timer: float = 0.0
+var untargetable: bool = false
+var swarm_clock: float = 0.0
+var swarm_count: int = 0
+var affix: StringName = &""
+var affix_clock: float = 0.0
+# Mirrors hurtbox.radius, which is only ever assigned in activate() below. Spatial
+# queries read this per candidate, and a plain member read is cheaper than the two
+# property hops through hurtbox.
+var reach_radius: float = 12.0
+func activate(at: Vector2, token: int, is_elite: bool, is_boss: bool, final: bool) -> void:
+	active = true
+	visible = true
+	position = at
+	grid_cell = Vector2i(floori(at.x / SpatialHash.CELL), floori(at.y / SpatialHash.CELL))
+	serial = token
+	elite = is_elite
+	boss = is_boss
+	final_boss = final
+	var size_factor: float = 2.3 if boss else (1.5 if elite else 1.0)
+	var health_factor: float = 60.0 if boss else (8.0 if elite else 1.0)
+	var time_health: float = RunManager.time_health_scale()
+	health.reset(data.health * health_factor * time_health * float(MetaProgression.DIFFICULTIES[RunManager.difficulty].health) * (1.0 + RunManager.curse * 0.04) * (1.0 + RunManager.ascension * 0.6))
+	hurtbox.radius = data.radius * size_factor
+	reach_radius = hurtbox.radius
+	hitbox.damage = data.damage * (2.0 if boss else (1.4 if elite else 1.0)) * RunManager.time_damage_scale()
+	movement.speed = data.speed * RunManager.time_speed_scale()
+	movement.impulse = Vector2.ZERO
+	drop.value = data.xp
+	shield_max = data.shield * health_factor * time_health
+	shield = shield_max
+	since_hit = 10.0
+	shot_clock = randf_range(0.2, data.shot_interval)
+	flash = 0.0
+	status.clear()
+	status.target = self
+	ability_clock = randf_range(1.5, 3.5)
+	ability_normal = 4.0
+	ability_enraged = 2.5
+	windup = 0.0
+	charge_time = 0.0
+	boss_title = ""
+	boss_attack = &"ring"
+	boss_stage = 0
+	ai_state = EnemyAI.State.APPROACH
+	ai_timer = 0.0
+	strafe_sign = 1.0 if randf() > 0.5 else -1.0
+	strafe_clock = randf_range(0.5, 1.2)
+	flee_timer = 1.2
+	attack_tick = randf_range(0.1, data.shot_interval)
+	underground_timer = 0.0
+	untargetable = false
+	swarm_clock = randf_range(0.0, 0.25)
+	swarm_count = 0
+	affix = &""
+	affix_clock = 0.0
+	body.scale = Vector2.ONE * hurtbox.radius / 25.0
+	body.modulate = Color.WHITE

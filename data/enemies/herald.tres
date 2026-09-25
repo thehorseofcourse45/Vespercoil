@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"herald"
+title = "Warden Herald"
+health = 70.0
+speed = 55.0
+damage = 11.0
+radius = 16.0
+xp = 8
+color = Color(1, 0.72, 0.35, 1)
+shield = 0.0
+behaviour = &"buffer"

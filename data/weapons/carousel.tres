@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=6 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/firing_pattern.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/projectile_behavior.gd" id="3"]
+[sub_resource type="Resource" id="pattern"]
+script = ExtResource("2")
+kind = 3
+count = 5
+[sub_resource type="Resource" id="behavior"]
+script = ExtResource("3")
+kind = 2
+orbit_radius = 96.0
+orbit_speed = 3.2
+[resource]
+script = ExtResource("1")
+id = &"carousel"
+title = "Carousel"
+description = "Lanterns of balefire circle you, grinding whatever they cross."
+behavior = &"composed"
+color = Color(1, 0.55, 0.9, 1)
+base_damage = 11.0
+cooldown = 1.0
+projectile_count = 1
+pierce = 6
+knockback = 20.0
+duration = 3.0
+projectile_speed = 300.0
+radius = 7.0
+weight = 1.0
+damage_type = 1
+pattern = SubResource("pattern")
+proj_behavior = SubResource("behavior")
+level_changes = Array[Dictionary]([{"base_damage": 3.4, "cooldown": -0.05}, {"base_damage": 3.4, "projectile_count": 1}, {"base_damage": 3.4, "area_scale": 0.25}, {"base_damage": 3.4, "duration": 0.5}, {"base_damage": 3.4, "cooldown": -0.05}, {"base_damage": 3.4, "projectile_count": 1}, {"base_damage": 3.4, "area_scale": 0.25}])
+evolution_passive = &"magnet"
+evolution_title = "Grand Carousel"
+tags = Array[StringName]([&"area", &"projectile"])

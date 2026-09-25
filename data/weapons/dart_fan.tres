@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=6 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/firing_pattern.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/projectile_behavior.gd" id="3"]
+[sub_resource type="Resource" id="pattern"]
+script = ExtResource("2")
+kind = 1
+count = 5
+arc_degrees = 60.0
+[sub_resource type="Resource" id="behavior"]
+script = ExtResource("3")
+kind = 1
+turn_rate = 7.0
+[resource]
+script = ExtResource("1")
+id = &"dart_fan"
+title = "Dart Fan"
+description = "A fan of homing darts that seek nearby threats."
+behavior = &"composed"
+color = Color(0.3, 0.9, 1, 1)
+base_damage = 10.0
+cooldown = 1.1
+projectile_count = 1
+pierce = 1
+knockback = 15.0
+duration = 2.4
+projectile_speed = 420.0
+radius = 5.0
+weight = 1.1
+pattern = SubResource("pattern")
+proj_behavior = SubResource("behavior")
+level_changes = Array[Dictionary]([{"base_damage": 3.5, "cooldown": -0.088}, {"base_damage": 3.5, "projectile_count": 1}, {"base_damage": 3.5, "area_scale": 0.2}, {"base_damage": 3.5, "projectile_count": 1}, {"base_damage": 3.5, "cooldown": -0.088}, {"base_damage": 3.5, "projectile_count": 1}, {"base_damage": 3.5, "area_scale": 0.2}])
+evolution_passive = &"clock"
+evolution_title = "Storm Swallow"
+tags = Array[StringName]([&"projectile", &"mobility"])

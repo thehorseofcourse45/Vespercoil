@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrinketData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/trinket_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"bounty_mark"
+title = "Bounty Mark"
+description = "Every elite you fell pays out a purse of gold."
+effect = &"bounty_mark"
+magnitude = 6.0
+weight = 1.0
+color = Color(0.95, 0.78, 0.35, 1)

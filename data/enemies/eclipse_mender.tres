@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"eclipse_mender"
+title = "Eclipse Mender"
+health = 180.0
+speed = 78.0
+damage = 32.0
+radius = 15.0
+xp = 17
+color = Color(0.5412, 0.3176, 0.8275, 1)
+behaviour = &"mender"

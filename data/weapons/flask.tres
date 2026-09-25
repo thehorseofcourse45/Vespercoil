@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"flask"
+title = "Flask"
+behavior = &"flask"
+color = Color(0.4, 1, 0.4, 1)
+base_damage = 7.0
+cooldown = 2.8
+projectile_count = 1
+pierce = 0
+knockback = 5.0
+duration = 4.0
+projectile_speed = 260.0
+radius = 65.0
+level_changes = Array[Dictionary]([{"base_damage": 2.45, "cooldown": -0.22399999999999998}, {"base_damage": 2.45, "projectile_count": 1}, {"base_damage": 2.45, "area_scale": 0.25}, {"base_damage": 2.45, "projectile_count": 1}, {"base_damage": 2.45, "cooldown": -0.22399999999999998}, {"base_damage": 2.45, "projectile_count": 1}, {"base_damage": 2.45, "area_scale": 0.25}])
+evolution_passive = &"wisdom"
+evolution_title = "Wildfire"
+description = "Lob volatile flasks that leave burning pools."
+tags = Array[StringName]([&"fire", &"area"])

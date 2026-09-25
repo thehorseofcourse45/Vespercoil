@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RelicData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/relic_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"storm_citadel_boss_relic"
+title = "Stormcrown"
+description = "A trophy from The Storm Archon, accelerating every weapon cycle."
+stat = &"cdr"
+flat = 0.08
+percent = 0.0
+source = &"boss_storm_citadel_relic"

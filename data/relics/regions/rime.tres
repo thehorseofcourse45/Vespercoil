@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RelicData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/relic_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"rime_boss_relic"
+title = "Rimecore"
+description = "A trophy taken from The Frost Huntsman, granting a permanent run bonus."
+stat = &"cdr"
+flat = 0.12
+percent = 0.0
+source = &"boss_rime"

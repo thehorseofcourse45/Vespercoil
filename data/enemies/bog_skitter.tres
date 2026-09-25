@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"bog_skitter"
+title = "Bog Skitter"
+health = 46.0
+speed = 67.0
+damage = 13.0
+radius = 14.0
+xp = 5
+color = Color(0.4627, 0.7216, 0.6275, 1)
+behaviour = &"swarm"

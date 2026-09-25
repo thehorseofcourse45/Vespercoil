@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RelicData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/relic_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"tidal_maw_boss_relic"
+title = "Tideheart"
+description = "A trophy from The Abyssal Monarch, drawing rewards from farther away."
+stat = &"pickup"
+flat = 0.0
+percent = 0.20
+source = &"boss_tidal_maw_relic"

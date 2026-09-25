@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"titan_bulwark"
+title = "Titan Bulwark"
+health = 360.0
+speed = 42.0
+damage = 40.0
+radius = 22.0
+xp = 21
+color = Color(0.6196078431372549, 0.8, 0.9215686274509803, 1)
+shot_interval = 2.4
+shield = 24.0
+contact_status = &"burn"
+behaviour = &"breaker"

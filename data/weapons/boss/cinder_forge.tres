@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"cinder_forge"
+title = "Cinder Forge"
+description = "Boss weapon: forged embers spear through enemies."
+behavior = &"forward"
+color = Color(0.949, 0.4863, 0.2392, 1)
+base_damage = 29.0
+cooldown = 1.15
+projectile_count = 3
+pierce = 3
+knockback = 45.0
+duration = 1.8
+projectile_speed = 520.0
+radius = 7.0
+level_changes = Array[Dictionary]([{"base_damage": 4.0}, {"cooldown": -0.07}, {"projectile_count": 1}, {"base_damage": 5.0}, {"pierce": 1}, {"base_damage": 5.0}, {"projectile_count": 1}])
+evolution_passive = &"might"
+evolution_title = "Cinder Forge Ascendant"
+tags = Array[StringName]([&"physical", &"projectile"])

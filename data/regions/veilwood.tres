@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "veilwood"
+name = "VEILWOOD"
+subtitle = "A drowned forest breathing beneath a green eclipse."
+perk = "+8% experience / Briar Sentinel incursions / open ground"
+color = Color(0.3216, 0.7843, 0.5412, 1)
+floor = Color(0.0353, 0.1176, 0.0902, 1)
+motif = &"veilwood"
+hazard = &""
+veil = 0.2
+incursion = &"briar_sentinel"
+enemy_roster = Array[StringName]([&"briar_sentinel", &"root_stalker", &"spore_singer"])
+bonus = Array[Dictionary]([{"stat": &"xp", "flat": 0.0, "percent": 0.08}])
+unlock = {"type": "clear", "id": "comet"}
+unlock_hint = "Clear Comet Fields."
+reward_character = "Veilbinder"
+reward_note = "Clearing the Veilwood awakens the Veilbinder."
+music = 15
+pitch = 0.96
+danger = 5

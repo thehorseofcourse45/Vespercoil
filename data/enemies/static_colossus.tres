@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"static_colossus"
+title = "Static Colossus"
+health = 280.0
+speed = 60.0
+damage = 34.0
+radius = 22.0
+xp = 20
+color = Color(0.7059, 0.5451, 1.0, 1)
+shield = 20.0
+behaviour = &"breaker"
