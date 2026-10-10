@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Blood Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffa3af"/>
+      <stop offset="38%" stop-color="#ff334c"/>
+      <stop offset="100%" stop-color="#731722"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 15C55 38 34 53 30 74 24 99 43 113 64 113 86 113 104 97 98 74 94 53 73 38 64 15Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 15C55 38 34 53 30 74 24 99 43 113 64 113 86 113 104 97 98 74 94 53 73 38 64 15Z" fill="url(#metal0)" stroke="#ffa3af" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 30V47M44 57 53 66M84 57 75 66M39 86Q41 101 54 103M89 86Q87 101 74 103" fill="none" stroke="#ffa3af" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 91 44 72Q40 56 52 56L64 63 76 56Q88 56 84 72Z" fill="#080d16" stroke="#ffa3af" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M47 72H56L60 65 66 81 71 72H81" fill="none" stroke="#fff3bc" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Ash Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ddd1d1"/>
+      <stop offset="38%" stop-color="#b29999"/>
+      <stop offset="100%" stop-color="#504545"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 13C73 34 87 31 89 55L103 46C110 78 91 103 68 109L46 114 50 101C21 96 19 68 35 49L37 71C56 56 45 36 64 13Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 13C73 34 87 31 89 55L103 46C110 78 91 103 68 109L46 114 50 101C21 96 19 68 35 49L37 71C56 56 45 36 64 13Z" fill="url(#metal0)" stroke="#ddd1d1" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M63 34Q73 49 66 64M35 80Q41 98 55 97M89 69Q96 82 82 96" fill="none" stroke="#ddd1d1" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 56 71 65 64 74 57 65Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 60 68 65 64 70 60 65Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

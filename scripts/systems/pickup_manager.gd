@@ -62,7 +62,7 @@ func _reclaim_one() -> void:
 	var worst: int = -1
 	var worst_distance: float = -1.0
 	for i in active.size():
-		if active[i].kind == &"boss_reward":
+		if active[i].kind == &"boss_reward" or active[i].kind == &"chest":
 			continue
 		var d: float = active[i].at.distance_squared_to(player.position)
 		if d > worst_distance:
@@ -106,8 +106,9 @@ func _physics_process(delta: float) -> void:
 		var pickup: Pickup = active[i]
 		if not pickup.pulling:
 			continue
-		if buckets.get(pickup.key) == pickup:
-			buckets.erase(pickup.key)
+		# Was: buckets.erase(key) here on first magnet tick. That broke coalesce
+		# (spawn checks buckets.has) and the active/buckets/hash invariant;
+		# _remove_at() is the only correct erase point, on collection.
 		var old_cell: Vector2i = pickup.cell
 		pickup.speed = lerpf(pickup.speed, 700.0, 1.0 - exp(-delta * 5.0))
 		pickup.at = pickup.at.move_toward(player.position, pickup.speed * delta)

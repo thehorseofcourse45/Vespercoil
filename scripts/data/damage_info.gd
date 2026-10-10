@@ -1,6 +1,6 @@
 class_name DamageInfo
 extends RefCounted
-# Pooled reusable instance per source key, not per-hit allocation.
+# Fresh instance per hit (Damage.info returns DamageInfo.new()), not per-hit allocation-free.
 # Resolution order: crit -> attacker type mult -> defender resist (cap 0.8)
 # -> flat armour (floor 1.0) -> shield absorption (pre-existing enemy.shield)
 # -> vulnerability from debuffs -> emit signals.
@@ -20,22 +20,6 @@ var source: StringName = &""
 var weapon: StringName = &""
 var push: Vector2 = Vector2.ZERO
 var heavy: bool = false
-func reset() -> DamageInfo:
-	base = 0.0
-	type = DamageTypes.Type.PHYSICAL
-	attacker_mult = 1.0
-	resist = 0.0
-	armour = 0.0
-	vulnerability = 0.0
-	critical = false
-	crit_bonus = 0.0
-	bypass_iframes = false
-	final = 0.0
-	source = &""
-	weapon = &""
-	push = Vector2.ZERO
-	heavy = false
-	return self
 func resolve() -> float:
 	var value: float = base
 	if critical:

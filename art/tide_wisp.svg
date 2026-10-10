@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Tide Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#c6f4f4"/>
+      <stop offset="38%" stop-color="#80e6e6"/>
+      <stop offset="100%" stop-color="#396767"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M63 16C60 40 26 49 26 77 26 99 44 111 64 109 92 106 105 79 94 61L82 72C94 94 63 108 49 88 34 67 63 57 63 16Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M63 16C60 40 26 49 26 77 26 99 44 111 64 109 92 106 105 79 94 61L82 72C94 94 63 108 49 88 34 67 63 57 63 16Z" fill="url(#metal0)" stroke="#c6f4f4" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M45 54Q64 53 78 62M34 77Q37 98 58 100M79 87Q78 95 69 98" fill="none" stroke="#c6f4f4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 56 71 65 64 74 57 65Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 60 68 65 64 70 60 65Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

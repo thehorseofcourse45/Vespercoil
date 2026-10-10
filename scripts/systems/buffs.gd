@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 		active[kind] -= delta
 		if active[kind] <= 0.0:
 			active.erase(kind)
-			player.stats.sources.erase(StringName("buff_" + String(kind)))
+			player.stats.remove_bonus(StringName("buff_" + String(kind)))
 
 func signature() -> String:
 	var parts: PackedStringArray = []

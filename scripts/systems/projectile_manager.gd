@@ -30,12 +30,18 @@ func fire(at: Vector2, direction: Vector2, spec: Dictionary, mode: StringName, i
 	var shot = free.pop_back()
 	shot.destination = target
 	shot.configure(at, direction, spec, mode, id, color)
+	# Stagger collision checks so half the shots query the enemy grid each tick.
+	shot.collision_phase = (active.size() & 1) == 0
 	if not payload.is_empty():
-		shot.status_payload = payload
+		# Was `= payload` (alias): the next configure()'s in-place assign()
+		# then mutated the caller's shared WeaponData array. Copy instead.
+		shot.status_payload.assign(payload)
 	active.append(shot)
 	return shot
-func hostile(at: Vector2, direction: Vector2, damage: float, payload: Array[StringName] = [], dtype: DamageTypes.Type = DamageTypes.Type.PHYSICAL) -> void:
-	fire(at, direction, {"base_damage": damage, "duration": 5.0, "pierce": 0, "knockback": 0.0, "radius": 6.0, "area_scale": 1.0, "projectile_speed": 170.0, "damage_type": dtype, "on_hit_status": payload}, &"hostile", &"enemy", Color.ORANGE_RED)
+func hostile(at: Vector2, direction: Vector2, damage: float, payload: Array[StringName] = [], dtype: DamageTypes.Type = DamageTypes.Type.PHYSICAL, homing_turn: float = 0.0, speed: float = 170.0, color: Color = Color.ORANGE_RED, radius: float = 6.0) -> void:
+	var shot = fire(at, direction, {"base_damage": damage, "duration": 5.0, "pierce": 0, "knockback": 0.0, "radius": radius, "area_scale": 1.0, "projectile_speed": speed, "damage_type": dtype, "on_hit_status": payload}, &"hostile", &"enemy", color)
+	if homing_turn > 0.0:
+		shot.behavior_state["homing_turn"] = homing_turn
 func recycle(index: int) -> void:
 	var shot = active[index]
 	var last = active.pop_back()
@@ -49,6 +55,7 @@ func _physics_process(delta: float) -> void:
 		return
 	for i in range(active.size() - 1, -1, -1):
 		var shot = active[i]
+		shot.collision_phase = not shot.collision_phase
 		shot.age += delta
 		shot.remaining -= delta
 		var old: Vector2 = shot.position
@@ -92,6 +99,11 @@ func _physics_process(delta: float) -> void:
 				shot.hit_ids[enemy.serial] = true
 				hit_with_status(enemy, shot, shot.hitbox.damage, 				shot.direction * shot.knockback)
 		else:
+			if shot.kind == &"hostile" and float(shot.behavior_state.get("homing_turn", 0.0)) > 0.0:
+				# Seeker orbs chase the player; the per-family turn rate is the dodge clock.
+				var to_player: Vector2 = player.position - shot.position
+				if to_player.length_squared() > 0.0001:
+					shot.direction = shot.direction.slerp(to_player.normalized(), minf(1.0, float(shot.behavior_state.homing_turn) * delta)).normalized()
 			if shot.behavior != null:
 				match shot.behavior.kind:
 					ProjectileBehavior.Kind.HOMING, ProjectileBehavior.Kind.CHAIN:
@@ -133,12 +145,15 @@ func _physics_process(delta: float) -> void:
 					for status_id in shot.status_payload:
 						player.status.apply(StatusLibrary.get_effect(status_id))
 					shot.remaining = 0.0
-			else:
-				var midpoint: Vector2 = (old + shot.position) * 0.5
-				for enemy in enemies.nearby(midpoint, old.distance_to(shot.position) * 0.5 + shot.hitbox.radius):
+			elif shot.collision_phase or shot.remaining <= 0.0:
+				# Sweep from the last query, including the final frame before recycling.
+				var from: Vector2 = shot.collision_start
+				shot.collision_start = shot.position
+				var midpoint: Vector2 = (from + shot.position) * 0.5
+				for enemy in enemies.nearby(midpoint, from.distance_to(shot.position) * 0.5 + shot.hitbox.radius):
 					if shot.hit_ids.has(enemy.serial):
 						continue
-					var closest: Vector2 = Geometry2D.get_closest_point_to_segment(enemy.position, old, shot.position)
+					var closest: Vector2 = Geometry2D.get_closest_point_to_segment(enemy.position, from, shot.position)
 					if not enemy.hurtbox.contains_point(enemy.position, closest, shot.hitbox.radius):
 						continue
 					shot.hit_ids[enemy.serial] = true

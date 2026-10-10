@@ -15,7 +15,6 @@ extends Resource
 @export var damage_reduction: float = 0.0
 @export var dot_damage: float = 0.0
 @export var scales_missing_health: bool = false
-var _signal: StringName = &""
 func signature() -> String:
 	return "%s:%d" % [id, max_stacks]
 func apply_tick(_target, _stacks: int, _delta: float) -> void:

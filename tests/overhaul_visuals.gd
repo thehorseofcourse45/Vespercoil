@@ -13,5 +13,5 @@ func run() -> void:
 	assert(Engine.time_scale == 1.0, "Critical hits must not interrupt movement")
 	assert(effects.rings.size() <= 24)
 	effects.free()
-	print("OVERHAUL VISUALS PASS: all 20 floor atlases imported; repeated critical hits preserve game speed")
+	print("OVERHAUL VISUALS PASS: all %d floor atlases imported; repeated critical hits preserve game speed" % Regions.count())
 	quit()

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Chime Wraith</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e8dcff"/>
+      <stop offset="38%" stop-color="#b28ae8"/>
+      <stop offset="100%" stop-color="#5a4380"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 22 80 30 92 52 86 72 104 60 110 76 96 84 80 92 84 104 70 110 64 106 64.0 106 58.0 110 44.0 104 48.0 92 32.0 84 18.0 76 24.0 60 42.0 72 36.0 52 48.0 30 64.0 22Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 22 80 30 92 52 86 72 104 60 110 76 96 84 80 92 84 104 70 110 64 106 64.0 106 58.0 110 44.0 104 48.0 92 32.0 84 18.0 76 24.0 60 42.0 72 36.0 52 48.0 30 64.0 22Z" fill="url(#metal0)" stroke="#e8dcff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 38 78 48 80 64 70 74 64 76 58 74 48 64 50 48Z" fill="#080d16" opacity=".28" stroke="#ecd6ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M50 30 58 38 50 46Z" fill="#080d16" opacity=".28" stroke="#e8dcff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M78 30 86 38 78 46Z" fill="#080d16" opacity=".28" stroke="#e8dcff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 44 70 52 70 62 64 68 58 62 58 52Z" fill="#080d16" opacity=".28" stroke="#e8dcff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="52" cy="62" r="4" fill="#080d16"/><circle cx="52" cy="62" r="1.8" fill="#fff3bc"/>
+    <circle cx="76" cy="62" r="4" fill="#080d16"/><circle cx="76" cy="62" r="1.8" fill="#fff3bc"/>
+    <path d="M64 78 72 82 64 88 56 82Z" fill="#fff3bc" stroke="none"/>
+  </g>
+</svg>

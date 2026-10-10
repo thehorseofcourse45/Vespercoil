@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Enemy Lancer</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e3d9be"/>
+      <stop offset="38%" stop-color="#b79a66"/>
+      <stop offset="100%" stop-color="#5c4d33"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M47 35 47 22 59 12 71 12 83 22 83 35 76 47 84 68 78 95 88 109 42 109 52 95 46 68 54 47Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M47 35 47 22 59 12 71 12 83 22 83 35 76 47 84 68 78 95 88 109 42 109 52 95 46 68 54 47Z" fill="url(#metal0)" stroke="#e3d9be" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M54 26 65 19 76 26 74 39 56 39Z" fill="#080d16" stroke="#e3d9be" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M56 32H74" fill="none" stroke="#fff3bc" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M16 52 34 42 50 52 47 84 33 101 19 84Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M16 52 34 42 50 52 47 84 33 101 19 84Z" fill="url(#metal0)" stroke="#e3d9be" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M33 59 40 68 33 77 26 68Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M33 63 37 68 33 73 29 68Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M100 35V113" fill="none" stroke="#080d16" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><path d="M100 35V113" fill="none" stroke="#e3d9be" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M100 10 109 29 100 45 91 29Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M100 10 109 29 100 45 91 29Z" fill="url(#metal0)" stroke="#e3d9be" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M85 65H100M57 84 65 92 74 84M53 104H77" fill="none" stroke="#e3d9be" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M65 53 72 62 65 71 58 62Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M65 57 69 62 65 67 61 62Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"mire_hound"
+title = "Mire Hound"
+health = 50.0
+speed = 66.0
+damage = 14.0
+radius = 14.0
+xp = 5
+color = Color(0.4, 0.6, 0.5, 1)
+contact_status = &"poison"
+behaviour = &"charger"

@@ -1,7 +1,21 @@
 class_name StatusEffectComponent
 extends Node
 # Component is passive (no _process). tick() called by existing drivers.
-var instances: Array[Dictionary] = []
+class Instance:
+	var effect: StatusEffect
+	var remaining: float
+	var stacks: int = 1
+	var tick: float
+	func _init(value: StatusEffect) -> void:
+		effect = value
+		remaining = value.duration
+		tick = value.tick_interval
+var instances: Array[Instance] = []
+var _dirty: bool = true
+var _speed: float = 1.0
+var _vulnerability: float = 0.0
+var _reduction: float = 0.0
+var _tint: Color = Color.WHITE
 var sink: Callable = Callable()
 var target
 func apply(effect: StatusEffect) -> void:
@@ -13,6 +27,7 @@ func remove(id: StringName) -> void:
 	for i in range(instances.size() - 1, -1, -1):
 		if instances[i].effect.id == id:
 			var gone: StatusEffect = instances[i].effect
+			_dirty = true
 			instances.remove_at(i)
 			GameEvents.status_removed.emit(target, gone)
 			gone.on_removed(target)
@@ -26,7 +41,7 @@ func _apply_internal(effect: StatusEffect) -> void:
 			idx = i
 			break
 	if idx >= 0:
-		var inst: Dictionary = instances[idx]
+		var inst: Instance = instances[idx]
 		match effect.stacking:
 			"REFRESH":
 				inst.remaining = effect.duration
@@ -40,11 +55,14 @@ func _apply_internal(effect: StatusEffect) -> void:
 					inst.stacks += 1
 					inst.remaining = effect.duration
 				else:
+					_dirty = true
 					instances.remove_at(idx)
 					idx = -1
 		if idx >= 0:
+			_dirty = true
 			instances[idx] = inst
 			if not effect.converts_to.is_empty() and effect.convert_after_stacks > 0 and inst.stacks >= effect.convert_after_stacks:
+				_dirty = true
 				instances.remove_at(idx)
 				GameEvents.status_removed.emit(target, effect)
 				effect.on_removed(target)
@@ -53,7 +71,8 @@ func _apply_internal(effect: StatusEffect) -> void:
 			GameEvents.status_applied.emit(target, effect, inst.stacks)
 			return
 	# fresh instance
-	var new_inst := {"effect": effect, "remaining": effect.duration, "stacks": 1, "tick": effect.tick_interval}
+	var new_inst := Instance.new(effect)
+	_dirty = true
 	instances.append(new_inst)
 	GameEvents.status_applied.emit(target, effect, 1)
 	effect.on_applied(target, 1)
@@ -65,44 +84,62 @@ func tick(delta: float, distance: float) -> void:
 		if i >= instances.size():
 			i = instances.size() - 1
 			continue
-		var inst: Dictionary = instances[i]
+		var inst: Instance = instances[i]
 		var effect: StatusEffect = inst.effect
 		inst.remaining -= delta
 		inst.tick -= delta
 		if inst.tick <= 0.0:
 			inst.tick = effect.tick_interval
 			effect.apply_tick(target, inst.stacks, delta)
+		# Callbacks can clear/repopulate this component when a pooled carrier dies.
+		# Compare record identity: the replacement can use the same effect resource.
+		if i >= instances.size() or not is_same(instances[i], inst):
+			i -= 1
+			continue
 		effect.on_move(target, distance, inst.stacks)
+		if i >= instances.size() or not is_same(instances[i], inst):
+			i -= 1
+			continue
 		if inst.remaining <= 0.0:
 			var e: StatusEffect = inst.effect
 			if not e.converts_to.is_empty() and e.convert_after_stacks > 0 and inst.stacks >= e.convert_after_stacks:
+				_dirty = true
 				instances.remove_at(i)
 				GameEvents.status_removed.emit(target, e)
 				e.on_removed(target)
 				apply(StatusLibrary.get_effect(e.converts_to))
 				i -= 1
 				continue
+			_dirty = true
 			instances.remove_at(i)
 			GameEvents.status_removed.emit(target, e)
 			e.on_removed(target)
 		elif i < instances.size() and instances[i].effect == effect:
 			instances[i] = inst
 		i -= 1
+func _refresh() -> void:
+	if not _dirty:
+		return
+	_speed = 1.0
+	_vulnerability = 0.0
+	_reduction = 0.0
+	_tint = Color.WHITE
+	for inst: Instance in instances:
+		var effect: StatusEffect = inst.effect
+		_speed *= effect.speed_mult
+		_vulnerability += effect.vulnerability * inst.stacks
+		_reduction = maxf(_reduction, effect.damage_reduction)
+		_tint = _tint.blend(effect.tint)
+	_dirty = false
 func speed_mult() -> float:
-	var mult: float = 1.0
-	for inst in instances:
-		mult *= inst.effect.speed_mult
-	return mult
+	_refresh()
+	return _speed
 func vulnerability() -> float:
-	var total: float = 0.0
-	for inst in instances:
-		total += inst.effect.vulnerability * inst.stacks
-	return total
+	_refresh()
+	return _vulnerability
 func damage_reduction() -> float:
-	var total: float = 0.0
-	for inst in instances:
-		total = maxf(total, inst.effect.damage_reduction)
-	return total
+	_refresh()
+	return _reduction
 func has(id: StringName) -> bool:
 	for inst in instances:
 		if inst.effect.id == id:
@@ -114,23 +151,18 @@ func stacks_of(id: StringName) -> int:
 			return inst.stacks
 	return 0
 func tint_color() -> Color:
-	if instances.is_empty():
-		return Color(1, 1, 1, 1)
-	var color := Color(1, 1, 1, 1)
-	for inst in instances:
-		color = color.blend(inst.effect.tint)
-	return color
-func tint() -> void:
-	pass
+	_refresh()
+	return _tint
 func clear() -> void:
 	for inst in instances:
 		GameEvents.status_removed.emit(target, inst.effect)
 		inst.effect.on_removed(target)
+	_dirty = true
 	instances.clear()
 func signature() -> String:
 	var parts: PackedStringArray = []
 	for inst in instances:
-		parts.append(inst.effect.signature())
+		parts.append("%s:%d" % [inst.effect.signature(), inst.stacks])
 	return "|".join(parts)
 func deal_damage(amount: float, dtype: DamageTypes.Type = DamageTypes.Type.TRUE, source: StringName = &"dot") -> void:
 	if target == null:

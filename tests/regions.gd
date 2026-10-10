@@ -7,8 +7,8 @@ func run() -> void:
 	var meta = root.get_node("MetaProgression")
 	meta.future_version = true
 	meta.reset_progress()
-	# --- Catalogue shape: twenty distinct grounds ---
-	assert(Regions.count() == 20)
+	# --- Catalogue shape: twenty-five distinct grounds ---
+	assert(Regions.count() == 25)
 	var ids: Array = []
 	var motifs: Array = []
 	var names: Array = []
@@ -32,6 +32,8 @@ func run() -> void:
 		assert(Regions.index_of(id) >= 4)
 	for id in ["veilwood", "cinder_reach", "storm_citadel", "tidal_maw", "black_aurora"]:
 		assert(Regions.index_of(id) >= 15)
+	for id in ["saltbound", "amberhold", "vesperine", "lodestone", "chancery"]:
+		assert(Regions.index_of(id) >= 20)
 	# --- The first three grounds are open; the rest are gated ---
 	for i in 3:
 		assert(meta.region_unlocked(i))
@@ -83,6 +85,21 @@ func run() -> void:
 	assert(meta.region_unlocked(18))
 	meta.progress["wins"] = 12.0
 	assert(meta.region_unlocked(19))
+	# --- The deep five: chained clears, a grounds count and a wins count ---
+	meta.progress["regions_cleared"]["black_aurora"] = 1.0
+	meta.progress["regions_cleared"]["tidal_maw"] = 1.0
+	meta.progress["regions_cleared"]["veilwood"] = 1.0
+	assert(meta.region_unlocked(20))  # Saltbound Flats: clear the Black Aurora
+	assert(meta.region_unlocked(21))  # Amberhold: clear the Tidal Maw
+	assert(meta.region_unlocked(22))  # The Vesperine: clear the Veilwood
+	assert(not meta.region_unlocked(23) and not meta.region_unlocked(24))
+	for extra in ["mire", "dunes", "bastion", "coast", "ossuary", "vein", "storm", "mirror", "saltbound", "amberhold"]:
+		meta.progress["regions_cleared"][extra] = 1.0
+	assert(meta.cleared_ground_count() >= 21)
+	assert(meta.region_unlocked(23))  # Lodestone Fields: twenty-one distinct grounds
+	assert(not meta.region_unlocked(24))
+	meta.progress["wins"] = 16.0
+	assert(meta.region_unlocked(24))  # The Red Chancery: sixteen wins
 	# --- Atlas layout: wipe progress first so sealed grounds are sealed again ---
 	meta.progress["wins"] = 0.0
 	meta.progress["regions_cleared"] = {}
@@ -93,7 +110,7 @@ func run() -> void:
 	atlas.on_pick = func(index: int): picked.append(index)
 	await process_frame
 	# --- Atlas layout: ten cards on each page ---
-	for page in 2:
+	for page in 3:
 		atlas.page = page
 		var rects: Array[Rect2] = []
 		for i in range(page * 10, mini((page + 1) * 10, Regions.count())):
@@ -152,5 +169,5 @@ func run() -> void:
 		game.queue_free()
 		await process_frame
 		await process_frame
-	print("REGIONS PASS: twenty grounds, unique looping soundtracks, gated progression, biome data, and paged atlas")
+	print("REGIONS PASS: twenty-five grounds, unique looping soundtracks, gated progression, biome data, and paged atlas")
 	quit()

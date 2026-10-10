@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#f4dcd4" />
+      <stop offset="38%" stop-color="#c9958f" />
+      <stop offset="100%" stop-color="#77505a" />
+    </linearGradient>
+    <linearGradient id="metal1" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#5d5058" />
+      <stop offset="38%" stop-color="#2b2529" />
+      <stop offset="100%" stop-color="#151119" />
+    </linearGradient>
+    <clipPath id="hull">
+      <path d="M10 62 32 34 44 26 50 10 62 12 66 6 78 12 90 10 96 26 108 34 118 62 96 86 86 114 70 100 58 100 42 114 32 86Z" fill="white" stroke="none" stroke-width="4" stroke-linejoin="round" />
+    </clipPath>
+  </defs>
+  <path d="M10 62 32 34 44 26 50 10 62 12 66 6 78 12 90 10 96 26 108 34 118 62 96 86 86 114 70 100 58 100 42 114 32 86Z" fill="#080d16" stroke="#080d16" stroke-width="13" stroke-linejoin="round" />
+  <path d="M10 62 32 34 44 26 50 10 62 12 66 6 78 12 90 10 96 26 108 34 118 62 96 86 86 114 70 100 58 100 42 114 32 86Z" fill="url(#metal0)" stroke="#ffe8de" stroke-width="4" stroke-linejoin="round" />
+  <g clip-path="url(#hull)">
+    <path d="M0 0H128.0L32.0 128.0H0Z" fill="#fff7df" opacity=".10" />
+    <path d="M64.0 0L89.6 128.0H128.0V0Z" fill="#000b20" opacity=".20" />
+    <path d="M0 53.76L128.0 23.04M0 102.4L128.0 71.68" fill="none" stroke="#eaf6ff" stroke-width="1.536" opacity=".20" />
+  </g>
+  <path d="M28 58 48 36 80 36 101 58 81 86 48 86Z" fill="url(#metal1)" stroke="#ffe8de" stroke-width="3" stroke-linejoin="round" />
+  <path d="M40 52Q64 40 88 52L84 70Q64 80 44 70Z" fill="#101928" stroke="#ffe8de" stroke-width="4" stroke-linejoin="round" />
+<path d="M18 48 28 91M18 48 5 70M28 91 9 96" fill="none" stroke="#111926" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M18 48 28 91M18 48 5 70M28 91 9 96" fill="none" stroke="#fff0cd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M102 48 94 91M102 48 116 69M94 91 115 97" fill="none" stroke="#111926" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M102 48 94 91M102 48 116 69M94 91 115 97" fill="none" stroke="#fff0cd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M50 10 58 30M66 6 64 28M78 12 70 30" fill="none" stroke="#fff7df" stroke-width="3" stroke-linecap="round" />
+  <path d="M48 56Q64 48 80 56L77 66Q64 73 51 66Z" fill="none" stroke="#bfe8f0" stroke-width="2" />
+  <path d="M30 40 14 58M98 40 114 58" fill="none" stroke="#e4f8ff" stroke-width="2" />
+  <circle cx="64" cy="62" r="4.2" fill="#f4edc6" opacity=".85" />
+</svg>

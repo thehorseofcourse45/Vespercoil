@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "amberhold"
+name = "AMBERHOLD"
+subtitle = "Fossil resin caverns where the old light never died."
+perk = "+10% experience / Resin Warden incursions / burning ground"
+color = Color(0.95, 0.65, 0.25, 1)
+floor = Color(0.13, 0.08, 0.04, 1)
+motif = &"amberhold"
+hazard = &"burn"
+veil = 0.25
+incursion = &"resin_warden"
+enemy_roster = Array[StringName]([&"resin_warden", &"sap_spitter", &"amber_lurker", &"drip_hound", &"glow_gem", &"amber_seeker"])
+bonus = Array[Dictionary]([{"stat": &"xp", "flat": 0.1, "percent": 0.0}])
+unlock = {"type": "clear", "id": "tidal_maw"}
+unlock_hint = "Clear the Tidal Maw."
+reward_character = "Amberkeeper"
+reward_note = "Clearing Amberhold awakens the Amberkeeper."
+music = 21
+pitch = 0.9
+danger = 4

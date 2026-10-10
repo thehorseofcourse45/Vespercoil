@@ -10,4 +10,4 @@ shield = 160.0
 stage = 0
 ability_normal = 2.0
 ability_enraged = 1.25
-attack = &"ring"
+attack = &"spiral"

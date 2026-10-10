@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Object Crystal</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e3d9be"/>
+      <stop offset="38%" stop-color="#b79a66"/>
+      <stop offset="100%" stop-color="#5c4d33"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 12 88 34 83 91 64 114 43 91 39 34Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 12 88 34 83 91 64 114 43 91 39 34Z" fill="url(#metal0)" stroke="#e3d9be" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M39 34 64 46 88 34M64 12V46L43 91M64 46 83 91M43 91 64 82 83 91M64 82V114" fill="none" stroke="#e3d9be" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 55 71 64 64 73 57 64Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 59 68 64 64 69 60 64Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

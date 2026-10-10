@@ -1,8 +1,8 @@
 extends SceneTree
-# Keepers are earned now: a fresh save holds only Ranger, and the other nineteen are
-# awakened by clearing the ground that names them or by one milestone in a single
-# run. Both routes are exercised here from an empty roster, along with the ground
-# pairing kept in region data and the directory screen that lists the sealed ones.
+# Keepers are earned now: a fresh save holds only Ranger, and the other twenty-four
+# are awakened only by clearing the ground that names them. The ground route is
+# exercised here from an empty roster, along with the ground pairing kept in
+# region data and the directory screen that lists the sealed ones.
 #
 # The loadout table below is the intent each hand-authored keeper must satisfy: a
 # distinct starting weapon, a signature stat that actually moves, and a real power.
@@ -26,15 +26,25 @@ const ROSTER_STATS := {
 	"Stormwright": &"mult_lightning",
 	"Brinelord": &"resist_physical",
 	"Polaris": &"mult_true",
+	"Saltsworn": &"speed",
+	"Amberkeeper": &"mult_fire",
+	"Bellsinger": &"cdr",
+	"Lodestar": &"mult_lightning",
+	"Quillkeeper": &"crit_chance",
 }
 const DEEP_LOADOUTS := {
-	"Fenwalker": {"weapon": &"dart_fan", "stat": &"pickup", "ability": &"ward_burst"},
+	"Fenwalker": {"weapon": &"dart_fan", "stat": &"pickup", "ability": &"venom_nova"},
 	"Starwright": {"weapon": &"meteor", "stat": &"area", "ability": &"starfall"},
-	"Veilbinder": {"weapon": &"crescent", "stat": &"mult_physical", "ability": &"seismic_pulse"},
+	"Veilbinder": {"weapon": &"crescent", "stat": &"mult_physical", "ability": &"ward_chime"},
 	"Ashcaller": {"weapon": &"halo", "stat": &"mult_fire", "ability": &"overcharge"},
 	"Stormwright": {"weapon": &"chain_bolt", "stat": &"mult_lightning", "ability": &"phase_dash"},
 	"Brinelord": {"weapon": &"ricochet", "stat": &"resist_physical", "ability": &"tidepull"},
 	"Polaris": {"weapon": &"railshot", "stat": &"mult_true", "ability": &"void_blink"},
+	"Saltsworn": {"weapon": &"whipsnap", "stat": &"speed", "ability": &"tidepull"},
+	"Amberkeeper": {"weapon": &"cinder_jet", "stat": &"mult_fire", "ability": &"overcharge"},
+	"Bellsinger": {"weapon": &"carousel", "stat": &"cdr", "ability": &"thunder_chorus"},
+	"Lodestar": {"weapon": &"lightning", "stat": &"mult_lightning", "ability": &"chronolock"},
+	"Quillkeeper": {"weapon": &"needle", "stat": &"crit_chance", "ability": &"void_blink"},
 }
 
 func _initialize() -> void:
@@ -54,8 +64,8 @@ func run() -> void:
 	# --- A fresh install knows exactly one keeper, and it is the one the atlas opens on ---
 	fresh_roster(meta)
 	assert(meta.unlocked.size() == 1 and meta.unlocked.has("Ranger"), "a fresh save must start with only Ranger")
-	assert(meta.FRESH_UNLOCKED.size() + meta.NEW_UNLOCKS.size() == 20, "the roster is no longer twenty keepers")
-	assert(meta.keeper_total() == 20)
+	assert(meta.FRESH_UNLOCKED.size() + meta.NEW_UNLOCKS.size() == 25, "the roster is no longer twenty-five keepers")
+	assert(meta.keeper_total() == 25)
 	assert(not meta.NEW_UNLOCKS.has("Ranger"), "the starter must not be an earnable keeper")
 	# --- The ground pairing lives in region data, so the atlas card and the unlock agree ---
 	var grounds: Dictionary = {}
@@ -69,17 +79,11 @@ func run() -> void:
 		assert(not meta.FRESH_UNLOCKED.has(ground.reward_character), "%s awakens a starter" % ground.id)
 		grounds[ground.reward_character] = ground.id
 	assert(grounds.size() == meta.NEW_UNLOCKS.size(), "%d grounds awaken keepers, expected %d" % [grounds.size(), meta.NEW_UNLOCKS.size()])
-	# --- Every earnable keeper prints both of its routes ---
-	var milestones: Dictionary = {}
-	for entry in meta.MILESTONE_UNLOCKS:
-		assert(not milestones.has(String(entry.character)), "two milestones awaken %s" % entry.character)
-		milestones[String(entry.character)] = true
-		assert(float(entry.at) > 0.0 and not String(entry.hint).is_empty(), "milestone for %s is unusable" % entry.character)
+	# --- Every earnable keeper prints the one route that awakens it ---
 	for name in meta.NEW_UNLOCKS:
 		assert(grounds.has(name), "no ground awakens %s" % name)
-		assert(milestones.has(name), "no milestone awakens %s" % name)
 		var hint: String = meta.keeper_unlock_hint(name)
-		assert(hint.contains("clear ") and hint.contains("or "), "%s prints one route only: %s" % [name, hint])
+		assert(hint.begins_with("clear ") and hint.ends_with(".") and not hint.contains(" or "), "%s does not print a clear-only route: %s" % [name, hint])
 		assert(meta.keeper_ground(name) != null and meta.keeper_ground(name).id == grounds[name], "keeper_ground disagrees for %s" % name)
 	assert(meta.keeper_unlock_hint("Ranger") == "Awakened from the start.")
 	# --- Clearing a ground awakens the keeper that ground remembers ---
@@ -98,27 +102,20 @@ func run() -> void:
 	meta.bank_run(0, 0, 0.0, 0, 0, false, 0)
 	assert(meta.unlocked.size() == 1, "a lost run awakened a keeper")
 	assert(meta.region_cleared("ember") == 0)
-	# --- The milestone route stands on its own, one entry at a time ---
-	# Asterfall awakens no keeper, so only the milestone can fire in these runs.
-	for entry in meta.MILESTONE_UNLOCKS:
-		fresh_roster(meta)
-		match String(entry.stat):
-			"kills": meta.bank_run(0, int(entry.at), 0.0, 0, 0, false, 0)
-			"caches": meta.bank_run(0, 0, 0.0, int(entry.at), 0, false, 0)
-			"rooms": meta.bank_run(0, 0, 0.0, 0, int(entry.at), false, 0)
-			"seconds": meta.bank_run(0, 0, float(entry.at), 0, 0, false, 0)
-			"difficulty": meta.bank_run(0, 0, 0.0, 0, 0, true, int(entry.at))
-		assert(meta.unlocked.has(String(entry.character)), "milestone '%s' did not awaken %s" % [entry.hint, entry.character])
-	# One short of every threshold awakens nobody in particular.
-	for entry in meta.MILESTONE_UNLOCKS:
-		fresh_roster(meta)
-		match String(entry.stat):
-			"kills": meta.bank_run(0, int(entry.at) - 1, 0.0, 0, 0, false, 0)
-			"caches": meta.bank_run(0, 0, 0.0, int(entry.at) - 1, 0, false, 0)
-			"rooms": meta.bank_run(0, 0, 0.0, 0, int(entry.at) - 1, false, 0)
-			"seconds": meta.bank_run(0, 0.0 if entry.at <= 1.0 else float(entry.at) - 1.0, 0, 0, false, 0)
-			"difficulty": meta.bank_run(0, 0, 0.0, 0, 0, true, int(entry.at) - 1)
-		assert(not meta.unlocked.has(String(entry.character)), "milestone '%s' fired early" % entry.hint)
+	# --- Feats no longer awaken anyone: only a ground clear moves the roster ---
+	# Asterfall awakens no keeper. A run there that maxes every old threshold --
+	# kills, caches, rooms, seconds, a Nightmare win -- must leave the roster
+	# exactly as it found it.
+	var asterfall_index: int = Regions.index_of("asterfall")
+	assert(asterfall_index == 0, "Asterfall lost its seat at the head of the atlas")
+	fresh_roster(meta)
+	meta.region = asterfall_index
+	meta.bank_run(0, 9999, 9999.0, 99, 99, false, 0)
+	assert(meta.unlocked.size() == 1, "a stat feat awakened a keeper")
+	fresh_roster(meta)
+	meta.region = asterfall_index
+	meta.bank_run(0, 9999, 9999.0, 99, 99, true, 2)
+	assert(meta.unlocked.size() == 1, "a difficulty win awakened a keeper without a clear")
 	# --- Awakening is idempotent, and the roster never grows past the catalogue ---
 	fresh_roster(meta)
 	meta.region = Regions.index_of("ember")
@@ -155,7 +152,7 @@ func run() -> void:
 		meta.apply(shipped)
 		assert(shipped.value(stat) > baseline.value(stat), "%s does not raise %s (%.3f vs %.3f) -- a bonus was lost to a shared source key" % [name, stat, shipped.value(stat), baseline.value(stat)])
 	assert(ROSTER_STATS.size() == meta.NEW_UNLOCKS.size(), "%d keepers are pinned, expected %d" % [ROSTER_STATS.size(), meta.NEW_UNLOCKS.size()])
-	# --- The seven keepers tied to the deep grounds must fly for real ---
+	# --- The twelve keepers tied to the deep grounds must fly for real ---
 	for name in DEEP_LOADOUTS:
 		var spec: Dictionary = DEEP_LOADOUTS[name]
 		assert(ROSTER_STATS.has(name), "%s has no signature stat pinned" % name)
@@ -195,7 +192,7 @@ func run() -> void:
 		if child is Label:
 			rows.append(String(child.text))
 	assert(rows.size() >= meta.keeper_total() + 3, "the directory drew %d rows" % rows.size())
-	assert(rows[0].contains("1 of 20 awakened"), "the directory does not count the roster")
+	assert(rows[0].contains("1 of 25 awakened"), "the directory does not count the roster")
 	assert(rows[1] == "AWAKENED", "the directory lost its awakened heading")
 	for i in meta.unlocked.size():
 		assert(rows[2 + i].begins_with(meta.unlocked[i]), "awakened row %d is %s" % [i, rows[2 + i]])
@@ -217,5 +214,5 @@ func run() -> void:
 	assert(ret != null and ret.text == "Return to title" and ret.has_focus(), "the directory cannot be left from the keyboard")
 	game.queue_free()
 	await process_frame
-	print("KEEPER UNLOCK PASS: one starter, nineteen earned keepers, ground and milestone routes both verified, seven deep loadouts fly with their own weapon/stat/power, repeat clears idempotent, directory lists every sealed keeper")
+	print("KEEPER UNLOCK PASS: one starter, twenty-four earned keepers, grounds are the only route (feats and difficulty wins no longer awaken), twelve deep loadouts fly with their own weapon/stat/power, repeat clears idempotent, directory lists every sealed keeper")
 	quit()

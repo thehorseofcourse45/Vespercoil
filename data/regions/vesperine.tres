@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "vesperine"
+name = "THE VESPERINE"
+subtitle = "A dusk bell-city that still tolls for something gone."
+perk = "+8% cooldown recovery / Chime Wraith incursions / low darkness veil"
+color = Color(0.78, 0.62, 0.98, 1)
+floor = Color(0.07, 0.05, 0.12, 1)
+motif = &"vesperine"
+hazard = &""
+veil = 0.45
+incursion = &"chime_wraith"
+enemy_roster = Array[StringName]([&"chime_wraith", &"toll_hound", &"lute_leaper", &"hymn_mender", &"veiled_bell", &"vesper_seeker"])
+bonus = Array[Dictionary]([{"stat": &"cdr", "flat": 0.08, "percent": 0.0}])
+unlock = {"type": "clear", "id": "veilwood"}
+unlock_hint = "Clear the Veilwood."
+reward_character = "Bellsinger"
+reward_note = "Clearing the Vesperine awakens the Bellsinger."
+music = 22
+pitch = 0.86
+danger = 5

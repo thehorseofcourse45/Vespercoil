@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Laser Sniper</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffc5d5"/>
+      <stop offset="38%" stop-color="#ec628d"/>
+      <stop offset="100%" stop-color="#713149"/>
+    </linearGradient>
+  </defs>
+  <path d="M18 29 48 20 66 32 73 49 104 49 114 58 104 69 76 69 68 91 51 108 27 100 16 81 27 62Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 29 48 20 66 32 73 49 104 49 114 58 104 69 76 69 68 91 51 108 27 100 16 81 27 62Z" fill="url(#metal0)" stroke="#ffc5d5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 34 47 29 60 38 57 51 40 54 29 47Z" fill="#080d16" stroke="#ffc5d5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M45 33 52 42 45 51 38 42Z" fill="#080d16" stroke="#ffc5d5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M45 37 49 42 45 47 41 42Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 62 52 55 71 61 59 84 38 88 24 77Z" fill="#080d16" stroke="#ffc5d5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 61 53 70 46 79 39 70Z" fill="#080d16" stroke="#ffc5d5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 65 50 70 46 75 42 70Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"/><path d="M73 57H104M32 98 51 99 62 90M19 76 27 84" fill="none" stroke="#ffc5d5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M106 51V68" fill="none" stroke="#fff3bc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

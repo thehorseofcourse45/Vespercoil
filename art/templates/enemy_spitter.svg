@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Enemy Spitter</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e3d9be"/>
+      <stop offset="38%" stop-color="#b79a66"/>
+      <stop offset="100%" stop-color="#5c4d33"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M30 47 32 26 47 26 51 14 77 14 81 26 96 26 98 47 111 66 104 93 87 111 41 111 24 93 17 66Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M30 47 32 26 47 26 51 14 77 14 81 26 96 26 98 47 111 66 104 93 87 111 41 111 24 93 17 66Z" fill="url(#metal0)" stroke="#e3d9be" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M39 38H89L82 53H46Z" fill="#080d16" stroke="#e3d9be" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M48 39V49M60 39V49M72 39V49M84 39V49" fill="none" stroke="#fff3bc" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="64" cy="78" r="20" fill="#080d16" stroke="#e3d9be" stroke-width="4"/><circle cx="64" cy="78" r="11" fill="url(#metal0)" stroke="#fff3bc" stroke-width="2"/><path d="M25 71 36 78M103 71 92 78M43 100H85" fill="none" stroke="#e3d9be" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M58 76 64 65 70 76 67 87 61 87Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

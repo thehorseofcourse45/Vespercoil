@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"laser_bastion"
+title = "Laser Bastion"
+health = 180.0
+speed = 26.0
+damage = 15.0
+radius = 17.0
+xp = 18
+shield = 35.0
+color = Color(0.95, 0.65, 0.3, 1)
+behaviour = &"laser_sniper"
+shot_interval = 4.0

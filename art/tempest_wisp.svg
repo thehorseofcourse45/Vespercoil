@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Tempest Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#d1f4ff"/>
+      <stop offset="38%" stop-color="#99e6ff"/>
+      <stop offset="100%" stop-color="#456773"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M68 17C103 18 115 54 96 76L91 59C98 40 78 24 63 35 50 46 53 57 63 61L46 73C26 59 26 34 45 22ZM60 110C26 112 13 78 30 55L37 71C29 90 49 105 65 94 77 85 74 72 66 68L83 56C105 74 94 109 60 110Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M68 17C103 18 115 54 96 76L91 59C98 40 78 24 63 35 50 46 53 57 63 61L46 73C26 59 26 34 45 22ZM60 110C26 112 13 78 30 55L37 71C29 90 49 105 65 94 77 85 74 72 66 68L83 56C105 74 94 109 60 110Z" fill="url(#metal0)" stroke="#d1f4ff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M79 27Q95 36 99 47M47 101Q30 93 27 82" fill="none" stroke="#d1f4ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 56 71 65 64 74 57 65Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 60 68 65 64 70 60 65Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -50,7 +50,7 @@ func eligible(entry: Dictionary) -> bool:
 			var data: WeaponData = entry.data
 			if banished.has(data.id):
 				return false
-			return (arsenal.weapons.has(data.id) and arsenal.weapons[data.id].level < 8) or (not arsenal.weapons.has(data.id) and arsenal.weapons.size() < 6)
+			return (arsenal.weapons.has(data.id) and arsenal.weapons[data.id].level < arsenal.WEAPON_MAX_LEVEL) or (not arsenal.weapons.has(data.id) and arsenal.weapons.size() < arsenal.WEAPON_SLOTS)
 		"passive":
 			var data: PassiveData = entry.data
 			return not banished.has(data.id) and int(arsenal.passive_levels.get(data.id, 0)) < data.max_level
@@ -67,6 +67,11 @@ func draw_choices() -> Array:
 		extras.append({"kind": "curse", "weight": 1.0})
 	for entry in arsenal.trinket_candidates():
 		extras.append(entry)
+	if not result.is_empty():
+		# Keep the locked offer exactly once across both ordinary and special pools.
+		var different := func(entry): return entry.kind != locked_entry.kind or entry.get("data") != locked_entry.get("data")
+		pool = pool.filter(different)
+		extras = extras.filter(different)
 	if not extras.is_empty():
 		result.append(extras[rng.randi_range(0, extras.size() - 1)])
 	while result.size() < 3 and not pool.is_empty():
@@ -267,7 +272,9 @@ func choose(index: int) -> void:
 		"heal": GameEvents.pickup_collected.emit(&"heal", 20)
 		"curse":
 			curse_offers_left -= 1
-			arsenal.player.stats.set_bonus(&"run_curse", &"curse", 1.0, 0.0)
+			# Was set_bonus(..., 1.0, ...): every offer overwrote the last, never stacked.
+			var cur: float = float(arsenal.player.stats.sources.get(&"run_curse", {"flat": 0.0}).get("flat", 0.0))
+			arsenal.player.stats.set_bonus(&"run_curse", &"curse", cur + 1.0, 0.0)
 			arsenal.player.refresh_stats()
 			GameEvents.inventory_changed.emit()
 			GameEvents.notice.emit("THE CURSE DEEPENS", "The horde grows hungrier. Your spoils grow richer.", CURSE_TINT)

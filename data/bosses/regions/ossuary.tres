@@ -10,4 +10,4 @@ shield = 80.0
 stage = 0
 ability_normal = 3.10
 ability_enraged = 2.05
-attack = &"slam"
+attack = &"hunt"

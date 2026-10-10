@@ -11,7 +11,7 @@ scripts, not this file, when tuning. Extends `BALANCE.md`.
 | Void Screamer | 30 | 62 | 8 | 14 | 6 | screamer | Prefers 340; 8-projectile rings every 3.4 s within 720 |
 
 Both join era 2 (herald), era 3 (herald + screamer) and era 4 (full roster).
-Sable Abyss incursions spawn Wardens.
+Sable Abyss incursion raids are led by Veil Wraiths.
 
 ## Status additions
 
@@ -72,7 +72,7 @@ Sources: the `curse` meta upgrade (max 5) and up to two draft bargains per run.
 
 ## Run-time pressure
 
-New enemies ramp with elapsed run time: HP +4% per minute (max +120%), damage +2% per minute (max +50%), speed +1% per minute (max +30%), and ordinary wave pressure +1.5% per minute (max +35%). Boss health, shields and speed use the same time scales.
+New enemies ramp with elapsed run time, compounding: HP +8% per minute (max +400%), damage +4% per minute (max +120%), speed +2% per minute (max +50%), and ordinary wave pressure +3.5% per minute (max +100%). Boss health, shields and speed use the same time scales. The late horde joins 3-8 minutes in (commons) and 6-10 minutes in (elites), trickling every 60/90 s afterwards.
 
 ## Permanent upgrade tree
 

@@ -10,4 +10,4 @@ shield = 0.0
 stage = 0
 ability_normal = 3.20
 ability_enraged = 2.10
-attack = &"cross"
+attack = &"pincer"

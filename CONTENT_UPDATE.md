@@ -11,8 +11,9 @@ shared components, pools, the spatial grid, signal bus, save format and six slot
 | Ember Foundry | +15% damage, -15 max HP | Prism Stalker |
 | Hollow Garden | +35% pickup radius | Brood Oracle |
 
-Each has its own procedural floor and ambient loop. Incursions begin at 00:25,
-then every 18 seconds, scaling to six units. Original time-indexed waves continue.
+Each has its own procedural floor and ambient loop. Incursions arrive as periodic
+raids (first at ~00:50, then every 60-90 seconds), scaling from three to eight
+units. Ordinary waves keep running the shared era rosters.
 Points of interest are finite objectives around the starting area; contracts and
 incidents continue throughout the run.
 

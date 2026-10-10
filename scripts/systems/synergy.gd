@@ -40,4 +40,4 @@ static func apply(arsenal) -> void:
 		if int(counts.get(tag, 0)) >= int(bonus.threshold):
 			stats.set_bonus(source, bonus.stat, bonus.flat, bonus.percent)
 		elif stats.sources.has(source):
-			stats.sources.erase(source)
+			stats.remove_bonus(source)

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Drip Hound</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffe1a8"/>
+      <stop offset="38%" stop-color="#e8a23c"/>
+      <stop offset="100%" stop-color="#7a4a1c"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 24 78 30 86 12 94 34 93 48 99 62 95 80 91 96 97 110 87 112 77 100 72 108 66 110 64 104 64.0 104 62.0 110 56.0 108 51.0 100 41.0 112 31.0 110 37.0 96 33.0 80 29.0 62 35.0 48 34.0 34 42.0 12 50.0 30 64.0 24Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 24 78 30 86 12 94 34 93 48 99 62 95 80 91 96 97 110 87 112 77 100 72 108 66 110 64 104 64.0 104 62.0 110 56.0 108 51.0 100 41.0 112 31.0 110 37.0 96 33.0 80 29.0 62 35.0 48 34.0 34 42.0 12 50.0 30 64.0 24Z" fill="url(#metal0)" stroke="#ffe1a8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 66 82 68 86 78 76 88 64 90 52 88 42 78 46 68Z" fill="#080d16" opacity=".28" stroke="#ffe8b0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 70 74 72 76 80 68 86 64 87 60 86 52 80 54 72Z" fill="#080d16" opacity=".28" stroke="#ffe1a8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M72 30 80 22 84 36 74 40Z" fill="#080d16" opacity=".28" stroke="#ffe1a8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M97 60 111 64 103 76Z" fill="#080d16" opacity=".28" stroke="#ffe1a8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="52" cy="62" r="4" fill="#080d16"/><circle cx="52" cy="62" r="1.8" fill="#fff3bc"/>
+    <circle cx="76" cy="62" r="4" fill="#080d16"/><circle cx="76" cy="62" r="1.8" fill="#fff3bc"/>
+    <path d="M64 78 72 82 64 88 56 82Z" fill="#fff3bc" stroke="none"/>
+  </g>
+</svg>

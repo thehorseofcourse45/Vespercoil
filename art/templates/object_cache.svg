@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Object Cache</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e3d9be"/>
+      <stop offset="38%" stop-color="#b79a66"/>
+      <stop offset="100%" stop-color="#5c4d33"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M20 48 37 29 91 29 108 48V101H20Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M20 48 37 29 91 29 108 48V101H20Z" fill="url(#metal0)" stroke="#e3d9be" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M20 53H108M37 29V49M91 29V49M27 94H101" fill="none" stroke="#e3d9be" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M56 48H72V83H56Z" fill="#080d16" stroke="#e3d9be" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 57 71 66 64 75 57 66Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 61 68 66 64 71 60 66Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

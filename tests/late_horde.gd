@@ -1,13 +1,14 @@
 extends SceneTree
-# The late-run difficulty pass: the four time ramps climb further before they cap, five
-# shared common enemies and six elite enemies join between 5-15 and 10-15 minutes on an
+# The late-run difficulty pass: the four time ramps compound per minute (they cap
+# at 5x HP / 2.2x damage / 1.5x speed / 2x spawn pressure), nine shared common
+# enemies and ten elite enemies join between 3-8 and 6-10 minutes on an
 # RNG roll, and the new data types spawn as ordinary and as elite bodies respectively.
 var fails: Array[String] = []
 func chk(cond: bool, msg: String) -> void:
 	if not cond:
 		fails.append(msg)
-var COMMONS: Array[StringName] = [&"rift_warden", &"glass_lancer", &"brine_barrage", &"rift_stalker", &"void_herald"]
-var ELITES: Array[StringName] = [&"abyssal_warden", &"eclipse_bowman", &"titan_bulwark", &"plague_mother", &"night_archon", &"chronarch_spawn"]
+var COMMONS: Array[StringName] = [&"rift_warden", &"glass_lancer", &"brine_barrage", &"rift_stalker", &"void_herald", &"laser_sniper", &"coil_sentry", &"bastion_ram", &"rift_broodcaller"]
+var ELITES: Array[StringName] = [&"abyssal_warden", &"eclipse_bowman", &"titan_bulwark", &"plague_mother", &"night_archon", &"chronarch_spawn", &"laser_bastion", &"coil_overseer", &"bastion_juggernaut", &"rift_matriarch"]
 func _initialize() -> void:
 	call_deferred("run")
 func run() -> void:
@@ -18,18 +19,19 @@ func run() -> void:
 	chk(is_equal_approx(run.time_damage_scale(), 1.0), "ramp: damage is %f at t=0" % run.time_damage_scale())
 	chk(is_equal_approx(run.time_speed_scale(), 1.0), "ramp: speed is %f at t=0" % run.time_speed_scale())
 	chk(is_equal_approx(run.time_spawn_scale(), 1.0), "ramp: spawn is %f at t=0" % run.time_spawn_scale())
-	# Doubling the per-minute rate and the cap: 20 minutes is the new knee.
+	# The ramps compound per minute now (player power compounds, so a linear ramp always
+	# loses the late race). 20 minutes is inside the caps, the far-future probe hits them.
 	run.elapsed = 1200.0
-	chk(is_equal_approx(run.time_health_scale(), 2.6), "ramp: health is %f at t=20m, expected 2.6" % run.time_health_scale())
-	chk(is_equal_approx(run.time_damage_scale(), 1.8), "ramp: damage is %f at t=20m, expected 1.8" % run.time_damage_scale())
-	chk(is_equal_approx(run.time_speed_scale(), 1.4), "ramp: speed is %f at t=20m, expected 1.4" % run.time_speed_scale())
-	chk(is_equal_approx(run.time_spawn_scale(), 1.6), "ramp: spawn is %f at t=20m, expected 1.6" % run.time_spawn_scale())
+	chk(is_equal_approx(run.time_health_scale(), 4.660957143849), "ramp: health is %f at t=20m, expected 4.661" % run.time_health_scale())
+	chk(is_equal_approx(run.time_damage_scale(), 2.191123143033), "ramp: damage is %f at t=20m, expected 2.191" % run.time_damage_scale())
+	chk(is_equal_approx(run.time_speed_scale(), 1.485947395978), "ramp: speed is %f at t=20m, expected 1.486" % run.time_speed_scale())
+	chk(is_equal_approx(run.time_spawn_scale(), 1.989788863466), "ramp: spawn is %f at t=20m, expected 1.990" % run.time_spawn_scale())
 	# The caps still hold far past the knee.
 	run.elapsed = 100000.0
-	chk(is_equal_approx(run.time_health_scale(), 2.8), "ramp: health cap is %f, expected 2.8" % run.time_health_scale())
-	chk(is_equal_approx(run.time_damage_scale(), 1.8), "ramp: damage cap is %f, expected 1.8" % run.time_damage_scale())
+	chk(is_equal_approx(run.time_health_scale(), 5.0), "ramp: health cap is %f, expected 5.0" % run.time_health_scale())
+	chk(is_equal_approx(run.time_damage_scale(), 2.2), "ramp: damage cap is %f, expected 2.2" % run.time_damage_scale())
 	chk(is_equal_approx(run.time_speed_scale(), 1.5), "ramp: speed cap is %f, expected 1.5" % run.time_speed_scale())
-	chk(is_equal_approx(run.time_spawn_scale(), 1.6), "ramp: spawn cap is %f, expected 1.6" % run.time_spawn_scale())
+	chk(is_equal_approx(run.time_spawn_scale(), 2.0), "ramp: spawn cap is %f, expected 2.0" % run.time_spawn_scale())
 	run.elapsed = 0.0
 	# --- the data types exist and resolve ------------------------------------------------
 	var meta = root.get_node("MetaProgression")
@@ -60,24 +62,23 @@ func run() -> void:
 		game.enemies.recycle(boss)
 	# --- the RNG gate ---------------------------------------------------------------------
 	var d = game.director
-	chk(d.LATE_COMMON_MIN == 300.0 and d.LATE_COMMON_MAX == 900.0, "gate: the common roll is %f..%f, expected 300..900" % [d.LATE_COMMON_MIN, d.LATE_COMMON_MAX])
-	chk(d.LATE_ELITE_MIN == 600.0 and d.LATE_ELITE_MAX == 900.0, "gate: the elite roll is %f..%f, expected 600..900" % [d.LATE_ELITE_MIN, d.LATE_ELITE_MAX])
+	# The gate is the only delivery path: commons roll 3-8m in, elites 6-10m.
+	chk(d.LATE_COMMON_MIN == 180.0 and d.LATE_COMMON_MAX == 480.0, "gate: the common roll is %f..%f, expected 180..480" % [d.LATE_COMMON_MIN, d.LATE_COMMON_MAX])
+	chk(d.LATE_ELITE_MIN == 360.0 and d.LATE_ELITE_MAX == 600.0, "gate: the elite roll is %f..%f, expected 360..600" % [d.LATE_ELITE_MIN, d.LATE_ELITE_MAX])
 	# Twenty runs of the roll all land inside the advertised window.
 	d.rng.seed = 12345
 	for i in 20:
 		var common_at: float = d.rng.randf_range(d.LATE_COMMON_MIN, d.LATE_COMMON_MAX)
 		var elite_at: float = d.rng.randf_range(d.LATE_ELITE_MIN, d.LATE_ELITE_MAX)
-		chk(common_at >= 300.0 and common_at <= 900.0, "gate: the common roll landed at %f" % common_at)
-		chk(elite_at >= 600.0 and elite_at <= 900.0, "gate: the elite roll landed at %f" % elite_at)
+		chk(common_at >= 180.0 and common_at <= 480.0, "gate: the common roll landed at %f" % common_at)
+		chk(elite_at >= 360.0 and elite_at <= 600.0, "gate: the elite roll landed at %f" % elite_at)
 	# Before the roll fires, neither family is in the pool; after, both are.
 	chk(not d.horde_unlocked, "gate: the pool opened before any roll")
 	d.horde_unlocked = true
 	chk(d.active_late_commons().size() == COMMONS.size(), "gate: %d commons unlocked, expected %d" % [d.active_late_commons().size(), COMMONS.size()])
 	chk(d.active_late_elites().size() == ELITES.size(), "gate: %d elites unlocked, expected %d" % [d.active_late_elites().size(), ELITES.size()])
 	# The gate is the only delivery path, and it is time-gated: the late commons are NOT in
-	# COMMON_ENEMIES (that pool gates region-roster substitution) and NOT in any wave .tres,
-	# so nothing can roll them before the window opens.
-	chk(not d.COMMON_ENEMIES.has(&"rift_warden"), "gate: a late common is in COMMON_ENEMIES, which would bypass the region roster")
+	# any wave .tres, so ordinary waves cannot roll them before the window opens.
 	for path in d.schedule:
 		for id in COMMONS:
 			chk(not path.enemy_types.has(id), "gate: %s is already in wave %s" % [id, path.resource_path.get_file()])
@@ -98,7 +99,7 @@ func run() -> void:
 	chk(early_late == 0, "gate: %d late commons joined before the window" % early_late)
 	chk(not d.horde_unlocked, "gate: the pool opened without a roll")
 	chk(d.horde_rolled, "gate: the roll was not taken on the first frame")
-	# At elapsed=0 a fresh roll always lands 300-900 ahead, so the loop above cannot see a
+	# At elapsed=0 a fresh roll always lands 180-480 ahead, so the loop above cannot see a
 	# roll that is re-taken every frame. Drive the clock past the window instead: a correct
 	# gate opens on exactly ONE frame, a per-frame redraw opens on all of them.
 	d.horde_rolled = false
@@ -137,7 +138,7 @@ func run() -> void:
 		if e.elite and ELITES.has(e.data.id):
 			elite_early += 1
 	chk(elite_early == 0, "gate: %d elites joined before their window" % elite_early)
-	# Snapshot IMMEDIATELY before this call, not once at the top: the five commons that
+	# Snapshot IMMEDIATELY before this call, not once at the top: the nine commons that
 	# joined at the previous step are already new. With a stale snapshot the count reads 1
 	# because the commons match the filter, so a missing elite hides behind them.
 	d.next_late_horde = run.elapsed + 120.0
@@ -158,7 +159,7 @@ func run() -> void:
 	await process_frame
 	await create_timer(.25, true, false, true).timeout
 	if fails.is_empty():
-		print("LATE HORDE PASS: four ramps reach their new knee at 20m and hold their caps; 5 commons + 6 elites load, spawn plain/elite correctly and join the shared pool between 5-15 and 10-15 minutes.")
+		print("LATE HORDE PASS: four ramps compound per minute and hold their caps; 9 commons + 10 elites load, spawn plain/elite correctly and join the shared pool between 3-8 and 6-10 minutes.")
 		quit(0)
 	else:
 		print("LATE HORDE FAIL (%d):" % fails.size())

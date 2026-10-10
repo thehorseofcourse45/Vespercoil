@@ -5,7 +5,7 @@ var kills: int = 0
 var gold: int = 0
 var level: int = 1
 var xp: float = 0.0
-var required_xp: float = 8.0
+var required_xp: float = 12.0
 var damage_taken: float = 0.0
 var weapon_damage: Dictionary = {}
 var weapon_seconds: Dictionary = {}
@@ -15,23 +15,38 @@ var kills_by_kind: Dictionary = {}
 var crits: int = 0
 var hits_resolved: int = 0
 var run_seed: int = 0
+var mutators: Array[StringName] = []
+var mutator_health: float = 1.0
+var mutator_speed: float = 1.0
 var difficulty: int = 0
 var ascension: int = 0
 var curse: float = 0.0
 var score: int = 0
 var guardians: int = 0
 var caches_opened: int = 0
+var elites: int = 0
 var rooms_found: int = 0
 var gold_remainder: float = 0.0
 var gold_multiplier: float = 1.0
+# Weekly mutators: two roll from this pool every ISO week.
+const MUTATORS: Dictionary = {
+	&"rich_veins": "RICH VEINS  /  gold +40%",
+	&"thin_air": "THIN AIR  /  experience +30%",
+	&"iron_hide": "IRON HIDE  /  vessels +25% health",
+	&"hasty_horde": "HASTY HORDE  /  vessels +12% speed",
+}
+
+# Compounding ramps: player power multiplies (weapons level, passives stack, crit
+# compounds), so a linear ramp always loses the race by the late run. These compound
+# per minute and cap far higher, so a 30+ minute run keeps pressure climbing.
 const TIME_HEALTH_PER_MINUTE: float = 0.08
-const TIME_HEALTH_CAP: float = 1.8
+const TIME_HEALTH_CAP: float = 4.0
 const TIME_DAMAGE_PER_MINUTE: float = 0.04
-const TIME_DAMAGE_CAP: float = 0.8
+const TIME_DAMAGE_CAP: float = 1.2
 const TIME_SPEED_PER_MINUTE: float = 0.02
 const TIME_SPEED_CAP: float = 0.5
-const TIME_SPAWN_PER_MINUTE: float = 0.03
-const TIME_SPAWN_CAP: float = 0.6
+const TIME_SPAWN_PER_MINUTE: float = 0.035
+const TIME_SPAWN_CAP: float = 1.0
 func _ready() -> void:
 	GameEvents.run_started.connect(start)
 	GameEvents.enemy_died.connect(_enemy_died)
@@ -49,7 +64,7 @@ func start() -> void:
 	gold = 0
 	level = 1
 	xp = 0.0
-	required_xp = 8.0
+	required_xp = 12.0
 	damage_taken = 0.0
 	weapon_damage.clear()
 	weapon_seconds.clear()
@@ -62,6 +77,8 @@ func start() -> void:
 		run_seed = MetaProgression.seed_override
 	elif MetaProgression.mode == "daily":
 		run_seed = MetaProgression.daily_seed()
+	elif MetaProgression.mode == "weekly":
+		run_seed = MetaProgression.weekly_seed()
 	else:
 		run_seed = (Time.get_ticks_usec() ^ randi()) & 0x7fffffff
 	ascension = 0
@@ -70,9 +87,34 @@ func start() -> void:
 	guardians = 0
 	difficulty = MetaProgression.difficulty
 	caches_opened = 0
+	elites = 0
 	rooms_found = 0
 	gold_remainder = 0.0
 	gold_multiplier = 1.0
+	mutators.clear()
+	mutator_health = 1.0
+	mutator_speed = 1.0
+	if MetaProgression.mode == "weekly":
+		_roll_weekly_mutators()
+func _roll_weekly_mutators() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = run_seed
+	var pool: Array[StringName] = [&"rich_veins", &"thin_air", &"iron_hide", &"hasty_horde"]
+	while mutators.size() < 2:
+		var pickd: StringName = pool[rng.randi_range(0, pool.size() - 1)]
+		if not mutators.has(pickd):
+			mutators.append(pickd)
+	for choice in mutators:
+		match choice:
+			&"rich_veins":
+				gold_multiplier *= 1.4
+			&"thin_air":
+				xp_multiplier *= 1.3
+			&"iron_hide":
+				mutator_health = 1.25
+			&"hasty_horde":
+				mutator_speed = 1.12
+
 func _physics_process(delta: float) -> void:
 	if not running:
 		return
@@ -80,16 +122,18 @@ func _physics_process(delta: float) -> void:
 	for id in weapon_seconds:
 		weapon_seconds[id] += delta
 func time_health_scale() -> float:
-	return 1.0 + minf(TIME_HEALTH_PER_MINUTE * elapsed / 60.0, TIME_HEALTH_CAP)
+	return minf(pow(1.0 + TIME_HEALTH_PER_MINUTE, elapsed / 60.0), 1.0 + TIME_HEALTH_CAP)
 func time_damage_scale() -> float:
-	return 1.0 + minf(TIME_DAMAGE_PER_MINUTE * elapsed / 60.0, TIME_DAMAGE_CAP)
+	return minf(pow(1.0 + TIME_DAMAGE_PER_MINUTE, elapsed / 60.0), 1.0 + TIME_DAMAGE_CAP)
 func time_speed_scale() -> float:
-	return 1.0 + minf(TIME_SPEED_PER_MINUTE * elapsed / 60.0, TIME_SPEED_CAP)
+	return minf(pow(1.0 + TIME_SPEED_PER_MINUTE, elapsed / 60.0), 1.0 + TIME_SPEED_CAP)
 func time_spawn_scale() -> float:
-	return 1.0 + minf(TIME_SPAWN_PER_MINUTE * elapsed / 60.0, TIME_SPAWN_CAP)
-func _enemy_died(_position: Vector2, _xp: int, _kind: StringName, _elite: bool) -> void:
+	return minf(pow(1.0 + TIME_SPAWN_PER_MINUTE, elapsed / 60.0), 1.0 + TIME_SPAWN_CAP)
+func _enemy_died(_position: Vector2, _xp: int, _kind: StringName, elite: bool) -> void:
 	if running:
 		kills += 1
+		if elite:
+			elites += 1
 func _guardian_defeated(_stage: int, _title: String) -> void:
 	if running:
 		guardians += 1
@@ -118,7 +162,9 @@ func _pickup(kind: StringName, value: int) -> void:
 		while xp >= required_xp:
 			xp -= required_xp
 			level += 1
-			required_xp = 8.0 + pow(float(level), 1.35) * 3.0
+			# Exponential by design: each level costs 16% more than the last, so the
+			# late run stops flooding drafts (the old polynomial died at ~15s/level).
+			required_xp = 12.0 * pow(1.16, float(level - 1))
 			GameEvents.level_up.emit(level)
 func summary() -> Dictionary:
 	return {
@@ -131,6 +177,7 @@ func summary() -> Dictionary:
 		"crits": crits,
 		"hits": hits_resolved,
 		"guardians": guardians,
+		"elites": elites,
 		"ascension": ascension,
 		"difficulty": difficulty,
 		"caches_opened": caches_opened,

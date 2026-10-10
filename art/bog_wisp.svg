@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Bog Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#c6e8c6"/>
+      <stop offset="38%" stop-color="#80cc80"/>
+      <stop offset="100%" stop-color="#395c39"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 17C87 21 98 39 95 61L103 74 90 76 91 98 76 92 64 113 52 92 37 98 38 76 25 74 33 61C30 39 41 21 64 17Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 17C87 21 98 39 95 61L103 74 90 76 91 98 76 92 64 113 52 92 37 98 38 76 25 74 33 61C30 39 41 21 64 17Z" fill="url(#metal0)" stroke="#c6e8c6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M47 36 64 29 81 36M39 61 51 68M89 61 77 68M47 81 54 89M81 81 74 89" fill="none" stroke="#c6e8c6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M49 48H79V77L64 90 49 77Z" fill="#080d16" stroke="#c6e8c6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 59 71 68 64 77 57 68Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 63 68 68 64 73 60 68Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

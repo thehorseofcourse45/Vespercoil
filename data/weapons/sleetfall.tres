@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=6 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/firing_pattern.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/projectile_behavior.gd" id="3"]
+[sub_resource type="Resource" id="pattern"]
+script = ExtResource("2")
+kind = 0
+count = 1
+[sub_resource type="Resource" id="behavior"]
+script = ExtResource("3")
+kind = 7
+[resource]
+script = ExtResource("1")
+id = &"sleetfall"
+title = "Sleetfall"
+description = "A storm front settles over the field and rimes everything inside it."
+behavior = &"composed"
+color = Color(0.62, 0.86, 1, 1)
+base_damage = 6.0
+cooldown = 2.6
+projectile_count = 1
+pierce = 0
+knockback = 10.0
+duration = 3.0
+projectile_speed = 300.0
+radius = 100.0
+weight = 1.2
+damage_type = 2
+on_hit_status = Array[StringName]([&"chill"])
+pattern = SubResource("pattern")
+proj_behavior = SubResource("behavior")
+level_changes = Array[Dictionary]([{"base_damage": 2.0, "cooldown": -0.18}, {"base_damage": 2.0, "area_scale": 0.15}, {"base_damage": 2.0, "duration": 0.5}, {"base_damage": 2.0, "cooldown": -0.18}, {"base_damage": 2.0, "area_scale": 0.15}, {"base_damage": 2.0, "duration": 0.5}, {"base_damage": 2.0, "cooldown": -0.18}])
+evolution_passive = &"rime_sigil"
+evolution_title = "White Ruin"
+tags = Array[StringName]([&"ice", &"area"])

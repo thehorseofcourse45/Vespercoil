@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Ink Seeker</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffd8cf"/>
+      <stop offset="38%" stop-color="#d86a6a"/>
+      <stop offset="100%" stop-color="#6f3438"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 18 78 34 88 30 84 44 96 42 86 66 80 84 76 94 82 106 68 110 64 102 64.0 102 60.0 110 46.0 106 52.0 94 48.0 84 42.0 66 32.0 42 44.0 44 40.0 30 50.0 34 64.0 18Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 18 78 34 88 30 84 44 96 42 86 66 80 84 76 94 82 106 68 110 64 102 64.0 102 60.0 110 46.0 106 52.0 94 48.0 84 42.0 66 32.0 42 44.0 44 40.0 30 50.0 34 64.0 18Z" fill="url(#metal0)" stroke="#ffd8cf" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 34 80 44 84 62 72 76 64 78 56 76 44 62 48 44Z" fill="#080d16" opacity=".28" stroke="#ffc8d8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 42 73 50 74 62 66 72 64 73 62 72 54 62 55 50Z" fill="#080d16" opacity=".28" stroke="#ffd8cf" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 52 70 58 70 66 64 71 58 66 58 58Z" fill="#080d16" opacity=".28" stroke="#ffd8cf" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M48 97 52 103 48 108 44 103Z" fill="#ffc8d8" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M56 105 60 111 56 116 52 111Z" fill="#ffc8d8" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 97 68 103 64 108 60 103Z" fill="#ffc8d8" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="52" cy="58" r="4" fill="#080d16"/><circle cx="52" cy="58" r="1.8" fill="#fff3bc"/>
+    <circle cx="76" cy="58" r="4" fill="#080d16"/><circle cx="76" cy="58" r="1.8" fill="#fff3bc"/>
+    <path d="M64 74 72 78 64 84 56 78Z" fill="#fff3bc" stroke="none"/>
+  </g>
+</svg>

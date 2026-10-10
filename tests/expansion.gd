@@ -42,16 +42,19 @@ func run() -> void:
 	assert(is_equal_approx(run_mgr.time_damage_scale(), 1.0))
 	assert(is_equal_approx(run_mgr.time_speed_scale(), 1.0))
 	assert(is_equal_approx(run_mgr.time_spawn_scale(), 1.0))
+	# The ramps compound per minute now (player power compounds, so a linear ramp always
+	# loses the late race). 20 minutes is inside the caps, the far-future probe hits them.
 	run_mgr.elapsed = 1200.0
-	assert(is_equal_approx(run_mgr.time_health_scale(), 2.6))
-	assert(is_equal_approx(run_mgr.time_damage_scale(), 1.8))
-	assert(is_equal_approx(run_mgr.time_speed_scale(), 1.4))
-	assert(is_equal_approx(run_mgr.time_spawn_scale(), 1.6))
+	assert(is_equal_approx(run_mgr.time_health_scale(), 4.660957143849))
+	assert(is_equal_approx(run_mgr.time_damage_scale(), 2.191123143033))
+	assert(is_equal_approx(run_mgr.time_speed_scale(), 1.485947395978))
+	assert(is_equal_approx(run_mgr.time_spawn_scale(), 1.989788863466))
+	# The caps still hold far past the knee.
 	run_mgr.elapsed = 100000.0
-	assert(is_equal_approx(run_mgr.time_health_scale(), 2.8))
-	assert(is_equal_approx(run_mgr.time_damage_scale(), 1.8))
+	assert(is_equal_approx(run_mgr.time_health_scale(), 5.0))
+	assert(is_equal_approx(run_mgr.time_damage_scale(), 2.2))
 	assert(is_equal_approx(run_mgr.time_speed_scale(), 1.5))
-	assert(is_equal_approx(run_mgr.time_spawn_scale(), 1.6))
+	assert(is_equal_approx(run_mgr.time_spawn_scale(), 2.0))
 	assert(meta.bonuses.size() == 184 and meta.MAX.reroll == 5)
 	meta.gold = 999999
 	for id in meta.bonuses:
@@ -165,6 +168,12 @@ func run() -> void:
 	game.player.health.current = 50.0
 	events.enemy_died.emit(Vector2.ZERO, 1, &"chaser", false)
 	assert(game.player.health.current > 50.0)
+	# Life Siphon burst: 50 kills in one tick must not out-heal the siphon bank
+	# (2% of max health per second plus whatever accrued since the last drain).
+	game.player.health.current = 50.0
+	for i in 50:
+		events.enemy_died.emit(Vector2.ZERO, 1, &"chaser", false)
+	assert(game.player.health.current <= 50.0 + game.player.health.maximum * 0.03)
 	await drop()
 	for id in meta.bonuses:
 		meta.bonuses[id] = 0

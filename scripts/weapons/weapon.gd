@@ -78,6 +78,15 @@ func resolved() -> Dictionary:
 				spec.projectile_count += 2
 				spec.pierce += 1
 				spec.area_scale *= 1.4
+			&"cinder_jet":
+				spec.projectile_count += 2
+				spec.pierce += 4
+			&"sleetfall":
+				spec.duration *= 1.6
+				spec.area_scale *= 1.6
+			&"whipsnap":
+				spec.projectile_count += 2
+				spec.pierce += 4
 	if hyper:
 		spec.base_damage *= 1.5
 		match data.id:

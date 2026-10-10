@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Laser Bastion</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffe1b6"/>
+      <stop offset="38%" stop-color="#dca050"/>
+      <stop offset="100%" stop-color="#72522c"/>
+    </linearGradient>
+  </defs>
+  <path d="M15 32 28 17 57 17 76 32 79 48 102 48 114 58 102 71 78 71 78 96 60 111 27 111 14 96 14 75 23 61Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 32 28 17 57 17 76 32 79 48 102 48 114 58 102 71 78 71 78 96 60 111 27 111 14 96 14 75 23 61Z" fill="url(#metal0)" stroke="#ffe1b6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 31 53 26 65 37 60 50 36 53 25 45Z" fill="#080d16" stroke="#ffe1b6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M44 30 51 39 44 48 37 39Z" fill="#080d16" stroke="#ffe1b6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M44 34 48 39 44 44 40 39Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 66 47 54 70 66 67 92 49 107 29 94Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 66 47 54 70 66 67 92 49 107 29 94Z" fill="url(#metal0)" stroke="#ffe1b6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 70 54 79 47 88 40 79Z" fill="#080d16" stroke="#ffe1b6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M47 74 51 79 47 84 43 79Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"/><path d="M79 57H105M18 91 26 101M63 100 73 92M19 35 21 45M66 29 71 35" fill="none" stroke="#ffe1b6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M107 51V69" fill="none" stroke="#fff3bc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

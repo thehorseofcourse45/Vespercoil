@@ -80,8 +80,8 @@ func run() -> void:
 	game.player.invulnerability = 9999
 	for weapon in game.arsenal.weapons.values():
 		weapon.set_physics_process(false)
-	assert(game.arsenal.weapon_catalog.size() == 20 and game.enemies.TYPES.size() == 75)
-	assert(game.world.zones.size() == 6 and game.world.REGIONS.size() == Regions.count() and Regions.count() == 20)
+	assert(game.arsenal.weapon_catalog.size() == 27 and game.enemies.TYPES.size() == 165)
+	assert(game.world.zones.size() == 6 and game.world.REGIONS.size() == Regions.count() and Regions.count() == 25)
 	var zone_names: Array = []
 	for z in game.world.zones:
 		zone_names.append(z.name)
@@ -115,7 +115,7 @@ func run() -> void:
 		game.world._physics_process(10.1)
 	assert(game.world.relics.size() == 3 and game.player.stats.value(&"cdr") >= .08)
 	assert(game.world.beacon_relics.size() == 3 and game.world.terrain.size() == 5)
-	assert(game.director.boss_catalog.size() == 6)
+	assert(game.director.boss_catalog.size() == 7)
 	assert(game.director.boss_catalog[0].title == "THE GATEKEEPER" and game.director.boss_catalog[3].health == 45000.0)
 	assert(game.director.boss_catalog[4].title == "THE REAVER" and game.director.boss_catalog[5].title == "THE CHRONARCH")
 	var area: float = game.player.stats.value(&"area")
@@ -268,7 +268,7 @@ func run() -> void:
 	assert(game.hud.menu_kind == "codex_pause")
 	game.hud.resume()
 	assert(not paused)
-	print("CONTENT PASS: title-to-run, regional bonus, Artificer, 20 weapons/75 enemies, 20 grounds, 6 seeded zones, era wave swaps, single-use caches, contested beacons, four relics, altar safety, charge/summon/snipe/burrow, new weapons/evolutions, composed dart_fan/nova_shard/cascade, all events, six guardians/enrage, tag synergy, soft terrain, telemetry summary, pause/field-guide/basics/resume, live combat.")
+	print("CONTENT PASS: title-to-run, regional bonus, Artificer, 27 weapons/165 enemies, 25 grounds, 6 seeded zones, era wave swaps, single-use caches, contested beacons, four relics, altar safety, charge/summon/snipe/burrow, new weapons/evolutions, composed dart_fan/nova_shard/cascade, all events, seven guardians/enrage, tag synergy, soft terrain, telemetry summary, pause/field-guide/basics/resume, live combat.")
 	game.queue_free()
 	await process_frame
 	await process_frame

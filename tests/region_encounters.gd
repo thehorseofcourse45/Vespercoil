@@ -9,7 +9,7 @@ func run() -> void:
 	var bosses: Dictionary = {}
 	var relics: Dictionary = {}
 	for region in Regions.all():
-		assert(region.enemy_roster.size() == 3)
+		assert(region.enemy_roster.size() >= 5)
 		assert(region.incursion in region.enemy_roster)
 		for kind in region.enemy_roster:
 			assert(not used.has(kind))
@@ -17,12 +17,12 @@ func run() -> void:
 			assert(ResourceLoader.exists("res://scenes/enemies/%s.tscn" % kind))
 			var enemy_data: EnemyData = load("res://data/enemies/%s.tres" % kind)
 			assert(enemy_data != null and enemy_data.id == kind and enemy_data.health > 0.0)
-			assert(enemy_data.behaviour in [&"chaser", &"kiter", &"sniper", &"charger", &"summoner", &"swarm", &"shielder", &"burrower", &"stalker", &"mender", &"wraith", &"buffer", &"screamer", &"leaper", &"orbiter", &"mortar", &"shepherd", &"breaker"])
+			assert(enemy_data.behaviour in [&"chaser", &"kiter", &"sniper", &"charger", &"summoner", &"swarm", &"shielder", &"burrower", &"stalker", &"mender", &"wraith", &"buffer", &"screamer", &"leaper", &"orbiter", &"mortar", &"shepherd", &"breaker", &"seeker", &"laser_sniper", &"trapper"])
 			assert(ResourceLoader.exists("res://art/%s.svg" % kind))
 		var boss: BossData = load("res://data/bosses/regions/%s.tres" % region.id)
 		assert(boss != null and boss.kind in region.enemy_roster and boss.title != "")
 		assert(not bosses.has(boss.title) and boss.ability_enraged < boss.ability_normal)
-		assert(boss.attack in [&"volley", &"slam", &"summon", &"cross", &"ring"])
+		assert(boss.attack in [&"volley", &"slam", &"summon", &"cross", &"ring", &"spiral", &"carpet", &"shriek", &"hunt", &"pincer"])
 		bosses[boss.title] = true
 		var relic: RelicData = load("res://data/relics/regions/%s.tres" % region.id)
 		assert(relic != null and not relics.has(relic.id))
@@ -53,10 +53,28 @@ func run() -> void:
 		game.pickups.set_physics_process(false)
 		var region: RegionData = game.world.region
 		assert(region.id == Regions.all()[index].id)
+		# Ordinary waves run the shared era rosters untouched; the ground's own five
+		# families arrive as the periodic incursion raid instead.
 		for wave in game.director.schedule:
-			for sample in 4:
-				var kind: StringName = game.director.region_wave_type(wave, sample)
-				assert(kind in game.director.COMMON_ENEMIES or kind in region.enemy_roster)
+			for _sample in 6:
+				var kind: StringName = wave.choose(game.director.rng)
+				assert(kind in wave.enemy_types, "%s rolled %s, outside its own era" % [wave.resource_path.get_file(), kind])
+		assert(game.director.RAID_FIRST == 50.0 and game.director.RAID_MIN_GAP == 60.0 and game.director.RAID_MAX_GAP == 90.0)
+		var before_raid: Dictionary = {}
+		for enemy in game.enemies.active:
+			before_raid[enemy] = true
+		game.director._spawn_incursion_raid()
+		var raiders: int = 0
+		var heads: int = 0
+		for enemy in game.enemies.active:
+			if before_raid.has(enemy):
+				continue
+			raiders += 1
+			if enemy.data.id == region.incursion:
+				heads += 1
+			assert(enemy.data.id in region.enemy_roster, "%s raided %s, which is not one of its families" % [enemy.data.id, region.id])
+		assert(raiders >= 3, "%s's incursion raid spawned %d units" % [region.id, raiders])
+		assert(heads >= 1, "%s's raid did not lead with %s" % [region.id, region.incursion])
 		var guardian = game.director.spawn_guardian(0)
 		assert(guardian.boss_title == load("res://data/bosses/regions/%s.tres" % region.id).title)
 		assert(guardian.data.id in region.enemy_roster)

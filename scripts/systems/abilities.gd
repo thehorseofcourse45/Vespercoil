@@ -9,21 +9,31 @@ const ABILITIES: Dictionary = {
 	&"overcharge": {"title": "OVERCHARGE", "cooldown": 13.0, "detail": "A surge of +40% damage for five seconds.", "color": Color(1, .4, .4)},
 	&"tidepull": {"title": "TIDEPULL", "cooldown": 10.0, "detail": "Drag nearby vessels in and chill them.", "color": Color(.35, .8, 1)},
 	&"starfall": {"title": "STARFALL", "cooldown": 9.0, "detail": "Call an impact down ahead of you that scatters the horde.", "color": Color(.75, .65, 1)},
+	&"venom_nova": {"title": "VENOM NOVA", "cooldown": 9.0, "detail": "Burst a ring of venom that poisons everything nearby.", "color": Color(.5, 1, .5)},
+	&"crimson_rite": {"title": "CRIMSON RITE", "cooldown": 12.0, "detail": "Offer blood. Nearby vessels are left bleeding.", "color": Color(.9, .2, .25)},
+	&"chronolock": {"title": "CHRONOLOCK", "cooldown": 16.0, "detail": "Time gutters: nearby vessels freeze where they stand.", "color": Color(.6, .85, 1)},
+	&"thunder_chorus": {"title": "THUNDER CHORUS", "cooldown": 12.0, "detail": "A peal of static that shocks the nearest vessels.", "color": Color(1, .9, .4)},
+	&"ward_chime": {"title": "WARD CHIME", "cooldown": 14.0, "detail": "Cleanse your ailments and gain Aegis.", "color": Color(.65, .9, 1)},
 }
 const CHARACTER_ABILITIES: Dictionary = {
 	"Warden": &"ward_burst",
 	"Arcanist": &"overcharge",
 	"Artificer": &"seismic_pulse",
-	"Hexblade": &"seismic_pulse",
+	"Hexblade": &"crimson_rite",
 	"Eclipse": &"void_blink",
 	"Pathfinder": &"phase_dash",
-	"Fenwalker": &"ward_burst",
+	"Fenwalker": &"venom_nova",
 	"Starwright": &"starfall",
-	"Veilbinder": &"seismic_pulse",
+	"Veilbinder": &"ward_chime",
 	"Ashcaller": &"overcharge",
 	"Stormwright": &"phase_dash",
 	"Brinelord": &"tidepull",
 	"Polaris": &"void_blink",
+	"Saltsworn": &"tidepull",
+	"Amberkeeper": &"overcharge",
+	"Bellsinger": &"thunder_chorus",
+	"Lodestar": &"chronolock",
+	"Quillkeeper": &"void_blink",
 }
 var player
 var enemies
@@ -58,7 +68,7 @@ func _physics_process(delta: float) -> void:
 	if overcharge_clock > 0.0:
 		overcharge_clock -= delta
 		if overcharge_clock <= 0.0:
-			player.stats.sources.erase(&"ability_overcharge")
+			player.stats.remove_bonus(&"ability_overcharge")
 	if InputMap.has_action("dash") and Input.is_action_just_pressed("dash"):
 		try_use()
 
@@ -88,6 +98,8 @@ func try_use() -> bool:
 			# Pull, not push: the knockback vector points inward from each vessel.
 			for enemy in enemies.nearby(player.position, 300.0):
 				enemies.hit(enemy, 12.0 * player.stats.value(&"damage"), &"ability", (player.position - enemy.position).normalized() * 220.0, false)
+				if not enemy.active:
+					continue
 				enemy.status.apply(StatusLibrary.get_effect(&"chill"))
 			effects.ring(player.position, 300.0, color())
 		&"starfall":
@@ -96,5 +108,42 @@ func try_use() -> bool:
 				enemies.hit(enemy, 45.0 * player.stats.value(&"damage"), &"ability", (enemy.position - impact).normalized() * 260.0, true)
 			effects.ring(impact, 170.0, color())
 			GameEvents.impact.emit(impact, 6.0, color())
+		&"venom_nova":
+			for enemy in enemies.nearby(player.position, 260.0):
+				enemies.hit(enemy, 16.0 * player.stats.value(&"damage"), &"ability", (enemy.position - player.position).normalized() * 120.0, false)
+				if not enemy.active:
+					continue
+				enemy.status.apply(StatusLibrary.get_effect(&"poison"))
+			effects.ring(player.position, 260.0, color())
+		&"crimson_rite":
+			var cost: float = minf(player.health.current * 0.15, maxf(0.0, player.health.current - 1.0))
+			player.health.hit(cost)
+			for enemy in enemies.nearby(player.position, 300.0):
+				enemies.hit(enemy, 20.0 * player.stats.value(&"damage"), &"ability", (enemy.position - player.position).normalized() * 90.0, false)
+				if not enemy.active:
+					continue
+				enemy.status.apply(StatusLibrary.get_effect(&"bleed"))
+			effects.ring(player.position, 300.0, color())
+		&"chronolock":
+			for enemy in enemies.nearby(player.position, 380.0):
+				enemy.status.apply(StatusLibrary.get_effect(&"freeze"))
+			effects.ring(player.position, 380.0, color())
+			GameEvents.impact.emit(player.position, 5.0, color())
+		&"thunder_chorus":
+			var struck: int = 0
+			for enemy in enemies.nearby(player.position, 420.0):
+				if struck >= 6:
+					break
+				struck += 1
+				enemies.hit(enemy, 24.0 * player.stats.value(&"damage"), &"ability", (enemy.position - player.position).normalized() * 140.0, true)
+				if not enemy.active:
+					continue
+				enemy.status.apply(StatusLibrary.get_effect(&"shock"))
+			effects.ring(player.position, 420.0, color())
+		&"ward_chime":
+			player.status.clear()
+			player.status.apply(StatusLibrary.get_effect(&"aegis"))
+			player.invulnerability = maxf(player.invulnerability, 0.8)
+			effects.ring(player.position, 150.0, color())
 	GameEvents.ability_used.emit(active_id, player.position)
 	return true

@@ -6,7 +6,7 @@ extends Node
 const EFFECTS: Array[StringName] = [
 	&"life_siphon", &"gold_fang", &"thorns", &"frenzy", &"grave_bell", &"ward_pulse",
 	&"blink_ward", &"bounty_mark", &"frostbite", &"tremor", &"second_wind", &"greed_engine",
-	&"cinder_burst", &"shrapnel", &"vital_echo",
+	&"cinder_burst", &"shrapnel", &"vital_echo", &"sanguine", &"venom_fang",
 ]
 const BURST_RADIUS: float = 190.0
 const KILL_RADIUS: float = 130.0
@@ -14,6 +14,10 @@ const TREMOR_INTERVAL: float = 3.5
 const TREMOR_RADIUS: float = 165.0
 const BLINK_COOLDOWN: float = 6.0
 const SECOND_WIND_THRESHOLD: float = 0.34
+# Life Siphon heals per kill with no cap, so its throughput scaled linearly with the
+# late kill rate and out-healed the game. Kills now draw from a bank that refills at
+# this fraction of max health per second (and never stockpiles beyond one second's worth).
+const SIPHON_RATE: float = 0.02
 var arsenal
 var player
 var enemies
@@ -24,6 +28,13 @@ var ward_clock: float = 8.0
 var tremor_clock: float = 2.0
 var blink_clock: float = 0.0
 var second_wind_clock: float = 0.0
+var siphon_bank: float = 0.0
+var siphon_clock: float = 0.0
+# Shrapnel deals damage from inside enemy_died, and a kill there re-emits
+# enemy_died. Without this the two recurse until the stack blows, so a chaser
+# that dies next to another kills both, then the next, without end. The
+# original corpse is never shrapnel'd (it is already recycled out of `active`).
+var _killing: bool = false
 
 func _ready() -> void:
 	GameEvents.enemy_died.connect(_kill)
@@ -38,10 +49,24 @@ func magnitude(effect: StringName) -> float:
 	return 0.0
 
 func _kill(at: Vector2, _xp: int, _kind: StringName, elite: bool) -> void:
+	if not RunManager.running or _killing:
+		return
+	_killing = true
+	_kill_body(at, elite)
+	_killing = false
+
+func _kill_body(at: Vector2, elite: bool) -> void:
 	if not RunManager.running:
 		return
 	if arsenal.has_trinket(&"life_siphon"):
-		player.health.heal(magnitude(&"life_siphon"))
+		# Refund at kill time from the clock since the last drain, capped at one
+		# second's worth, so an idle approach still banks a sliver.
+		var cap: float = player.health.maximum * SIPHON_RATE
+		siphon_bank = minf(cap, siphon_bank + cap * siphon_clock)
+		siphon_clock = 0.0
+		var siphon: float = minf(magnitude(&"life_siphon"), siphon_bank)
+		siphon_bank -= siphon
+		player.health.heal(siphon)
 	if arsenal.has_trinket(&"gold_fang"):
 		gold_pool += magnitude(&"gold_fang")
 		while gold_pool >= 1.0:
@@ -56,6 +81,12 @@ func _kill(at: Vector2, _xp: int, _kind: StringName, elite: bool) -> void:
 	if arsenal.has_trinket(&"cinder_burst"):
 		for enemy in enemies.nearby(at, KILL_RADIUS):
 			enemy.status.apply(StatusLibrary.get_effect(&"burn"))
+	if arsenal.has_trinket(&"sanguine"):
+		for enemy in enemies.nearby(at, KILL_RADIUS):
+			enemy.status.apply(StatusLibrary.get_effect(&"bleed"))
+	if arsenal.has_trinket(&"venom_fang"):
+		for enemy in enemies.nearby(at, KILL_RADIUS):
+			enemy.status.apply(StatusLibrary.get_effect(&"poison"))
 	if arsenal.has_trinket(&"shrapnel"):
 		var shards: float = magnitude(&"shrapnel")
 		for enemy in enemies.nearby(at, KILL_RADIUS):
@@ -103,7 +134,7 @@ func _physics_process(delta: float) -> void:
 	if frenzy_clock > 0.0:
 		frenzy_clock -= delta
 		if frenzy_clock <= 0.0:
-			player.stats.sources.erase(&"trinket_frenzy")
+			player.stats.remove_bonus(&"trinket_frenzy")
 	if arsenal.has_trinket(&"ward_pulse"):
 		ward_clock -= delta
 		if ward_clock <= 0.0:
@@ -117,6 +148,7 @@ func _physics_process(delta: float) -> void:
 			_shatter_ground()
 	if arsenal.has_trinket(&"second_wind"):
 		_second_wind(delta)
+	siphon_clock += delta
 
 func _shatter_ground() -> void:
 	var damage: float = magnitude(&"tremor")

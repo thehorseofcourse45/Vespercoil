@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"rift_matriarch"
+title = "Rift Matriarch"
+health = 128.0
+speed = 36.0
+damage = 12.0
+radius = 15.0
+xp = 9
+shield = 16.0
+color = Color(0.76, 0.52, 0.94, 1)
+behaviour = &"summoner"
+shot_interval = 5.0

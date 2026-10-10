@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Halite Ram</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffe3e0"/>
+      <stop offset="38%" stop-color="#e8a8a8"/>
+      <stop offset="100%" stop-color="#7d5257"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 24 80 26 92 16 90 40 98 50 104 62 100 80 98 94 96 112 82 108 72 108 66 110 64 104 64.0 104 62.0 110 56.0 108 46.0 108 32.0 112 30.0 94 28.0 80 24.0 62 30.0 50 38.0 40 36.0 16 48.0 26 64.0 24Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 24 80 26 92 16 90 40 98 50 104 62 100 80 98 94 96 112 82 108 72 108 66 110 64 104 64.0 104 62.0 110 56.0 108 46.0 108 32.0 112 30.0 94 28.0 80 24.0 62 30.0 50 38.0 40 36.0 16 48.0 26 64.0 24Z" fill="url(#metal0)" stroke="#ffe3e0" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 66 82 68 86 78 76 88 64 90 52 88 42 78 46 68Z" fill="#080d16" opacity=".28" stroke="#fff3bc" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 70 74 72 76 80 68 86 64 87 60 86 52 80 54 72Z" fill="#080d16" opacity=".28" stroke="#ffe3e0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M72 30 80 22 84 36 74 40Z" fill="#080d16" opacity=".28" stroke="#ffe3e0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M102 60 113 55 108 70Z" fill="#080d16" opacity=".28" stroke="#ffe3e0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="52" cy="62" r="4" fill="#080d16"/><circle cx="52" cy="62" r="1.8" fill="#fff3bc"/>
+    <circle cx="76" cy="62" r="4" fill="#080d16"/><circle cx="76" cy="62" r="1.8" fill="#fff3bc"/>
+    <path d="M64 78 72 82 64 88 56 82Z" fill="#fff3bc" stroke="none"/>
+  </g>
+</svg>

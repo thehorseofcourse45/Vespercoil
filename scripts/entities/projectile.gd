@@ -14,6 +14,8 @@ var pierce: int = 0
 var knockback: float = 0.0
 var hit_ids: Dictionary = {}
 var start: Vector2
+var collision_start: Vector2
+var collision_phase: bool = false
 var destination: Vector2
 var flight_time: float = 1.0
 var zone_duration: float = 0.0
@@ -29,6 +31,7 @@ func configure(at: Vector2, heading: Vector2, spec: Dictionary, mode: StringName
 	position = at
 	rotation = heading.angle()
 	start = at
+	collision_start = at
 	direction = heading
 	kind = mode
 	weapon_id = id

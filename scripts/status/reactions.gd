@@ -8,6 +8,8 @@ const RECIPES: Dictionary = {
 	&"burn": {"requires": &"chill", "kind": &"steam", "flat": 8.0, "percent": 0.04, "radius": 95.0, "consume": true, "color": Color(.95, .72, .5)},
 	&"chill": {"requires": &"burn", "kind": &"quench", "flat": 6.0, "percent": 0.03, "radius": 75.0, "consume": false, "color": Color(.6, .8, .95)},
 	&"poison": {"requires": &"burn", "kind": &"blight", "flat": 10.0, "percent": 0.05, "radius": 85.0, "consume": false, "color": Color(.6, 1, .4)},
+	&"bleed": {"requires": &"freeze", "kind": &"hemorrhage", "flat": 13.0, "percent": 0.08, "radius": 110.0, "consume": true, "color": Color(.85, .2, .3)},
+	&"freeze": {"requires": &"bleed", "kind": &"congeal", "flat": 9.0, "percent": 0.05, "radius": 90.0, "consume": true, "color": Color(.55, .75, 1)},
 }
 static func radius_for(kind: StringName) -> float:
 	for id in RECIPES:
@@ -25,6 +27,8 @@ static func label_for(kind: StringName) -> String:
 		&"steam": return "STEAM BURST"
 		&"quench": return "QUENCH"
 		&"blight": return "BLIGHT"
+		&"hemorrhage": return "HEMORRHAGE"
+		&"congeal": return "CONGEAL"
 	return String(kind).to_upper()
 static func check(target, incoming: StringName, component) -> bool:
 	if target == null or not RECIPES.has(incoming):

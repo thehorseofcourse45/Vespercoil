@@ -20,6 +20,8 @@ const ROOM_CACHES: Array[Dictionary] = [
 	{"name": "TIDE CHART", "gold": 55, "xp": 75, "heal": 25},
 	{"name": "GEARWORK LOCKER", "gold": 70, "xp": 55, "heal": 30},
 ]
+# Contract kinds rotate so a run keeps asking new questions of the player.
+const CONTRACT_CYCLE: Array[StringName] = [&"kills", &"caches", &"kills", &"rooms", &"kills", &"elites", &"kills", &"survival"]
 const OUTSIDE_DOOR := Vector2(0, 86)
 const INSIDE_DOOR := Vector2(0, 145)
 const DOOR_TRIGGER_RADIUS: float = 28.0
@@ -57,6 +59,10 @@ var event_title: String = ""
 var bounty_start: int = 0
 var bounty_target: int = 40
 var contracts: int = 0
+var contract_kind: StringName = &"kills"
+var contract_mark: int = 0
+var contract_clock: float = 0.0
+var elite_kills: int = 0
 var caches: int = 0
 var nearest_point: int = -1
 var interaction: String = ""
@@ -85,6 +91,8 @@ func _ready() -> void:
 	altar_relic = load("res://data/relics/bloodglass.tres")
 	GameEvents.guardian_defeated.connect(_guardian_relic)
 	GameEvents.pickup_collected.connect(_boss_reward_pickup)
+	GameEvents.enemy_died.connect(_contract_elite)
+	GameEvents.player_hurt.connect(_contract_hurt)
 	_build_terrain()
 
 func _boss_reward_pickup(kind: StringName, _value: int) -> void:
@@ -203,6 +211,25 @@ func building_walls(at: Vector2) -> Array[Rect2]:
 		Rect2(at.x - 135.0, at.y + 64.0, 102.0, t),
 		Rect2(at.x + 33.0, at.y + 64.0, 102.0, t),
 	]
+
+func clip_beam(at: Vector2, end: Vector2) -> Vector2:
+	var walls: Array[Rect2] = []
+	if inside_room >= 0:
+		walls = interior_walls(rooms[inside_room].center)
+	else:
+		# ponytail: six building shells; cache this list if many simultaneous beams matter.
+		for room in rooms:
+			walls.append_array(building_walls(room.at))
+	var nearest := end
+	for wall in walls:
+		if wall.has_point(at):
+			return at
+		var corners := [wall.position, Vector2(wall.end.x, wall.position.y), wall.end, Vector2(wall.position.x, wall.end.y)]
+		for edge in 4:
+			var point = Geometry2D.segment_intersects_segment(at, nearest, corners[edge], corners[(edge + 1) % 4])
+			if point != null and at.distance_squared_to(point) < at.distance_squared_to(nearest):
+				nearest = point
+	return nearest
 
 func interior_walls(center: Vector2) -> Array[Rect2]:
 	# Room geometry is static for a given room, but this was rebuilt for EVERY active
@@ -468,13 +495,22 @@ func _physics_process(delta: float) -> void:
 			GameEvents.impact.emit(hazard.at, 3.0, Color.ORANGE)
 			if player.position.distance_to(hazard.at) < hazard.radius + player.hurtbox.radius:
 				player.take_damage(hazard.damage)
-	if RunManager.kills - bounty_start >= bounty_target:
-		contracts += 1
-		bounty_start = RunManager.kills
-		GameEvents.pickup_collected.emit(&"gold", 20 + contracts * 5)
-		GameEvents.pickup_collected.emit(&"xp", 12 + contracts * 3)
-		GameEvents.notice.emit("CONTRACT COMPLETE", "+%d gold / +%d XP. A new hunt begins." % [20 + contracts * 5, 12 + contracts * 3], Color.GOLD)
-		bounty_target = mini(400, bounty_target + 35)
+	if contract_kind == &"kills":
+		if RunManager.kills - bounty_start >= bounty_target:
+			_complete_contract()
+	elif contract_kind == &"caches":
+		if caches - contract_mark >= 2:
+			_complete_contract()
+	elif contract_kind == &"rooms":
+		if RunManager.rooms_found - contract_mark >= 1:
+			_complete_contract()
+	elif contract_kind == &"elites":
+		if elite_kills - contract_mark >= 3:
+			_complete_contract()
+	else:
+		contract_clock += delta
+		if contract_clock >= 75.0:
+			_complete_contract()
 	if RunManager.elapsed >= next_event:
 		start_event((event_index + 1) % 3)
 		next_event = RunManager.elapsed + 90.0
@@ -591,7 +627,56 @@ func claim_beacon(index: int) -> void:
 	GameEvents.notice.emit("BEACON RESTORED", relic.title + " / +30 gold / healed 25 HP", region.color)
 
 func objective() -> String:
-	return "CONTRACT %02d  /  %d / %d kills     RELICS %d     CACHES %d / 6" % [contracts + 1, RunManager.kills - bounty_start, bounty_target, relics.size(), caches]
+	var progress: String = "%d / %d kills" % [RunManager.kills - bounty_start, bounty_target]
+	match contract_kind:
+		&"caches": progress = "%d / 2 caches" % (caches - contract_mark)
+		&"rooms": progress = "%d / 1 hidden site" % (RunManager.rooms_found - contract_mark)
+		&"elites": progress = "%d / 3 elites" % (elite_kills - contract_mark)
+		&"survival": progress = "%d / 75s unharmed" % int(contract_clock)
+	return "CONTRACT %02d  /  %s     RELICS %d     CACHES %d / 6" % [contracts + 1, progress, relics.size(), caches]
+
+func _contract_elite(_at: Vector2, _xp: int, _kind: StringName, elite: bool) -> void:
+	if elite and RunManager.running:
+		elite_kills += 1
+
+func _contract_hurt(_amount: float) -> void:
+	contract_clock = 0.0
+
+func _complete_contract() -> void:
+	contracts += 1
+	var gold_reward: int = 20 + contracts * 5
+	var xp_reward: int = 12 + contracts * 3
+	GameEvents.pickup_collected.emit(&"gold", gold_reward)
+	GameEvents.pickup_collected.emit(&"xp", xp_reward)
+	GameEvents.notice.emit("CONTRACT COMPLETE", "+%d gold / +%d XP. A new hunt begins." % [gold_reward, xp_reward], Color.GOLD)
+	bounty_start = RunManager.kills
+	bounty_target = mini(400, bounty_target + 35)
+	contract_kind = CONTRACT_CYCLE[contracts % CONTRACT_CYCLE.size()]
+	# Finite objectives cannot be offered after their remaining opportunities run out.
+	if contract_kind == &"caches":
+		var available: int = 0
+		for point in points:
+			if point.kind == "cache" and not point.used:
+				available += 1
+		if available < 2:
+			contract_kind = &"kills"
+	elif contract_kind == &"rooms":
+		var available: bool = false
+		for room in rooms:
+			if not room.revealed:
+				available = true
+				break
+		if not available:
+			contract_kind = &"kills"
+	contract_mark = _contract_progress()
+	contract_clock = 0.0
+
+func _contract_progress() -> int:
+	match contract_kind:
+		&"caches": return caches
+		&"rooms": return RunManager.rooms_found
+		&"elites": return elite_kills
+	return RunManager.kills
 
 func tile_mark(x: int, y: int) -> int:
 	return absi((x * 73856093) ^ (y * 19349663) ^ (RunManager.run_seed & 0xffff)) % 17
@@ -851,6 +936,40 @@ func _motif_black_aurora(at: Vector2, hash_value: int) -> void:
 	draw_circle(c, 5.0, Color(_accent, .45))
 	draw_line(c + Vector2(-22, 20), c + Vector2(26, -18), Color(_accent, .2), 2.0)
 
+func _motif_saltbound(at: Vector2, hash_value: int) -> void:
+	var c: Vector2 = at + Vector2(30 + hash_value % 60, 40 + hash_value % 40)
+	draw_colored_polygon(PackedVector2Array([c + Vector2(-30, 8), c + Vector2(-10, -14), c + Vector2(18, -10), c + Vector2(30, 10), c + Vector2(6, 20), c + Vector2(-20, 18)]), Color(_accent, .12))
+	draw_line(c + Vector2(-34, 24), c + Vector2(34, 16), Color(_accent, .3), 2.0)
+
+func _motif_amberhold(at: Vector2, hash_value: int) -> void:
+	var c: Vector2 = at + Vector2(64, 84 - hash_value % 30)
+	draw_circle(c, 12.0, Color(_accent, .16))
+	draw_circle(c, 5.0, Color(_accent, .35))
+	draw_line(c + Vector2(-9, -8), c + Vector2(0, -22), Color(_accent, .3), 2.0)
+
+func _motif_vesperine(at: Vector2, hash_value: int) -> void:
+	var c: Vector2 = at + Vector2(64, 42 + hash_value % 42)
+	draw_arc(c, 20, PI, TAU, 18, Color(_accent, .28), 2.0)
+	draw_line(c + Vector2(-20, 0), c + Vector2(-24, 14), Color(_accent, .24), 2.0)
+	draw_line(c + Vector2(20, 0), c + Vector2(24, 14), Color(_accent, .24), 2.0)
+	draw_circle(c + Vector2(0, 18), 3.5, Color(_accent, .4))
+
+func _motif_lodestone(at: Vector2, hash_value: int) -> void:
+	var a: Vector2 = at + Vector2(34, 64)
+	var b: Vector2 = at + Vector2(94, 64)
+	for j in 3:
+		draw_arc(a, 10 + j * 9, -PI / 2.0, PI / 2.0, 16, Color(_accent, .22 - j * .05), 2.0)
+	draw_circle(a, 4.0, Color(_accent, .5))
+	draw_circle(b, 4.0, Color(_accent, .3))
+
+func _motif_chancery(at: Vector2, hash_value: int) -> void:
+	var c: Vector2 = at + Vector2(40 + hash_value % 48, 44 + hash_value % 40)
+	draw_arc(c, 17, 0, TAU, 24, Color(_accent, .3), 2.0)
+	for j in 6:
+		var arm := Vector2.from_angle(j * TAU / 6.0)
+		draw_line(c + arm * 8, c + arm * 15, Color(_accent, .22), 2.0)
+	draw_circle(c, 4.0, Color(_accent, .4))
+
 func _draw() -> void:
 	if region == null:
 		return
@@ -916,6 +1035,16 @@ func _draw() -> void:
 					_motif_vein(at, hash_value)
 				&"mirror":
 					_motif_mirror(at, hash_value)
+				&"saltbound":
+					_motif_saltbound(at, hash_value)
+				&"amberhold":
+					_motif_amberhold(at, hash_value)
+				&"vesperine":
+					_motif_vesperine(at, hash_value)
+				&"lodestone":
+					_motif_lodestone(at, hash_value)
+				&"chancery":
+					_motif_chancery(at, hash_value)
 				_:
 					_motif_observatory(at, hash_value)
 	# The origin keeps a navigational anchor visible as the player begins a run.

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Leaf Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#d1f4ba"/>
+      <stop offset="38%" stop-color="#99e666"/>
+      <stop offset="100%" stop-color="#45672e"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 15C97 29 105 54 89 78L77 83 75 99 64 113 53 99 51 83 39 78C23 54 31 29 64 15Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 15C97 29 105 54 89 78L77 83 75 99 64 113 53 99 51 83 39 78C23 54 31 29 64 15Z" fill="url(#metal0)" stroke="#d1f4ba" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 24V101M64 51 43 40M64 66 37 55M64 81 44 74M64 51 85 40M64 66 91 55M64 81 84 74" fill="none" stroke="#d1f4ba" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 56 71 65 64 74 57 65Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 60 68 65 64 70 60 65Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

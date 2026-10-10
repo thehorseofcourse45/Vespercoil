@@ -21,6 +21,11 @@ const STARTING_WEAPONS: Dictionary = {
 	&"Stormwright": &"chain_bolt",
 	&"Brinelord": &"ricochet",
 	&"Polaris": &"railshot",
+	&"Saltsworn": &"whipsnap",
+	&"Amberkeeper": &"cinder_jet",
+	&"Bellsinger": &"carousel",
+	&"Lodestar": &"lightning",
+	&"Quillkeeper": &"needle",
 }
 @onready var player = $Player
 var enemies
@@ -120,6 +125,7 @@ func _ready() -> void:
 	hud.enemies = enemies
 	hud.arsenal = arsenal
 	hud.world = world
+	hud.director = director
 	hud.buffs = buffs
 	hud.ability = abilities
 	hud.weather = weather
@@ -138,6 +144,11 @@ func _ready() -> void:
 		hud.title_screen()
 	else:
 		GameEvents.notice.emit(MetaProgression.mode_title() + " / " + world.region.name, "Find supply caches. Restore beacons. Survive until the Last Coil falls.", world.region.color)
+		if MetaProgression.mode == "weekly":
+			for choice in RunManager.mutators:
+				GameEvents.notice.emit("WEEKLY MUTATOR", String(RunManager.MUTATORS.get(choice, choice)), Color("d4b678"))
+		if bool(MetaProgression.settings.get("hardcore", false)):
+			GameEvents.notice.emit("HARDCORE", "One life. No revivals.", Color("ff8080"))
 	MetaProgression.launching = false
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F6 and RunManager.running:

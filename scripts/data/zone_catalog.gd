@@ -84,6 +84,26 @@ const ZONES: Dictionary = {
 		["DARK AURORA", "9b8bc8", .85], ["VOID MERIDIAN", "747bb7", .65],
 		["ROSE NEBULA", "d895b2", .9], ["NIGHT PRISM", "a6b5d6", .75],
 		["GHOSTLIGHT ARC", "7cc9bc", 1.0], ["ECLIPSE SHADOW", "bd88bb", .7]],
+	"saltbound": [
+		["PINK CRUST SEA", "d8a3a8", 0.95], ["SALT SHARD FIELD", "ecc8d2", 0.8],
+		["BRINE MIRROR", "b7d3d8", 0.7], ["CRACKED PAN", "d9b6a3", 0.85],
+		["HALITE HOLLOW", "cfd6e8", 0.65], ["TIDE SCAR", "a89fb8", 0.9]],
+	"amberhold": [
+		["RESIN FALLS", "f2a94f", 0.9], ["AMBER DEEP", "e08b2e", 0.75],
+		["FOSSIL GALLERY", "d9c27a", 0.85], ["SAP VEIN", "c56a37", 0.7],
+		["GLOWNEST", "ffd27a", 0.95], ["THE CONSERVATORY", "bf7f4a", 0.6]],
+	"vesperine": [
+		["DUSK TERRACE", "9b7fd8", 0.9], ["BELL WARD", "c9a6e8", 0.8],
+		["MATINS COURT", "7a6bb8", 0.7], ["RINGING DARK", "8d6fd0", 0.6],
+		["VESPERS WALK", "b48ad8", 0.85], ["TOLL BRIDGE", "d8b8f0", 0.75]],
+	"lodestone": [
+		["IRON WIND", "8f9ad0", 0.8], ["COMPASS GRAVE", "6f7fc8", 0.65],
+		["MAGNET HILL", "a3b4e8", 0.9], ["STEEL DUST", "b9c2e0", 0.85],
+		["POLE STAR ACRES", "7d88c8", 0.7], ["ATTRACTOR RING", "98a8e0", 0.6]],
+	"chancery": [
+		["WAX WING", "d86a6a", 0.85], ["INKWELL CLOISTER", "a84f5f", 0.7],
+		["SEAL COURT", "e8b08f", 0.9], ["QUILL GALLERY", "c26a6a", 0.75],
+		["RED REGISTRY", "8f4a58", 0.65], ["CIPHER VAULT", "d89a8a", 0.8]],
 }
 
 static func for_region(id: String) -> Array[Dictionary]:

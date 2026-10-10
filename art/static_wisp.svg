@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Static Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e8ddff"/>
+      <stop offset="38%" stop-color="#ccb2ff"/>
+      <stop offset="100%" stop-color="#5c5073"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 16 74 35 91 26 88 47 108 50 94 65 110 80 89 83 92 104 74 95 64 114 54 95 36 104 39 83 18 80 34 65 20 50 40 47 37 26 54 35Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 16 74 35 91 26 88 47 108 50 94 65 110 80 89 83 92 104 74 95 64 114 54 95 36 104 39 83 18 80 34 65 20 50 40 47 37 26 54 35Z" fill="url(#metal0)" stroke="#e8ddff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 32V43M64 87V98M35 59 46 62M82 68 93 71M84 37 77 47M44 93 51 83" fill="none" stroke="#e8ddff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="64" cy="65" r="23" fill="#080d16" stroke="#e8ddff" stroke-width="2"/><path d="M64 32V43M64 87V98M35 59 46 62M82 68 93 71M84 37 77 47M44 93 51 83" fill="none" stroke="#fff3bc" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 56 71 65 64 74 57 65Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 60 68 65 64 70 60 65Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

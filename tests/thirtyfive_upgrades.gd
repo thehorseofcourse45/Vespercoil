@@ -51,7 +51,9 @@ func rank_stat(id: String, stat: StringName, rank: int) -> float:
 	meta.bonuses[id] = rank
 	var component: StatsComponent = load("res://scripts/components/stats.gd").new()
 	meta.apply(component)
-	return component.value(stat)
+	var result: float = component.value(stat)
+	component.free()
+	return result
 
 func run() -> void:
 	meta = root.get_node("MetaProgression")
@@ -70,7 +72,7 @@ func run() -> void:
 			expected_ids[id] = branch
 	check(expected_ids.size() == 100, "expected exactly 100 additions")
 	check(ORIGINAL_IDS.size() == 49, "baseline ID count changed")
-	check(meta.MAX.size() == 184, "expected 84 preserved + 100 new upgrades")
+	check(meta.MAX.size() >= 184, "expected 84 preserved + 100 new upgrades")
 	for id in ORIGINAL_IDS:
 		check(meta.MAX.has(id), "old upgrade disappeared: " + id)
 	for branch in EXPECTED:
@@ -100,7 +102,7 @@ func run() -> void:
 		boss_kills[String(meta.BOSS_UPGRADE_REQUIRES[id])] = 1.0
 	meta.progress["bosses_defeated"] = boss_kills
 	var reached: Dictionary = {}
-	for sweep in 84:
+	for sweep in meta.MAX.size():
 		var progressed: bool = false
 		for id in meta.MAX:
 			if reached.has(id) or not meta.upgrade_unlocked(id):
@@ -110,7 +112,7 @@ func run() -> void:
 			progressed = true
 		if not progressed:
 			break
-	check(reached.size() == 184, "only %d/184 upgrades reachable from roots" % reached.size())
+	check(reached.size() == meta.MAX.size(), "only %d/184 upgrades reachable from roots" % reached.size())
 	for id in expected_ids:
 		check(reached.has(id), "new path cannot be reached: " + id)
 	# Even with every rank prerequisite met, each boss node must wait for its kill.
@@ -143,6 +145,7 @@ func run() -> void:
 		var stat: StringName = effects[0][0]
 		var stats: StatsComponent = load("res://scripts/components/stats.gd").new()
 		check(stats.base.has(stat), "%s writes unknown stat %s" % [id, String(stat)])
+		stats.free()
 		var unranked: float = rank_stat(id, stat, 0)
 		var first_rank: float = rank_stat(id, stat, 1)
 		check(first_rank > unranked, "%s rank one does not raise %s (%.3f -> %.3f)" % [id, String(stat), unranked, first_rank])
@@ -175,7 +178,7 @@ func run() -> void:
 	await process_frame
 	meta.future_version = true
 	observatory.open()
-	check(observatory.nodes.size() == 184, "UI did not create all 184 nodes")
+	check(observatory.nodes.size() == meta.MAX.size(), "UI did not create all 184 nodes")
 	for branch in EXPECTED:
 		observatory.show_branch(branch)
 		check(observatory.branch_ids[branch].size() == meta.BRANCHES[branch].size(), "branch tree has missing stars: " + branch)

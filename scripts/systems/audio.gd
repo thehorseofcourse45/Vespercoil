@@ -1,5 +1,7 @@
 extends Node
 
+const PLAYER_CUE_VOLUME_DB: float = 6.0
+
 var voices: Array[AudioStreamPlayer] = []
 var death_voice: AudioStreamPlayer
 var cues: Dictionary = {}
@@ -88,6 +90,7 @@ func _notice(title: String, _detail: String, _color: Color) -> void:
 
 func play_death() -> void:
 	death_voice.stream = cues[&"death"]
+	death_voice.volume_db = PLAYER_CUE_VOLUME_DB
 	death_voice.play()
 
 func play(cue: StringName) -> void:
@@ -102,6 +105,7 @@ func play(cue: StringName) -> void:
 		return
 	idle.set_meta("cue", cue)
 	idle.bus = &"UI" if cue in [&"pickup", &"heal", &"buff", &"level"] else &"SFX"
+	idle.volume_db = PLAYER_CUE_VOLUME_DB if cue == &"damage" else 0.0
 	idle.stream = cues[cue]
 	idle.play()
 

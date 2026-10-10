@@ -11,4 +11,7 @@ extends Resource
 @export var shot_interval: float = 2.4
 @export var shield: float = 0.0
 @export var contact_status: StringName = &""
+@export var seeker_turn: float = 5.0          # seeker behaviour: homing orb steering, radians/second
+@export var seeker_speed: float = 210.0       # seeker behaviour: homing orb speed, pixels/second
+@export var seeker_status: StringName = &""   # seeker behaviour: status applied when the orb lands
 @export var behaviour: StringName = &"chaser"

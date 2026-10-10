@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Abyss Spitter</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#afc6f4"/>
+      <stop offset="38%" stop-color="#4c80e6"/>
+      <stop offset="100%" stop-color="#223967"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M27 52 31 32 47 22 64 17 81 22 97 32 101 52 110 65 103 84 90 104 72 108 64 115 56 108 38 104 25 84 18 65Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M27 52 31 32 47 22 64 17 81 22 97 32 101 52 110 65 103 84 90 104 72 108 64 115 56 108 38 104 25 84 18 65Z" fill="url(#metal0)" stroke="#afc6f4" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M43 35 64 27 85 35 77 44 51 44Z" fill="#080d16" stroke="#afc6f4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="41" cy="53" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="41" cy="53" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><circle cx="87" cy="53" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="87" cy="53" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><path d="M39 65 53 56 75 56 89 65 88 82 77 95 51 95 40 82Z" fill="#080d16" stroke="#afc6f4" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="64" cy="76" r="12" fill="url(#metal0)" stroke="#afc6f4" stroke-width="2"/><path d="M64 67 71 76 64 85 57 76Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 71 68 76 64 81 60 76Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M26 74 33 79M102 74 95 79M38 95 46 99M90 95 82 99" fill="none" stroke="#afc6f4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

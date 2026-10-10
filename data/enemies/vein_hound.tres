@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"vein_hound"
+title = "Vein Hound"
+health = 58.0
+speed = 70.0
+damage = 16.0
+radius = 14.0
+xp = 6
+color = Color(0.9, 0.3, 0.3, 1)
+contact_status = &"bleed"
+behaviour = &"charger"

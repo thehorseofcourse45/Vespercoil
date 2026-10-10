@@ -10,6 +10,10 @@ func run() -> void:
 	# This suite proves the PIPELINE, not progression.
 	for key in meta.bonuses:
 		meta.bonuses[key] = 0
+	# The selected CHARACTER is loaded from the player's save too, and its kit adds
+	# percent sources (Veilbinder is +20% mult_physical) on top of the base values
+	# set below, which is the same skew bonuses had. Pin the pipeline to Ranger.
+	meta.selected = "Ranger"
 	meta.launching = false
 	game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
@@ -80,6 +84,7 @@ func run() -> void:
 	for voice in audio.voices:
 		if voice.playing and voice.get_meta("cue", &"") == &"damage":
 			damage_playing = true
+			assert(is_equal_approx(voice.volume_db, 6.0), "player damage cue volume: %s" % voice.volume_db)
 	assert(damage_playing, "player damage cue did not play")
 	var deaths := [0]
 	var death_listener := func(): deaths[0] += 1
@@ -89,6 +94,7 @@ func run() -> void:
 	game.player._on_depleted()
 	assert(deaths[0] == 1, "terminal death signal did not emit")
 	assert(audio.death_voice.playing, "death cue did not play")
+	assert(is_equal_approx(audio.death_voice.volume_db, 6.0), "death cue volume: %s" % audio.death_voice.volume_db)
 	bus.player_died.disconnect(death_listener)
 	paused = false
 	print("DAMAGE PASS: crit/mult, true path, shield-first, damage_resolved, armour floor, player damage cue, terminal death cue.")

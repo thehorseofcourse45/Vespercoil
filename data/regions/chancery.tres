@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "chancery"
+name = "THE RED CHANCERY"
+subtitle = "A court of wax and ink, still signing sentences nobody reads."
+perk = "+12% area of effect / Quill Lash incursions / high darkness veil"
+color = Color(0.85, 0.38, 0.4, 1)
+floor = Color(0.09, 0.05, 0.06, 1)
+motif = &"chancery"
+hazard = &""
+veil = 0.5
+incursion = &"quill_lash"
+enemy_roster = Array[StringName]([&"quill_lash", &"wax_sentinel", &"seal_eye", &"ink_lurker", &"cipher_sprite", &"ink_seeker", &"stitch_mender"])
+bonus = Array[Dictionary]([{"stat": &"area", "flat": 0.12, "percent": 0.0}])
+unlock = {"type": "wins", "count": 16}
+unlock_hint = "Win sixteen expeditions."
+reward_character = "Quillkeeper"
+reward_note = "Clearing the Red Chancery awakens the Quillkeeper."
+music = 24
+pitch = 0.9
+danger = 5

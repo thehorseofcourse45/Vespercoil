@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Rift Broodcaller</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e6ccff"/>
+      <stop offset="38%" stop-color="#ae81dc"/>
+      <stop offset="100%" stop-color="#58416e"/>
+    </linearGradient>
+  </defs>
+  <path d="M43 49 30 24 42 14 53 35 64 27 75 35 86 14 98 24 85 49 102 66 99 91 82 109 64 115 46 109 29 91 26 66Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M43 49 30 24 42 14 53 35 64 27 75 35 86 14 98 24 85 49 102 66 99 91 82 109 64 115 46 109 29 91 26 66Z" fill="url(#metal0)" stroke="#e6ccff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M45 51 64 41 83 51 77 69 51 69Z" fill="#080d16" stroke="#e6ccff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 46 71 55 64 64 57 55Z" fill="#080d16" stroke="#e6ccff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 50 68 55 64 60 60 55Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"/><path d="M45 79 64 67 83 79 82 96 64 106 46 96Z" fill="#080d16" stroke="#e6ccff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M55 77 62 86 55 95 48 86Z" fill="#080d16" stroke="#e6ccff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M55 81 59 86 55 91 51 86Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"/><path d="M74 77 81 86 74 95 67 86Z" fill="#080d16" stroke="#e6ccff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M74 81 78 86 74 91 70 86Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"/><path d="M36 30 45 43M92 30 83 43M32 72 42 78M96 72 86 78M36 95 45 101M92 95 83 101" fill="none" stroke="#e6ccff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

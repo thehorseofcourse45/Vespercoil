@@ -6,7 +6,8 @@ var game
 var meta
 var run_mgr
 var events
-const NEW_WEAPONS: Array[String] = ["scatter", "chain_bolt", "crescent", "ricochet", "carousel", "halo", "railshot", "shardstorm"]
+const NEW_WEAPONS: Array[String] = ["scatter", "chain_bolt", "crescent", "ricochet", "carousel", "halo", "railshot", "shardstorm",
+		"cinder_jet", "sleetfall", "whipsnap"]
 const NEW_ENEMIES: Array[String] = ["gloomjack", "sentinel", "mortar", "shepherd", "breaker"]
 const NEW_TRINKETS: Array[String] = ["blink_ward", "bounty_mark", "frostbite", "tremor", "second_wind", "greed_engine"]
 
@@ -26,9 +27,9 @@ func fresh(mode: String = "expedition", region: int = 0, character: String = "Ra
 	game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
 	current_scene = game
-	assert(game.arsenal.weapon_catalog.size() == 20, "twenty weapons expected")
-	assert(game.arsenal.passive_catalog.size() == 38, "thirty-eight passives expected")
-	assert(game.arsenal.trinket_catalog.size() == 15, "fifteen trinkets expected")
+	assert(game.arsenal.weapon_catalog.size() == 27, "twenty-seven weapons expected")
+	assert(game.arsenal.passive_catalog.size() == 39, "thirty-nine passives expected")
+	assert(game.arsenal.trinket_catalog.size() == 17, "seventeen trinkets expected")
 	await process_frame
 
 func drop() -> void:
@@ -86,7 +87,7 @@ func run() -> void:
 	steps.append(await relics_and_keepers())
 	steps.append(await trinket_effects())
 	assert(steps == [true, true, true, true, true], "vault phases aborted: %s" % str(steps))
-	print("VAULT PASS: 8 new weapons resolve at Lv8 and land damage, 38 passives on real stats, 15 trinkets with live effects, 5 new vessel behaviours, era V/VI schedule, 6 guardians with attacks, 3 guardian relics, 2 map-gated keepers.")
+	print("VAULT PASS: 11 new weapons resolve at Lv8 and land damage, 39 passives on real stats, 17 trinkets with live effects, 5 new vessel behaviours, era V/VI schedule, 7 guardians with attacks, 3 guardian relics, 2 map-gated keepers.")
 	quit()
 
 func catalogs() -> bool:
@@ -228,7 +229,7 @@ func waves_and_guardians() -> bool:
 	game.director._physics_process(0.016)
 	assert(game.director.era == 6, "era should have advanced to VI by 3700s")
 	# The full guardian ladder is present, and only the schedule's last rung wins.
-	assert(game.director.boss_catalog.size() == 6 and game.director.LADDER_FINAL_STAGE == 3)
+	assert(game.director.boss_catalog.size() == 7 and game.director.LADDER_FINAL_STAGE == 3)
 	var reaver = game.director.spawn_guardian(4)
 	assert(reaver.boss_title == "THE REAVER" and reaver.shield_max > 0.0 and not reaver.final_boss)
 	var chronarch = game.director.spawn_guardian(5, true)
@@ -241,7 +242,7 @@ func waves_and_guardians() -> bool:
 		assert(boss.ability_clock > 0.0, "guardian %d never recycles its clock" % boss.boss_stage)
 		game.enemies.recycle(boss)
 	clear_enemies()
-	# The gauntlet walks the whole ladder and ends on the Chronarch.
+	# The gauntlet walks the whole ladder and ends on the Laser Regent.
 	await drop()
 	await fresh("bossrush")
 	game.director.set_physics_process(false)
@@ -249,14 +250,14 @@ func waves_and_guardians() -> bool:
 	game.player.invulnerability = 9999
 	freeze_weapons()
 	var stages: Array[int] = []
-	for i in 6:
+	for i in 7:
 		game.director.rush_next = 0.0
 		game.director._boss_rush(0.0)
 		var boss = game.enemies.active[game.enemies.active.size() - 1]
 		stages.append(boss.boss_stage)
-		assert(boss.final_boss == (i == 5), "gauntlet final flag wrong at step %d" % i)
+		assert(boss.final_boss == (i == 6), "gauntlet final flag wrong at step %d" % i)
 		game.enemies.recycle(boss)
-	assert(stages == [0, 1, 2, 3, 4, 5], "gauntlet ladder incomplete: %s" % str(stages))
+	assert(stages == [0, 1, 2, 3, 4, 5, 6], "gauntlet ladder incomplete: %s" % str(stages))
 	await drop()
 	return true
 

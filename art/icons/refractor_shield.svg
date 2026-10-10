@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Refractor Shield</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#c7f4ff"/>
+      <stop offset="38%" stop-color="#64cfeb"/>
+      <stop offset="100%" stop-color="#326775"/>
+    </linearGradient>
+  </defs>
+  <path d="M64 14 102 32 99 79 84 100 64 114 44 100 29 79 26 32Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 14 102 32 99 79 84 100 64 114 44 100 29 79 26 32Z" fill="url(#metal0)" stroke="#c7f4ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 29 86 40 84 75 75 89 64 97 53 89 44 75 42 40Z" fill="#080d16" stroke="#c7f4ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 53 71 62 64 71 57 62Z" fill="#080d16" stroke="#c7f4ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 57 68 62 64 67 60 62Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 62H40M88 62 111 42M88 62 111 82" fill="none" stroke="#fff3bc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M54 105 64 109 74 105M36 38 40 43M92 38 88 43" fill="none" stroke="#c7f4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
