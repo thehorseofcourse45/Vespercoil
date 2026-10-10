@@ -18,6 +18,10 @@ var run_seed: int = 0
 var mutators: Array[StringName] = []
 var mutator_health: float = 1.0
 var mutator_speed: float = 1.0
+# Weekly gold/XP factors are kept apart because player.refresh_stats() rebuilds
+# gold_multiplier and xp_multiplier from stats on every inventory change.
+var mutator_gold: float = 1.0
+var mutator_xp: float = 1.0
 var difficulty: int = 0
 var ascension: int = 0
 var curse: float = 0.0
@@ -94,6 +98,8 @@ func start() -> void:
 	mutators.clear()
 	mutator_health = 1.0
 	mutator_speed = 1.0
+	mutator_gold = 1.0
+	mutator_xp = 1.0
 	if MetaProgression.mode == "weekly":
 		_roll_weekly_mutators()
 func _roll_weekly_mutators() -> void:
@@ -107,9 +113,11 @@ func _roll_weekly_mutators() -> void:
 	for choice in mutators:
 		match choice:
 			&"rich_veins":
-				gold_multiplier *= 1.4
+				mutator_gold = 1.4
+				gold_multiplier *= mutator_gold
 			&"thin_air":
-				xp_multiplier *= 1.3
+				mutator_xp = 1.3
+				xp_multiplier *= mutator_xp
 			&"iron_hide":
 				mutator_health = 1.25
 			&"hasty_horde":

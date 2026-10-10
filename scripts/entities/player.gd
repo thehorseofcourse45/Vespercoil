@@ -28,8 +28,8 @@ func refresh_stats() -> void:
 	health.maximum = new_max
 	var curse: float = stats.value(&"curse")
 	RunManager.curse = curse
-	RunManager.xp_multiplier = stats.value(&"xp") * (1.0 + curse * 0.06)
-	RunManager.gold_multiplier = stats.value(&"gold") * (1.0 + curse * 0.08)
+	RunManager.xp_multiplier = stats.value(&"xp") * (1.0 + curse * 0.06) * RunManager.mutator_xp
+	RunManager.gold_multiplier = stats.value(&"gold") * (1.0 + curse * 0.08) * RunManager.mutator_gold
 func _physics_process(delta: float) -> void:
 	if not RunManager.running:
 		return

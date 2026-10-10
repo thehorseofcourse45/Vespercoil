@@ -14,6 +14,11 @@ var field_visual: Dictionary = {}
 var rings: Array = []
 var shake: float = 0.0
 var impact_cooldown: float = 0.0
+# Hit-stop: a few real-time milliseconds of near-frozen time on big kills. The
+# cooldown keeps a screen-wide elite wipe from stuttering frame after frame.
+const HITSTOP_SCALE: float = 0.05
+var hitstop: float = 0.0
+var hitstop_cooldown: float = 0.0
 var player
 var font: Font = ThemeDB.fallback_font
 func _ready() -> void:
@@ -28,6 +33,20 @@ func _ready() -> void:
 	GameEvents.impact.connect(_impact)
 	GameEvents.status_applied.connect(_status)
 	GameEvents.reaction_triggered.connect(_reaction)
+	GameEvents.guardian_defeated.connect(func(_stage: int, _title: String): freeze_frame(0.14))
+
+func freeze_frame(seconds: float) -> void:
+	if not bool(MetaProgression.settings.get("hitstop", true)) or hitstop_cooldown > 0.0:
+		return
+	hitstop = maxf(hitstop, seconds)
+	hitstop_cooldown = 0.35
+	Engine.time_scale = HITSTOP_SCALE
+
+func _notification(what: int) -> void:
+	# A pause mid-stop must not leave the menus running in slow motion.
+	if what == NOTIFICATION_PAUSED and hitstop > 0.0:
+		hitstop = 0.0
+		Engine.time_scale = 1.0
 
 func _reaction(kind: StringName, at: Vector2, _amount: float) -> void:
 	var tint: Color = Reactions.color_for(kind)
@@ -68,6 +87,8 @@ func _damage(_weapon: StringName, amount: float, at: Vector2, heavy: bool) -> vo
 			impact_cooldown = 0.4
 func _death(at: Vector2, _xp: int, _kind: StringName, elite: bool) -> void:
 	burst(at, Color(1, 0.45, 0.5), 10 if elite else 4)
+	if elite:
+		freeze_frame(0.045)
 func _hurt(amount: float) -> void:
 	shake = maxf(shake, minf(12.0, amount * 0.35))
 func _impact(at: Vector2, magnitude: float, color: Color) -> void:
@@ -103,6 +124,11 @@ func _process(delta: float) -> void:
 			rings.remove_at(i)
 	var real_delta: float = delta / maxf(0.01, Engine.time_scale)
 	impact_cooldown = maxf(0.0, impact_cooldown - real_delta)
+	hitstop_cooldown = maxf(0.0, hitstop_cooldown - real_delta)
+	if hitstop > 0.0:
+		hitstop -= real_delta
+		if hitstop <= 0.0:
+			Engine.time_scale = 1.0
 	shake = move_toward(shake, 0.0, real_delta * 25.0)
 	if bool(MetaProgression.settings.get("shake", true)):
 		player.camera.offset = Vector2(randf_range(-shake, shake), randf_range(-shake, shake))

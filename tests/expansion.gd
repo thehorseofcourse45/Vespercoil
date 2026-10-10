@@ -55,7 +55,7 @@ func run() -> void:
 	assert(is_equal_approx(run_mgr.time_damage_scale(), 2.2))
 	assert(is_equal_approx(run_mgr.time_speed_scale(), 1.5))
 	assert(is_equal_approx(run_mgr.time_spawn_scale(), 2.0))
-	assert(meta.bonuses.size() == 184 and meta.MAX.reroll == 5)
+	assert(meta.bonuses.size() == 274 and meta.MAX.reroll == 5)
 	meta.gold = 999999
 	for id in meta.bonuses:
 		meta.bonuses[id] = int(meta.MAX[id])
@@ -283,5 +283,5 @@ func run() -> void:
 	unlocks.evaluate()
 	assert(unlocks.unlocked("first_blood") and unlocks.unlocked("slayer"))
 	assert(unlocks.count() >= 2)
-	print("EXPANSION PASS: 184-node permanent upgrade tree, time-based enemy pressure, active ability, expanded trinkets, elemental reactions, elite affixes, herald/screamer, fourth region, weather, props, draft banish/lock, curse, build codes, boss rush, endless ascension, daily seed, achievements")
+	print("EXPANSION PASS: 274-node permanent upgrade tree, time-based enemy pressure, active ability, expanded trinkets, elemental reactions, elite affixes, herald/screamer, fourth region, weather, props, draft banish/lock, curse, build codes, boss rush, endless ascension, daily seed, achievements")
 	quit()

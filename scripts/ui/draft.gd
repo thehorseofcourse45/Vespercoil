@@ -243,7 +243,17 @@ func description(entry: Dictionary) -> String:
 	var lines: Array[String] = [per_level_line(data.stat, data.flat_per_level, data.percent_per_level)]
 	if not data.stat2.is_empty():
 		lines.append(per_level_line(data.stat2, data.flat2_per_level, data.percent2_per_level))
-	return "PASSIVE  /  LV %d OF %d\n%s" % [int(arsenal.passive_levels.get(data.id, 0)) + 1, data.max_level, "   /   ".join(lines)]
+	# Name the owned, unevolved weapons this passive completes, so the recipe is
+	# visible at the moment of choice instead of only in the Field Guide.
+	var evolves: PackedStringArray = []
+	for id in arsenal.weapons:
+		var weapon = arsenal.weapons[id]
+		if weapon.data.evolution_passive == data.id and not weapon.evolved:
+			evolves.append(String(weapon.data.title).to_upper())
+	var header: String = "PASSIVE  /  LV %d OF %d" % [int(arsenal.passive_levels.get(data.id, 0)) + 1, data.max_level]
+	if not evolves.is_empty():
+		header += "  /  EVOLVES " + ", ".join(evolves)
+	return "%s\n%s" % [header, "   /   ".join(lines)]
 # One "Stat +n" fragment for a passive's per-level bonus. Flat stats read as plain
 # numbers, percentage stats as percents, and the named families get their own
 # wording so a two-stat card still fits on a single draft line.

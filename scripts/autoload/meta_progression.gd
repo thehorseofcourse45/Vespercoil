@@ -1138,19 +1138,29 @@ var selected: String = "Ranger"
 var save_error: String = ""
 var future_version: bool = false
 var mode: String = "expedition"
+# Newest first; each entry is the summary record_run() builds at the end of a run.
+const RUN_HISTORY_SIZE: int = 20
+var run_history: Array = []
 var seed_override: int = 0
 var daily_key: String = ""
 var daily_best: int = 0
 var daily_best_ascension: int = 0
 var progress: Dictionary = {}
 var unlocked_achievements: Array[String] = []
-var settings: Dictionary = {"shake": true, "damage": true, "aim": true, "pause": true, "palette": 0, "resolution": 0, "vsync": false}
+var settings: Dictionary = {"shake": true, "damage": true, "aim": true, "pause": true, "palette": 0, "resolution": 0, "vsync": false, "hitstop": true, "volume_Master": 0.0, "volume_Music": 0.0, "volume_SFX": 0.0}
 
 func _ready() -> void:
 	GameEvents.regional_boss_defeated.connect(_regional_boss_defeated)
 	load_save()
 	apply_resolution()
 	apply_vsync()
+	apply_volumes()
+
+func apply_volumes() -> void:
+	for bus in ["Master", "Music", "SFX"]:
+		var index: int = AudioServer.get_bus_index(bus)
+		if index >= 0:
+			AudioServer.set_bus_volume_db(index, clampf(float(settings.get("volume_" + bus, 0.0)), -40.0, 0.0))
 
 func apply_vsync() -> void:
 	if DisplayServer.get_name() != "headless":
@@ -1197,6 +1207,7 @@ func wipe_save() -> void:
 	daily_key = ""
 	daily_best = 0
 	daily_best_ascension = 0
+	run_history.clear()
 	# A wipe is the one case where an unreadable or newer save must be overwritten, not preserved.
 	future_version = false
 	save_error = ""
@@ -1243,6 +1254,9 @@ func load_save() -> void:
 		for name in cfg.get_section_keys("achievements"):
 			if bool(cfg.get_value("achievements", name, false)) and not unlocked_achievements.has(name):
 				unlocked_achievements.append(name)
+	var history = cfg.get_value("history", "runs", [])
+	if history is Array:
+		run_history = history.filter(func(entry): return entry is Dictionary).slice(0, RUN_HISTORY_SIZE)
 	# region_unlocked() reads progress, so this must run after [progress] is loaded.
 	if not region_unlocked(region):
 		region = 0
@@ -1270,6 +1284,8 @@ func save_data() -> void:
 		cfg.set_value("progress", key, progress[key])
 	for name in unlocked_achievements:
 		cfg.set_value("achievements", name, true)
+	if not run_history.is_empty():
+		cfg.set_value("history", "runs", run_history)
 	var temp: String = SAVE_PATH + ".tmp"
 	var error: Error = cfg.save(temp)
 	if error == OK:
@@ -1468,6 +1484,12 @@ func refresh_daily_key() -> String:
 
 func set_mode(next: String) -> void:
 	mode = next if MODES.has(next) else "expedition"
+
+func record_run(entry: Dictionary) -> void:
+	run_history.push_front(entry)
+	if run_history.size() > RUN_HISTORY_SIZE:
+		run_history.resize(RUN_HISTORY_SIZE)
+	save_data()
 
 func mode_title() -> String:
 	match mode:

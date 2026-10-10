@@ -118,6 +118,11 @@ func _ready() -> void:
 	menu.hide()
 	shade.hide()
 	title_backdrop.hide()
+	var overlay: Control = preload("res://scripts/ui/combat_overlay.gd").new()
+	overlay.player = player
+	overlay.enemies = enemies
+	gameplay.add_child(overlay)
+	gameplay.move_child(overlay, 0)
 	map_view = preload("res://scripts/ui/map_view.gd").new()
 	map_view.world = world
 	map_view.player = player
@@ -619,6 +624,7 @@ func library_menu() -> void:
 	button("Bestiary  /  enemies and guardians", bestiary.bind(false))
 	button("Observatory  /  spend gold", shop)
 	button("Legacies  /  achievements", achievements_screen)
+	button("Run history  /  last %d expeditions" % MetaProgression.run_history.size(), run_history_screen)
 	button("Music credits", music_credits)
 	button("Import build", import_code)
 	button("Return to title", title_screen).grab_focus()
@@ -747,6 +753,8 @@ func pause_menu() -> void:
 	button("End run and bank gold", func(): GameEvents.run_ended.emit(false))
 func set_volume(value: float, bus: String) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(bus), value)
+	MetaProgression.settings["volume_" + bus] = value
+	MetaProgression.save_data()
 func resume() -> void:
 	menu.hide()
 	shade.hide()
@@ -1080,6 +1088,7 @@ func end_run(victory: bool) -> void:
 		share.value = damage
 		menu_column.add_child(share)
 	build_code = RunCode.encode(arsenal, RunManager.run_seed, MetaProgression.selected, MetaProgression.region)
+	record_history(victory)
 	text_line("BUILD CODE", GOLD)
 	var code_label := label(build_code, 10, MUTED)
 	code_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
@@ -1088,6 +1097,40 @@ func end_run(victory: bool) -> void:
 	button("Copy build code", copy_build_code)
 	button("Another expedition", title_screen).grab_focus()
 	button("Observatory / spend gold", shop)
+func record_history(victory: bool) -> void:
+	var weapons: Array = []
+	for id in arsenal.weapons:
+		var weapon = arsenal.weapons[id]
+		weapons.append(weapon.data.evolution_title if weapon.evolved else weapon.data.title)
+	MetaProgression.record_run({
+		"date": Time.get_date_string_from_system(),
+		"ground": world.region.name,
+		"keeper": MetaProgression.selected,
+		"mode": MetaProgression.mode_title(),
+		"difficulty": MetaProgression.DIFFICULTIES[RunManager.difficulty].name,
+		"won": victory,
+		"seconds": RunManager.elapsed,
+		"level": RunManager.level,
+		"kills": RunManager.kills,
+		"score": RunManager.score,
+		"weapons": weapons,
+	})
+
+func run_history_screen() -> void:
+	get_tree().paused = true
+	title_backdrop.show()
+	menu_kind = "history"
+	clear_menu("RUN HISTORY")
+	button("Return", library_menu).grab_focus()
+	if MetaProgression.run_history.is_empty():
+		text_line("No expeditions recorded yet.", MUTED)
+		return
+	for entry in MetaProgression.run_history:
+		var seconds: int = int(entry.get("seconds", 0.0))
+		text_line("%s   /   %s   /   %s   /   %s" % [entry.get("date", "?"), String(entry.get("ground", "?")).to_upper(), entry.get("keeper", "?"), "CLEARED" if entry.get("won", false) else "FELL"], GOLD if entry.get("won", false) else PALE)
+		text_line("%s  /  %s  /  %02d:%02d  /  level %d  /  %d kills  /  score %d" % [entry.get("mode", ""), entry.get("difficulty", ""), seconds / 60, seconds % 60, int(entry.get("level", 0)), int(entry.get("kills", 0)), int(entry.get("score", 0))])
+		text_line(", ".join(PackedStringArray(entry.get("weapons", []))), MUTED)
+
 func shop() -> void:
 	get_tree().paused = true
 	menu_kind = "shop"
@@ -1120,7 +1163,7 @@ func settings_menu() -> void:
 	resolutions.select(int(MetaProgression.settings.get("resolution", 0)))
 	resolutions.item_selected.connect(set_resolution)
 	menu_column.add_child(resolutions)
-	for entry in [["shake", "Screen shake"], ["damage", "Damage numbers"], ["aim", "Auto-aim facing"], ["pause", "Pause on level-up"], ["vsync", "VSync"]]:
+	for entry in [["shake", "Screen shake"], ["damage", "Damage numbers"], ["aim", "Auto-aim facing"], ["pause", "Pause on level-up"], ["hitstop", "Hit-stop on big kills"], ["vsync", "VSync"]]:
 		button("%s   /   %s" % [entry[1], "ON" if bool(MetaProgression.settings.get(entry[0], true)) else "OFF"], toggle_setting.bind(entry[0]))
 	text_line("VSync reduces tearing; OFF favours higher frame rates.", MUTED)
 	text_line("REBIND CONTROLS", GOLD)
