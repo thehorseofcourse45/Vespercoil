@@ -36,7 +36,7 @@ func run() -> void:
 	for branch in meta.BRANCHES:
 		for id in meta.BRANCHES[branch]:
 			all.append(id)
-	chk(all.size() == 184, "expected 184 nodes across the 5 branches, found %d" % all.size())
+	chk(all.size() == 274, "expected 274 nodes across the 5 branches, found %d" % all.size())
 	# No id in two branches: branch_for() returns the FIRST match, so a duplicate would be
 	# drawn on one tab and invisible on the other.
 	# seen stays empty during this loop so the duplicate check works. all_ids is separate and

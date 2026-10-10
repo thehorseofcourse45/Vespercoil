@@ -174,6 +174,14 @@ Settings offers six window sizes from 1280×720 to 3840×2160; unavailable sizes
 
   guarded Steam bridge for achievements and stats.
 
+- Combat cues: off-screen arrows point at guardians (red) and the nearest elites
+
+  (gold), a red vignette pulses below 25% health, and elite or guardian kills land
+
+  a brief hit-stop (toggle in Settings).
+
+- Level-up passive cards name the owned weapons they evolve.
+
 - `EXPANSION.md` documents all of the above, its balance and its integration.
 
 
@@ -228,9 +236,9 @@ otherwise they grant 50 gold. Check the Field Guide for evolution recipes.
 
 Existing saves at `user://vespercoil.cfg` remain compatible (format 1–2 migrate to
 
-3). Difficulty, character, cleared grounds and the unlock ladder persist; ground
+3). Difficulty, character, ground selection, volume, cleared grounds, the unlock
 
-selection and volume adjustments last for the current application session.
+ladder and the last 20 runs (Library > Run history) persist.
 
 
 
@@ -249,6 +257,8 @@ godot --headless --path . --script tests/content.gd
 godot --headless --path . --script tests/expansion.gd
 
 godot --headless --path . --script tests/vault.gd
+
+GODOT=godot bash tests/run_all.sh
 
 ```
 
