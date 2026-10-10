@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"needle_wisp"
+title = "Needle Wisp"
+health = 48.0
+speed = 78.0
+damage = 11.0
+radius = 11.0
+xp = 3
+color = Color(0.6208, 0.6553, 0.9098, 1)
+behaviour = &"orbiter"
+contact_status = &"shock"

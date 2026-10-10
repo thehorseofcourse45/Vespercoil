@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Object Portal</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e3d9be"/>
+      <stop offset="38%" stop-color="#b79a66"/>
+      <stop offset="100%" stop-color="#5c4d33"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 15 92 24 110 48 110 80 92 104 64 113 36 104 18 80 18 48 36 24Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 15 92 24 110 48 110 80 92 104 64 113 36 104 18 80 18 48 36 24Z" fill="url(#metal0)" stroke="#e3d9be" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 30 83 37 96 53 96 75 83 91 64 98 45 91 32 75 32 53 45 37Z" fill="#080d16" stroke="#e3d9be" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 15V27M64 101V113M18 64H29M99 64H110" fill="none" stroke="#e3d9be" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 55 71 64 64 73 57 64Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 59 68 64 64 69 60 64Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

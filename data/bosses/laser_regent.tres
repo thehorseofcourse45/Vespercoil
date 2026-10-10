@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BossData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/boss_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"laser_regent"
+title = "THE LASER REGENT"
+kind = &"laser_bastion"
+health = 90000.0
+shield = 5000.0
+stage = 6
+ability_normal = 4.0
+ability_enraged = 2.5
+attack = &"laser"

@@ -60,17 +60,19 @@ func _physics_process(delta: float) -> void:
 	invulnerability = maxf(0.0, invulnerability - delta)
 	$Body.modulate.a = 0.45 if invulnerability > 0.0 else 1.0
 	$Body.modulate = $Body.modulate.blend(status.tint_color())
-func take_damage(amount: float, dtype: DamageTypes.Type = DamageTypes.Type.PHYSICAL, bypass_iframes: bool = false) -> void:
+func take_damage(amount: float, dtype: DamageTypes.Type = DamageTypes.Type.PHYSICAL, bypass_iframes: bool = false, source: StringName = &"player") -> void:
 	if god_mode or (invulnerability > 0.0 and not bypass_iframes) or not RunManager.running:
 		return
 	if not bypass_iframes:
 		invulnerability = 0.55 + int(MetaProgression.bonuses.get("evasion", 0)) * 0.05
-	var info: DamageInfo = Damage.info(&"player")
+	var info: DamageInfo = Damage.info(source)
 	info.base = amount
 	info.base *= float(MetaProgression.DIFFICULTIES[RunManager.difficulty].incoming)
 	info.type = dtype
 	info.vulnerability = status.vulnerability()
 	var final: float = Damage.resolve(null, stats, info)
+	# Mirrors enemy_manager hit(): freeze/aegis damage_reduction applies to the player too.
+	final *= 1.0 - status.damage_reduction()
 	# last_stand reads the PRE-hit health fraction, so the threshold applies to the hit that
 	# crosses it rather than to every hit after.
 	if health.current < health.maximum * 0.5:
@@ -89,7 +91,7 @@ func blink(offset: Vector2, invuln: float) -> void:
 	GameEvents.impact.emit(position, 2.0, Color("9fd8ff"))
 
 func _on_depleted() -> void:
-	if revives_used < MetaProgression.revives() and RunManager.running:
+	if not bool(MetaProgression.settings.get("hardcore", false)) and revives_used < MetaProgression.revives() and RunManager.running:
 		revives_used += 1
 		health.current = health.maximum * 0.6
 		invulnerability = 3.0

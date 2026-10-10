@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Bloom Sprite</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#f4d1e8"/>
+      <stop offset="38%" stop-color="#e699cc"/>
+      <stop offset="100%" stop-color="#67455c"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 64C34 57 16 42 19 21 42 22 58 37 64 64ZM64 64C94 57 112 42 109 21 86 22 70 37 64 64ZM64 64C34 63 13 79 21 102 47 100 61 83 64 64ZM64 64C94 63 115 79 107 102 81 100 67 83 64 64Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 64C34 57 16 42 19 21 42 22 58 37 64 64ZM64 64C94 57 112 42 109 21 86 22 70 37 64 64ZM64 64C34 63 13 79 21 102 47 100 61 83 64 64ZM64 64C94 63 115 79 107 102 81 100 67 83 64 64Z" fill="url(#metal0)" stroke="#f4d1e8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M28 32 54 53M100 32 74 53M28 92 53 76M100 92 75 76" fill="none" stroke="#f4d1e8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 21 76 41 73 68 84 89 64 111 44 89 55 68 52 41Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 21 76 41 73 68 84 89 64 111 44 89 55 68 52 41Z" fill="url(#metal0)" stroke="#f4d1e8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="59" cy="49" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="59" cy="49" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><circle cx="69" cy="49" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="69" cy="49" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><path d="M64 68 71 77 64 86 57 77Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 72 68 77 64 82 60 77Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M51 99 64 89 77 99" fill="none" stroke="#fff3bc" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

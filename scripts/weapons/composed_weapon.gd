@@ -2,7 +2,6 @@ extends Weapon
 var spiral_phase: float = 0.0
 var sequence_index: int = 0
 var burst_pending: Array = []
-var burst_clock: float = 0.0
 func fire(spec: Dictionary) -> void:
 	var pattern: FiringPattern = data.pattern
 	if pattern == null:
@@ -11,9 +10,8 @@ func fire(spec: Dictionary) -> void:
 	match pattern.kind:
 		FiringPattern.Kind.BURST:
 			var delays: Array[float] = pattern.burst_delays(_count_bonus(spec))
-			for i in delays.size():
-				burst_pending.append({"at": i, "delay": delays[i], "spec": spec})
-			burst_clock = 0.0
+			for delay in delays:
+				burst_pending.append({"delay": delay, "spec": spec})
 		FiringPattern.Kind.SEQUENCE:
 			_fire_sequence_entry(pattern, spec)
 		_:
@@ -21,10 +19,11 @@ func fire(spec: Dictionary) -> void:
 func _physics_process(delta: float) -> void:
 	if not RunManager.running:
 		return
-	if not burst_pending.is_empty():
-		burst_clock += delta
-		while not burst_pending.is_empty() and burst_pending[0].delay <= burst_clock:
-			var item: Dictionary = burst_pending.pop_front()
+	for i in range(burst_pending.size() - 1, -1, -1):
+		var item: Dictionary = burst_pending[i]
+		item.delay -= delta
+		if item.delay <= 0.0:
+			burst_pending.remove_at(i)
 			_discharge(data.pattern, item.spec)
 	super._physics_process(delta)
 # Extra projectiles from gear (duplicator, Artificer, relics) widen the pattern.

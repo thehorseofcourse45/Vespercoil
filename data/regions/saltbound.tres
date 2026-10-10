@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "saltbound"
+name = "SALTBOUND FLATS"
+subtitle = "A dead salt sea crackling under a rose-pale sun."
+perk = "+12% pickup radius / Halite Ram incursions / soft salt crusts"
+color = Color(0.93, 0.72, 0.72, 1)
+floor = Color(0.16, 0.12, 0.13, 1)
+motif = &"saltbound"
+hazard = &""
+veil = 0.15
+incursion = &"halite_ram"
+enemy_roster = Array[StringName]([&"halite_ram", &"salt_strider", &"sift_maw", &"pale_watcher", &"halite_sprite", &"salt_seeker"])
+bonus = Array[Dictionary]([{"stat": &"pickup", "flat": 0.12, "percent": 0.0}])
+unlock = {"type": "clear", "id": "black_aurora"}
+unlock_hint = "Clear the Black Aurora."
+reward_character = "Saltsworn"
+reward_note = "Clearing the Saltbound Flats awakens the Saltsworn."
+music = 20
+pitch = 0.94
+danger = 4

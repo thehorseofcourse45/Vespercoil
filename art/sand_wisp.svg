@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Sand Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#fff4d1"/>
+      <stop offset="38%" stop-color="#ffe699"/>
+      <stop offset="100%" stop-color="#736745"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M42 20 86 20 82 39 70 61 83 86 89 108 39 108 45 86 58 61 46 39Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M42 20 86 20 82 39 70 61 83 86 89 108 39 108 45 86 58 61 46 39Z" fill="url(#metal0)" stroke="#fff4d1" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M47 31H81M50 38 64 53 78 38M51 95 64 78 77 95Z" fill="none" stroke="#fff4d1" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M26 48Q12 70 34 85M102 48Q116 70 94 85" fill="none" stroke="#fff4d1" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 55 71 64 64 73 57 64Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 59 68 64 64 69 60 64Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

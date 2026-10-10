@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Prism Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#f4c6ff"/>
+      <stop offset="38%" stop-color="#e680ff"/>
+      <stop offset="100%" stop-color="#673973"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 16 85 39 82 78 64 102 46 78 43 39Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 16 85 39 82 78 64 102 46 78 43 39Z" fill="url(#metal0)" stroke="#f4c6ff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M43 39 64 49 85 39M64 16V49L46 78M64 49 82 78M46 78 64 71 82 78M64 71V102" fill="none" stroke="#f4c6ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 55 71 64 64 73 57 64Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 59 68 64 64 69 60 64Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M24 44 34 53 29 69 19 59Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M24 44 34 53 29 69 19 59Z" fill="url(#metal0)" stroke="#f4c6ff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M101 70 109 78 100 94 92 84Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M101 70 109 78 100 94 92 84Z" fill="url(#metal0)" stroke="#f4c6ff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M22 85Q42 111 73 113M106 43Q89 20 56 14" fill="none" stroke="#f4c6ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Vine Whip</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#baeeba"/>
+      <stop offset="38%" stop-color="#66d966"/>
+      <stop offset="100%" stop-color="#2e622e"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M39 98C8 79 14 32 40 23 67 12 81 43 59 53 36 63 29 33 54 31" fill="none" stroke="#080d16" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/><path d="M39 98C8 79 14 32 40 23 67 12 81 43 59 53 36 63 29 33 54 31" fill="none" stroke="#baeeba" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><path d="M32 84 51 64 76 64 96 84 91 105 64 114 37 105Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M32 84 51 64 76 64 96 84 91 105 64 114 37 105Z" fill="url(#metal0)" stroke="#baeeba" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M52 67 44 52 62 60 82 46 78 68Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M52 67 44 52 62 60 82 46 78 68Z" fill="url(#metal0)" stroke="#baeeba" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="51" cy="86" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="51" cy="86" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><circle cx="77" cy="86" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="77" cy="86" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><path d="M52 100 64 94 76 100" fill="none" stroke="#baeeba" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M23 43 10 36 22 57M35 26 32 13 48 22M65 39 78 32 67 48" fill="url(#metal0)" stroke="#baeeba" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

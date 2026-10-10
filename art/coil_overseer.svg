@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Coil Overseer</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#c6edff"/>
+      <stop offset="38%" stop-color="#72bee3"/>
+      <stop offset="100%" stop-color="#38657e"/>
+    </linearGradient>
+  </defs>
+<path d="M12 47 24 34 31 52 27 76 16 86 8 65Z M116 47 104 34 97 52 101 76 112 86 120 65Z" fill="url(#metal0)" stroke="#080d16" stroke-width="8" stroke-linejoin="round"/><path d="M12 47 24 34 31 52 27 76 16 86 8 65Z M116 47 104 34 97 52 101 76 112 86 120 65Z" fill="url(#metal0)" stroke="#ffe1b6" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M64 17 78 26 98 22 96 44 111 57 102 77 105 96 83 98 64 112 45 98 23 96 26 77 17 57 32 44 30 22 50 26Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 17 78 26 98 22 96 44 111 57 102 77 105 96 83 98 64 112 45 98 23 96 26 77 17 57 32 44 30 22 50 26Z" fill="url(#metal0)" stroke="#c6edff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 33 85 44 90 66 78 88 50 88 38 66 43 44Z" fill="#080d16" stroke="#c6edff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 52 71 61 64 70 57 61Z" fill="#080d16" stroke="#c6edff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 56 68 61 64 66 60 61Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 44 43 50M96 44 85 50M28 78 41 76M100 78 87 76M50 98V91M78 98V91" fill="none" stroke="#c6edff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 12 42 12 47 25 36 33 25 25Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 12 42 12 47 25 36 33 25 25Z" fill="url(#metal0)" stroke="#c6edff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M86 12 98 12 103 25 92 33 81 25Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M86 12 98 12 103 25 92 33 81 25Z" fill="url(#metal0)" stroke="#c6edff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M36 16V23M92 16V23" fill="none" stroke="#fff3bc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M49 23 45 9 56 15 64 7 72 15 83 9 79 23Z" fill="#dca050" stroke="#080d16" stroke-width="7" stroke-linejoin="round"/><path d="M49 23 45 9 56 15 64 7 72 15 83 9 79 23Z" fill="#dca050" stroke="#ffe1b6" stroke-width="3" stroke-linejoin="round"/>
+</svg>

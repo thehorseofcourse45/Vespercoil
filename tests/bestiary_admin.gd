@@ -3,15 +3,22 @@ extends SceneTree
 func _initialize() -> void:
 	call_deferred("run")
 
-func menu_text(column: VBoxContainer) -> String:
+func menu_text(node: Node) -> String:
 	var found := ""
-	for child in column.get_children():
+	for child in node.get_children():
 		if child is Label or child is Button:
 			found += child.text + "\n"
-		for part in child.get_children():
-			if part is Label:
-				found += part.text + "\n"
+		found += menu_text(child)
 	return found
+
+func find_tabs(node: Node) -> TabContainer:
+	for child in node.get_children():
+		if child is TabContainer:
+			return child
+		var found := find_tabs(child)
+		if found != null:
+			return found
+	return null
 
 func run() -> void:
 	var meta = root.get_node("MetaProgression")
@@ -23,11 +30,27 @@ func run() -> void:
 	await process_frame
 	var hud = game.hud
 	assert(hud.menu_kind == "title")
+	hud.bestiary(true)
+	assert(hud.menu_kind == "bestiary_pause" and find_tabs(hud.menu).get_tab_count() == 3, "run Bestiary has the wrong tabs")
 	hud.bestiary(false)
-	var entries: String = menu_text(hud.menu_column)
+	await process_frame
+	var tabs := find_tabs(hud.menu)
+	assert(tabs != null, "Bestiary has no tabs")
+	assert(tabs.get_tab_count() == 3, "Bestiary has %d tabs, expected 3" % tabs.get_tab_count())
+	assert(tabs.size.y >= 400.0, "Bestiary tab content collapsed to %.1fpx" % tabs.size.y)
+	assert(tabs.get_tab_title(0) == "COMMON HORDE" and tabs.get_tab_title(1) == "ELITE HORDE" and tabs.get_tab_title(2) == "REGIONS & GUARDIANS")
+	var common_text: String = menu_text(tabs.get_tab_control(0))
+	var elite_text: String = menu_text(tabs.get_tab_control(1))
+	var entries: String = menu_text(tabs)
+	for id in game.director.LATE_ELITES:
+		var elite_data: EnemyData = load("res://data/enemies/%s.tres" % id)
+		assert(not common_text.contains(elite_data.title.to_upper()), "%s is still in Common Horde" % elite_data.title)
+		assert(elite_text.contains(elite_data.title.to_upper()), "%s is missing from Elite Horde" % elite_data.title)
 	for kind in game.enemies.TYPES:
+		if game.director.LATE_ELITES.has(kind):
+			continue
 		var data: EnemyData = load("res://data/enemies/%s.tres" % kind)
-		assert(entries.contains(data.title.to_upper()))
+		assert(entries.contains(data.title.to_upper()), "%s is missing from the Bestiary" % data.title)
 	for ground in Regions.all():
 		var boss: BossData = load("res://data/bosses/regions/%s.tres" % ground.id)
 		assert(entries.contains(boss.title))

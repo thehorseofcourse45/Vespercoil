@@ -17,7 +17,7 @@ func run() -> void:
 	await process_frame
 	game.director.set_physics_process(false)
 	assert(run.difficulty == 2)
-	assert(game.arsenal.passive_catalog.size() == 38)
+	assert(game.arsenal.passive_catalog.size() == 39)
 	for id in [&"stone_skin", &"cinder_ward", &"winter_ward", &"spark_ward", &"prospector"]:
 		var data: PassiveData = load("res://data/passives/%s.tres" % id)
 		assert(game.arsenal.passive_catalog.has(data))
@@ -97,12 +97,18 @@ func run() -> void:
 	game.player.position = game.world.rooms[1].center + Vector2(188, 0)
 	game.world.interact()
 	assert(game.world.rooms[1].looted)
+	# Keeper unlocks are ground-only: a won run wakes its ground's keeper and
+	# nothing else, whatever the cache / kill / room / difficulty totals are.
+	meta.unlocked.resize(0)
+	for name in meta.FRESH_UNLOCKED:
+		meta.unlocked.append(name)
 	run.caches_opened = 3
 	run.kills = 750
 	events.run_ended.emit(true)
+	assert(meta.unlocked.size() == 2 and meta.unlocked.has("Warden"), "the won run did not wake exactly its ground's keeper")
 	for name in ["Salvager", "Archivist", "Hexblade", "Eclipse"]:
-		assert(meta.unlocked.has(name))
-	print("DEPTH PASS: Nightmare scaling and gold, five upgrades, four hidden rooms with solid walls, vault cache, interior elite, temporary buff expiry, four saved unlock paths")
+		assert(not meta.unlocked.has(name), "a feat awakened %s" % name)
+	print("DEPTH PASS: Nightmare scaling and gold, five upgrades, four hidden rooms with solid walls, vault cache, interior elite, temporary buff expiry, ground-only keeper unlock")
 	game.queue_free()
 	await process_frame
 	quit()

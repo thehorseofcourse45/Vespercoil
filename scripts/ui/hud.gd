@@ -26,11 +26,17 @@ const MUSIC_CREDITS := [
 	["STORM CITADEL", "Storm Citadel", "Original synthesis"],
 	["TIDAL MAW", "Tidal Maw", "Original synthesis"],
 	["BLACK AURORA", "Black Aurora", "Original synthesis"],
+	["SALTBOUND FLATS", "Saltbound", "Original synthesis"],
+	["AMBERHOLD", "Amberhold", "Original synthesis"],
+	["THE VESPERINE", "Vesperine Bells", "Original synthesis"],
+	["LODESTONE FIELDS", "Iron Wind", "Original synthesis"],
+	["THE RED CHANCERY", "Red Chancery", "Original synthesis"],
 ]
 var player
 var enemies
 var arsenal
 var world
+var director
 var buffs
 var ability
 var weather
@@ -269,10 +275,18 @@ func build_gameplay() -> void:
 	prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	gameplay.add_child(prompt)
 	var rack := panel(gameplay, Vector2(8, 628), Vector2(1264, 84))
+	# The loadout can outgrow the bar (many passives plus trinkets), so the rack
+	# scrolls horizontally instead of pushing its cards past the screen edge.
+	var rack_scroll := ScrollContainer.new()
+	rack_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	rack_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	rack_scroll.custom_minimum_size = Vector2(1248, 68)
+	rack.add_child(rack_scroll)
 	var rack_row := HBoxContainer.new()
 	rack_row.add_theme_constant_override("separation", 8)
 	rack_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	rack.add_child(rack_row)
+	rack_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	rack_scroll.add_child(rack_row)
 	inventory = HBoxContainer.new()
 	inventory.add_theme_constant_override("separation", 6)
 	inventory.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -285,8 +299,10 @@ func queue_notice(title: String, detail: String, color: Color) -> void:
 	if notices.size() < 5:
 		notices.append({"title": title, "detail": detail, "color": color})
 func _process(delta: float) -> void:
-	if not get_tree().paused:
-		notice_clock -= delta
+	# Input remains live while paused; frozen combat needs no HUD polling or layout work.
+	if get_tree().paused:
+		return
+	notice_clock -= delta
 	if notice_clock <= 0.0 and not notices.is_empty():
 		var entry: Dictionary = notices.pop_front()
 		notice_title.text = entry.title
@@ -319,11 +335,12 @@ func _process(delta: float) -> void:
 		weather_label.text = "%s   %ds" % [weather.active_title(), int(weather.time_left())]
 	else:
 		weather_label.text = "CURSE   x%.1f" % RunManager.curse
-	objective_label.text = "HUNT %02d     %d / %d KILLS\n%d RELICS     %d / 6 CACHES" % [world.contracts + 1, RunManager.kills - world.bounty_start, world.bounty_target, world.relics.size(), world.caches]
+	objective_label.text = world.objective()
 	if not world.event_title.is_empty():
 		objective_label.text += "     %s %ds" % [world.event_title, maxi(0, int(world.event_until - RunManager.elapsed))]
 	prompt.text = world.interaction
-	debug.text = "FPS %d\nEnemies %d / pool %d\nDraw calls %d\nF6: 1,500-unit stress wave" % [Engine.get_frames_per_second(), enemies.active.size(), enemies.capacity, Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)]
+	if debug.visible:
+		debug.text = "FPS %d\nEnemies %d / pool %d\nDraw calls %d\nF6: 1,500-unit stress wave" % [Engine.get_frames_per_second(), enemies.active.size(), enemies.capacity, Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)]
 	refresh_status_chips()
 	var boss = null
 	for enemy in enemies.active:
@@ -363,12 +380,23 @@ func _unhandled_input(event: InputEvent) -> void:
 				pause_menu()
 			elif menu_kind == "basics":
 				title_screen()
+			elif menu_kind == "admin":
+				# The console was missing here, so ESC did nothing while it was up and
+				# the only way out was the Return button. Any kind the match forgets is
+				# a menu the player cannot close with the key they expect.
+				close_admin()
 		else:
 			pause_menu()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_A and event.ctrl_pressed and event.shift_pressed:
-		if menu_kind == "admin":
+		# Toggle on what's actually ON SCREEN, not on menu_kind. menu_kind is one
+		# variable doing two jobs: naming the current menu AND remembering where
+		# the console returns to. Every close path that hid the menu without
+		# opening another one (resume, the draft branch of close_admin) left it
+		# reading "admin", so the next press took the close branch again and the
+		# console could never be reopened.
+		if menu.visible and menu_kind == "admin":
 			close_admin()
 		else:
 			open_admin()
@@ -547,7 +575,7 @@ func expedition_setup() -> void:
 	characters.select(MetaProgression.unlocked.find(MetaProgression.selected))
 	characters.item_selected.connect(func(index: int): MetaProgression.selected = MetaProgression.unlocked[index]; MetaProgression.save_data(); expedition_setup())
 	menu_column.add_child(characters)
-	text_line("%d of %d keepers awakened. Grounds and feats awaken the rest  /  Library and progression." % [MetaProgression.unlocked.size(), MetaProgression.keeper_total()], MUTED)
+	text_line("%d of %d keepers awakened. Clearing grounds awakens the rest  /  Library and progression." % [MetaProgression.unlocked.size(), MetaProgression.keeper_total()], MUTED)
 	text_line("DIFFICULTY", GOLD)
 	var difficulties := OptionButton.new()
 	difficulties.custom_minimum_size.y = 30
@@ -560,7 +588,7 @@ func expedition_setup() -> void:
 	var modes := HBoxContainer.new()
 	modes.add_theme_constant_override("separation", 4)
 	menu_column.add_child(modes)
-	for entry in [["EXPEDITION", "expedition"], ["DAILY", "daily"], ["GAUNTLET", "bossrush"], ["ENDLESS", "endless"]]:
+	for entry in [["EXPEDITION", "expedition"], ["DAILY", "daily"], ["GAUNTLET", "bossrush"], ["ENDLESS", "endless"], ["WEEKLY", "weekly"]]:
 		var pick := Button.new()
 		pick.text = ("◆ " if MetaProgression.mode == entry[1] else "") + entry[0]
 		pick.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -570,11 +598,14 @@ func expedition_setup() -> void:
 	if MetaProgression.mode == "daily":
 		text_line("Daily seed %d   /   best %d   /   ascension %d" % [MetaProgression.daily_seed(), MetaProgression.daily_best, MetaProgression.daily_best_ascension], GOLD)
 	elif MetaProgression.mode == "bossrush":
-		text_line("Four guardians back to back. No waves, no mercy.", MUTED)
+		text_line("Seven guardians back to back. No waves, no mercy.", MUTED)
 	elif MetaProgression.mode == "endless":
 		text_line("Survive the Last Coil, then keep ascending. Score never stops.", MUTED)
+	elif MetaProgression.mode == "weekly":
+		text_line("Weekly seed %d   /   two mutators ride along" % MetaProgression.weekly_seed(), MUTED)
 	elif int(MetaProgression.bonuses.get("curse", 0)) > 0:
 		text_line("Meta-curse %d: richer rewards, deadlier horde." % int(MetaProgression.bonuses.get("curse", 0)), MUTED)
+	button("Hardcore   /   %s" % ("ON" if bool(MetaProgression.settings.get("hardcore", false)) else "OFF"), toggle_hardcore)
 	button("Return to title", title_screen).grab_focus()
 
 func library_menu() -> void:
@@ -648,9 +679,14 @@ func character_description(character: String) -> String:
 		"Stormwright": return "Chain Bolt / +25% lightning damage, +4% cooldown recovery, -15 HP"
 		"Brinelord": return "Ricochet Orb / +10% physical and true resistance, +1 armour, -8% speed"
 		"Polaris": return "Railshot / +25% true damage, +10% experience, -20 HP"
+		"Saltsworn": return "Whipsnap / +8% speed, +1 armour, -8 HP"
+		"Amberkeeper": return "Cinder Jet / +15% fire damage, +10% experience, -6% speed"
+		"Bellsinger": return "Carousel / +8% cooldown recovery, +6% area, -10 HP"
+		"Lodestar": return "Lightning / +15% lightning damage, +10% lightning resistance, -8% speed"
+		"Quillkeeper": return "Needle / +10% crit chance, +30% crit damage, -10 HP"
 	return "Needle / balanced"
-# The keeper directory. Only Ranger is awake on a fresh save, so the twelve sealed
-# keepers each print the route that awakens them; the roster doubles as the
+# The keeper directory. Only Ranger is awake on a fresh save, so every sealed
+# keeper prints the route that awakens them; the roster doubles as the
 # checklist for a full clear of the atlas.
 func keepers_screen() -> void:
 	get_tree().paused = true
@@ -717,6 +753,11 @@ func resume() -> void:
 	title_backdrop.hide()
 	gameplay.show()
 	get_tree().paused = false
+	# Clear the kind. CTRL+SHIFT+A toggles on this exact value, and resume() is the
+	# only path that closes the menu without setting a new one, so leaving it as
+	# "admin" made every later hotkey press CLOSE the console instead of open it.
+	# The console is then only reachable by opening the pause menu first.
+	menu_kind = ""
 func codex(in_run: bool) -> void:
 	menu_kind = "codex_pause" if in_run else "codex"
 	clear_menu("THE FIELD GUIDE")
@@ -733,7 +774,7 @@ func codex(in_run: bool) -> void:
 		description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(description)
 	text_line("HOSTILE BESTIARY", GOLD)
-	for entry in ["Rift Hound: red line, then a charge. Sidestep during the warning.", "Prism Stalker: holds a firing lane before a fast shot.", "Brood Oracle: summons swarmers while retreating.", "Shielded: regenerates shields after 1.5 seconds without damage.", "Exploder: death burst. Splitter: two children. Burrower: moves below the floor.", "Night Stalker: 0.35 s telegraph, then a short dash. Still Spire never moves; holds a lane. Pale Mender heals nearby allies.", "Ruin Colossus: slow wall of HP. Veil Wraith blinks close after a fade. Ash Spitter keeps range and applies burn on contact.", "Guardians: Gatekeeper 03:00 / Prism Warden 10:00 / Broodmother 20:00 / Last Coil 30:00. Enrage below half health. The horde evolves every 10 minutes."]:
+	for entry in ["Rift Hound: red line, then a charge. Sidestep during the warning.", "Prism Stalker: holds a firing lane before a fast shot.", "Brood Oracle: summons swarmers while retreating.", "Shielded: regenerates shields after 1.5 seconds without damage.", "Exploder: death burst. Splitter: two children. Burrower: moves below the floor.", "Night Stalker: 0.35 s telegraph, then a short dash. Still Spire never moves; holds a lane. Pale Mender heals nearby allies.", "Ruin Colossus: slow wall of HP. Veil Wraith blinks close after a fade. Ash Spitter keeps range and applies burn on contact.", "Laser Sniper: 1.2s warning, then a beam that hesitates before it tracks. Step out during the hesitation; common 3s / elite 5s / boss 10s.", "Refractor Shield: +12% laser-only resistance per level, up to 60%. Find it in level-up drafts.", "Guardians: Gatekeeper 03:00 / Prism Warden 10:00 / Broodmother 20:00 / Last Coil 30:00. Enrage below half health. The horde evolves every 10 minutes."]:
 		text_line(entry)
 	text_line("PILGRIM'S NOTES", GOLD)
 	text_line("E / A opens caches and invokes the Bloodglass altar. Stand inside a beacon for ten uncontested seconds to receive a relic. Contracts pay gold and experience automatically.")
@@ -746,39 +787,70 @@ func music_credits() -> void:
 	menu_kind = "music_credits"
 	clear_menu("MUSIC CREDITS")
 	button("Return to title", title_screen).grab_focus()
-	text_line("Original synthesized tracks for ten new grounds; earlier tracks are OpenGameArt CC0.", GOLD)
+	text_line("Original synthesized tracks for fifteen new grounds; earlier tracks are OpenGameArt CC0.", GOLD)
 	for entry in MUSIC_CREDITS:
 		text_line("%s  /  %s  /  %s  /  %s" % [entry[0], entry[1], entry[2], "ORIGINAL" if entry[2] == "Original synthesis" else "CC0"], PALE)
-	text_line("Files: region_0.ogg through region_9.ogg and region_10.wav through region_19.wav", MUTED)
+	text_line("Files: region_0.ogg through region_9.ogg and region_10.wav through region_24.wav", MUTED)
 
 func bestiary(in_run: bool) -> void:
 	get_tree().paused = true
 	menu_kind = "bestiary_pause" if in_run else "bestiary"
 	clear_menu("THE BESTIARY")
 	button("Return", pause_menu if in_run else title_screen).grab_focus()
+	var tabs := TabContainer.new()
+	tabs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	tabs.custom_minimum_size.y = 460
+	tabs.add_theme_font_size_override("font_size", 12)
+	menu_column.add_child(tabs)
+	var common := ScrollContainer.new()
+	common.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	common.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	common.name = "COMMON HORDE"
+	tabs.add_child(common)
+	var common_column := VBoxContainer.new()
+	common_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	common.add_child(common_column)
+	var elite := ScrollContainer.new()
+	elite.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	elite.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	elite.name = "ELITE HORDE"
+	tabs.add_child(elite)
+	var elite_column := VBoxContainer.new()
+	elite_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	elite.add_child(elite_column)
+	var regions := ScrollContainer.new()
+	regions.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	regions.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	regions.name = "REGIONS & GUARDIANS"
+	tabs.add_child(regions)
+	var regions_column := VBoxContainer.new()
+	regions_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	regions.add_child(regions_column)
 	var regional: Dictionary = {}
 	for ground in Regions.all():
 		for kind in ground.enemy_roster:
 			regional[kind] = true
-	text_line("COMMON HORDE", GOLD)
 	for kind in enemies.TYPES:
-		if not regional.has(StringName(kind)):
-			bestiary_enemy(StringName(kind))
+		if not regional.has(StringName(kind)) and not director.LATE_ELITES.has(StringName(kind)):
+			bestiary_enemy(StringName(kind), common_column)
+	for kind in director.LATE_ELITES:
+		bestiary_enemy(kind, elite_column)
 	for ground in Regions.all():
-		text_line(ground.name + "  /  EXCLUSIVE VESSELS", ground.color)
+		bestiary_line(regions_column, ground.name + "  /  EXCLUSIVE VESSELS", ground.color)
 		for kind in ground.enemy_roster:
-			bestiary_enemy(kind)
+			bestiary_enemy(kind, regions_column)
 		var guardian: BossData = load("res://data/bosses/regions/%s.tres" % ground.id)
-		bestiary_boss(guardian, "REGIONAL GUARDIAN", ground.color)
-	text_line("LADDER AND ENDLESS GUARDIANS", GOLD)
-	for id in ["gatekeeper", "prism_warden", "broodmother", "last_coil", "reaver", "chronarch"]:
-		bestiary_boss(load("res://data/bosses/%s.tres" % id), "LADDER GUARDIAN", GOLD)
+		bestiary_boss(guardian, "REGIONAL GUARDIAN", ground.color, regions_column)
+	bestiary_line(regions_column, "LADDER AND ENDLESS GUARDIANS", GOLD)
+	for id in director.BOSS_IDS:
+		bestiary_boss(load("res://data/bosses/%s.tres" % id), "LADDER GUARDIAN", GOLD, regions_column)
 
-func bestiary_enemy(kind: StringName) -> void:
+func bestiary_enemy(kind: StringName, column: VBoxContainer = null) -> void:
 	var data: EnemyData = load("res://data/enemies/%s.tres" % kind)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
-	menu_column.add_child(row)
+	(column if column != null else menu_column).add_child(row)
 	var portrait := TextureRect.new()
 	portrait.texture = load("res://art/%s.svg" % kind)
 	portrait.custom_minimum_size = Vector2(32, 32)
@@ -786,6 +858,8 @@ func bestiary_enemy(kind: StringName) -> void:
 	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	row.add_child(portrait)
 	var detail: String = "%s  /  %s  /  HP %d  DMG %d  SPD %d" % [data.title.to_upper(), String(data.behaviour).capitalize(), data.health, data.damage, data.speed]
+	if data.behaviour == &"laser_sniper":
+		detail += "  /  LASER %ds (1.2s warning, 0.6s track delay)" % (5 if director.LATE_ELITES.has(kind) else 3)
 	if data.shield > 0.0:
 		detail += "  SHIELD %d" % data.shield
 	if data.contact_status != &"":
@@ -795,12 +869,21 @@ func bestiary_enemy(kind: StringName) -> void:
 	description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(description)
 
-func bestiary_boss(data: BossData, rank: String, tint: Color) -> void:
+func bestiary_line(column: VBoxContainer, text: String, color: Color) -> void:
+	var value := label(text, 12, color)
+	value.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(value)
+
+func bestiary_boss(data: BossData, rank: String, tint: Color, column: VBoxContainer = null) -> void:
 	var body: EnemyData = load("res://data/enemies/%s.tres" % data.kind)
-	text_line("%s  /  %s  /  %s  /  HP %d  SHIELD %d  /  %s" % [rank, data.title, body.title, data.health, data.shield, String(data.attack).to_upper()], tint)
+	bestiary_line(column if column != null else menu_column, "%s  /  %s  /  %s  /  HP %d  SHIELD %d  /  %s" % [rank, data.title, body.title, data.health, data.shield, ("LASER 10s / 1.2s warning" if body.behaviour == &"laser_sniper" else String(data.attack).to_upper())], tint)
 
 func open_admin() -> void:
-	if draft.visible:
+	if draft.visible and draft.choices.size() > 0:
+		# `draft.visible` alone is not enough: the panel is a persistent sibling
+		# that stays visible after a card screen is dismissed, so a console opened
+		# later recorded "draft" and Return restored a draft nobody was choosing.
 		admin_return = "draft"
 		draft.hide()
 	elif map_view.visible:
@@ -812,7 +895,11 @@ func open_admin() -> void:
 	elif title_backdrop.visible:
 		admin_return = "title"
 	elif RunManager.running:
-		admin_return = "pause" if menu.visible else "play"
+		# `menu.visible` is true while the CONSOLE itself is up, so using it here
+		# meant a console reopened over a closed console recorded "pause" and then
+		# Return showed the pause menu with the console still live on top. The
+		# screen we are returning TO is the pause menu only if its own kind is set.
+		admin_return = "pause" if menu.visible and menu_kind == "pause" else "play"
 	else:
 		admin_return = "title"
 	admin_menu()
@@ -820,9 +907,22 @@ func open_admin() -> void:
 func close_admin() -> void:
 	match admin_return:
 		"draft":
-			menu.hide()
-			shade.show()
-			draft.show()
+			# A pending level-up leaves draft.choices filled while the panel is hidden,
+			# so the console would otherwise Return into a draft the player never
+			# opened. No cards means there is no draft to go back to -- resume instead
+			# of leaving the shade up over live gameplay.
+			if draft.choices.size() > 0:
+				menu.hide()
+				shade.show()
+				draft.show()
+			else:
+				resume()
+			# This branch dismisses the console without necessarily opening another
+			# menu, so drop the kind too. Leaving it as "admin" made the next hotkey
+			# press think the console was still up: it called close_admin() again
+			# (which hid the menu) instead of open_admin(), so the console could never
+			# come back.
+			menu_kind = ""
 		"map":
 			open_map(map_return_to_pause)
 		"atlas":
@@ -837,6 +937,13 @@ func close_admin() -> void:
 func admin_menu() -> void:
 	get_tree().paused = true
 	menu_kind = "admin"
+	# The notice banner lives in `gameplay` at (440, 86) 400x48, which is inside
+	# this panel's (370, 78) 540x590 rect. Every admin action that emits a notice
+	# (guardian spawn, gold, reward) drew its banner on top of the console, and
+	# the banner is on a 5 s timer that does not tick while we are paused, so it
+	# just sat there. Hide it for the whole console.
+	notice_panel.hide()
+	notices.clear()
 	clear_menu("ADMIN CONSOLE")
 	text_line("CTRL + SHIFT + A  /  CLOSE", GOLD)
 	button("Return", close_admin).grab_focus()
@@ -851,6 +958,63 @@ func admin_menu() -> void:
 	button("Clear all enemies", _admin_clear)
 	button("Spawn this ground's guardian", _admin_spawn_guardian)
 	button("Claim this ground's boss reward", _admin_reward).disabled = world.boss_reward_claimed
+	# Run controls. Every one of these is a field the game already has: the
+	# director reads RunManager.elapsed for its era, Arsenal already has
+	# acquire_weapon/acquire_passive, and abilities already has try_use.
+	text_line("RUN", GOLD)
+	button("Advance the clock  /  +60 s", _admin_skip_time)
+	button("Level up once", _admin_level_up)
+	button("Kill all non-elite enemies", _admin_kill_commons)
+	button("Give every weapon in the vault, Lv 8", _admin_all_weapons)
+	button("Give every passive, max rank", _admin_all_passives)
+	button("Fill all trinket slots", _admin_all_trinkets)
+	button("Use the active ability", _admin_ability)
+	button("End the run  /  bank what you carry", _admin_end_run)
+
+func _admin_skip_time() -> void:
+	# The director ramps on RunManager.elapsed, so this is the real clock, not a
+	# timer that skips the wave schedule.
+	RunManager.elapsed += 60.0
+	admin_menu()
+
+func _admin_level_up() -> void:
+	GameEvents.level_up.emit(RunManager.level)
+	admin_menu()
+
+func _admin_kill_commons() -> void:
+	for enemy in enemies.active.duplicate():
+		if not enemy.elite and not enemy.boss:
+			enemies.hit(enemy, 999999.0, &"admin", Vector2.ZERO)
+	admin_menu()
+
+func _admin_all_weapons() -> void:
+	for data in arsenal.weapon_catalog:
+		while not arsenal.weapons.has(data.id) and arsenal.weapons.size() < arsenal.WEAPON_SLOTS:
+			arsenal.acquire_weapon(data)
+		if arsenal.weapons.has(data.id):
+			arsenal.weapons[data.id].level = arsenal.WEAPON_MAX_LEVEL
+	admin_menu()
+
+func _admin_all_passives() -> void:
+	for data in arsenal.passive_catalog:
+		var level: int = int(arsenal.passive_levels.get(data.id, 0))
+		while level < data.max_level:
+			arsenal.acquire_passive(data)
+			level += 1
+	admin_menu()
+
+func _admin_all_trinkets() -> void:
+	for data in arsenal.trinket_catalog:
+		arsenal.acquire_trinket(data)
+	admin_menu()
+
+func _admin_ability() -> void:
+	get_parent().get_node("Abilities").clock = 0.0
+	get_parent().get_node("Abilities").try_use()
+	admin_menu()
+
+func _admin_end_run() -> void:
+	GameEvents.run_ended.emit(false)
 
 func _admin_unlock_all() -> void:
 	MetaProgression.admin_unlock_all()
@@ -936,6 +1100,11 @@ func set_mode(next: String) -> void:
 	MetaProgression.save_data()
 	expedition_setup()
 
+func toggle_hardcore() -> void:
+	MetaProgression.settings["hardcore"] = not bool(MetaProgression.settings.get("hardcore", false))
+	MetaProgression.save_data()
+	expedition_setup()
+
 func settings_menu() -> void:
 	get_tree().paused = true
 	var from_title: bool = title_backdrop.visible
@@ -951,8 +1120,9 @@ func settings_menu() -> void:
 	resolutions.select(int(MetaProgression.settings.get("resolution", 0)))
 	resolutions.item_selected.connect(set_resolution)
 	menu_column.add_child(resolutions)
-	for entry in [["shake", "Screen shake"], ["damage", "Damage numbers"], ["aim", "Auto-aim facing"], ["pause", "Pause on level-up"]]:
+	for entry in [["shake", "Screen shake"], ["damage", "Damage numbers"], ["aim", "Auto-aim facing"], ["pause", "Pause on level-up"], ["vsync", "VSync"]]:
 		button("%s   /   %s" % [entry[1], "ON" if bool(MetaProgression.settings.get(entry[0], true)) else "OFF"], toggle_setting.bind(entry[0]))
+	text_line("VSync reduces tearing; OFF favours higher frame rates.", MUTED)
 	text_line("REBIND CONTROLS", GOLD)
 	for action in Controls.ACTIONS:
 		button("%s   /   %s" % [String(Controls.ACTIONS[action].label), Controls.label(action)], capture_rebind.bind(action))
@@ -976,6 +1146,8 @@ func set_resolution(index: int) -> void:
 
 func toggle_setting(key: String) -> void:
 	MetaProgression.settings[key] = not bool(MetaProgression.settings.get(key, true))
+	if key == "vsync":
+		MetaProgression.apply_vsync()
 	MetaProgression.save_data()
 	settings_menu()
 

@@ -22,7 +22,7 @@ func run() -> void:
 		assert(game.arsenal.weapons.has(loadouts[character].weapon))
 		assert(game.player.stats.value(loadouts[character].stat) > loadouts[character].floor)
 		if character == "Cinderkeeper":
-			assert(game.arsenal.passive_catalog.size() == 38)
+			assert(game.arsenal.passive_catalog.size() == 39)
 			for id in [&"sightline", &"razor", &"ember_sigil", &"rime_sigil", &"storm_sigil"]:
 				var data: PassiveData = load("res://data/passives/%s.tres" % id)
 				assert(data != null and game.arsenal.passive_catalog.has(data))

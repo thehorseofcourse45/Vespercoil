@@ -44,13 +44,17 @@ func fire(spec: Dictionary) -> void:
 				var at: Vector2 = target.position
 				effects.trace(origin, at, data.color)
 				enemies.hit(target, spec.base_damage, data.id, (at - origin).normalized() * float(spec.knockback), i == 0, data.damage_type)
-				for status_id in data.on_hit_status:
-					target.status.apply(StatusLibrary.get_effect(status_id))
+				# A kill must not end the chain: skip the status, keep jumping from here.
+				if target.active:
+					for status_id in data.on_hit_status:
+						target.status.apply(StatusLibrary.get_effect(status_id))
 				origin = at
 		&"field":
 			var radius: float = float(spec.radius) * float(spec.area_scale)
 			for enemy in enemies.nearby(player.position, radius):
 				enemies.hit(enemy, float(spec.base_damage) * (1.0 + 0.15 * (count - 1)), data.id, (enemy.position - player.position).normalized() * float(spec.knockback), false, data.damage_type)
+				if not enemy.active:
+					continue
 				for status_id in data.on_hit_status:
 					enemy.status.apply(StatusLibrary.get_effect(status_id))
 func _physics_process(delta: float) -> void:

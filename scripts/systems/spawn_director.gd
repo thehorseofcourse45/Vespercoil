@@ -1,23 +1,26 @@
 extends Node
 @export var schedule: Array[WaveData] = []
 # Ladder order. Stage 3 (Last Coil) still ends an expedition; stages 4-5 are
-# reached through the Guardian Gauntlet and Endless Ascension.
-const BOSS_IDS: Array[String] = ["gatekeeper", "prism_warden", "broodmother", "last_coil", "reaver", "chronarch"]
+# reached through the Guardian Gauntlet and Endless Ascension. The Laser Regent is stage 6.
+const BOSS_IDS: Array[String] = ["gatekeeper", "prism_warden", "broodmother", "last_coil", "reaver", "chronarch", "laser_regent"]
 const LADDER_FINAL_STAGE: int = 3
-const INCURSIONS: Array[StringName] = [&"charger", &"sniper", &"summoner", &"herald"]
-# Every wave samples this pool, so a type listed here can roll on any ground.
-const COMMON_ENEMIES: Array[StringName] = [&"chaser", &"swarmer", &"bruiser", &"shooter"]
-# The late horde. Five commons join on an RNG roll 5-15 minutes in, six elite-only types
-# follow on their own roll 10-15 minutes in; both keep trickling in afterwards. No
+# The incursion raid: the ground's own special wave. A squad, led by the ground's
+# incursion family, arrives every 60-90 s (first at ~00:50) and grows with the run.
+# Ordinary waves stay on the shared era rosters; the raid is the ground-exclusive beat.
+const RAID_FIRST: float = 50.0
+const RAID_MIN_GAP: float = 60.0
+const RAID_MAX_GAP: float = 90.0
+# The late horde. Nine commons join on an RNG roll 3-8 minutes in, ten elite-only types
+# follow on their own roll 6-10 minutes in; both keep trickling in afterwards. No
 # telegraph by design -- the player meets them on the field, not on a menu.
-const LATE_COMMONS: Array[StringName] = [&"rift_warden", &"glass_lancer", &"brine_barrage", &"rift_stalker", &"void_herald"]
-const LATE_ELITES: Array[StringName] = [&"abyssal_warden", &"eclipse_bowman", &"titan_bulwark", &"plague_mother", &"night_archon", &"chronarch_spawn"]
-const LATE_COMMON_MIN: float = 300.0
-const LATE_COMMON_MAX: float = 900.0
-const LATE_ELITE_MIN: float = 600.0
-const LATE_ELITE_MAX: float = 900.0
-const LATE_COMMON_EVERY: float = 120.0
-const LATE_ELITE_EVERY: float = 180.0
+const LATE_COMMONS: Array[StringName] = [&"rift_warden", &"glass_lancer", &"brine_barrage", &"rift_stalker", &"void_herald", &"laser_sniper", &"coil_sentry", &"bastion_ram", &"rift_broodcaller"]
+const LATE_ELITES: Array[StringName] = [&"abyssal_warden", &"eclipse_bowman", &"titan_bulwark", &"plague_mother", &"night_archon", &"chronarch_spawn", &"laser_bastion", &"coil_overseer", &"bastion_juggernaut", &"rift_matriarch"]
+const LATE_COMMON_MIN: float = 180.0
+const LATE_COMMON_MAX: float = 480.0
+const LATE_ELITE_MIN: float = 360.0
+const LATE_ELITE_MAX: float = 600.0
+const LATE_COMMON_EVERY: float = 60.0
+const LATE_ELITE_EVERY: float = 90.0
 var horde_unlocked: bool = false
 var horde_rolled: bool = false
 var common_at: float = 0.0
@@ -34,7 +37,7 @@ var countdown: float = 0.0
 var next_elite: float = 120.0
 var next_boss: float = 600.0
 var scout_spawned: bool = false
-var next_special: float = 25.0
+var next_raid: float = RAID_FIRST
 var next_era: float = 600.0
 var era: int = 0
 var rush_stage: int = 0
@@ -74,7 +77,7 @@ func active_late_elites() -> Array[StringName]:
 func _late_horde() -> void:
 	# Roll the two windows ONCE, on the first frame of the run. Rolling inside this
 	# per-frame check would redraw every physics tick, so the horde would arrive in
-	# seconds instead of minutes. Absolute times, so the elite window stays 10-15m even
+	# seconds instead of minutes. Absolute times, so the elite window stays 6-10m even
 	# when the common roll lands late.
 	if not horde_rolled:
 		horde_rolled = true
@@ -107,18 +110,17 @@ func _physics_process(delta: float) -> void:
 	if RunManager.elapsed >= 180.0 and not scout_spawned:
 		scout_spawned = true
 		spawn_guardian(0)
-	if RunManager.elapsed >= next_special:
-		next_special = RunManager.elapsed + 18.0
-		var type: StringName = world.region.incursion if world != null and world.region != null else INCURSIONS[0]
-		for i in mini(6, 1 + int(RunManager.elapsed / 120.0)):
-			enemies.spawn(type, offscreen(Vector2.from_angle(rng.randf() * TAU)))
+	if RunManager.elapsed >= next_raid:
+		next_raid = RunManager.elapsed + rng.randf_range(RAID_MIN_GAP, RAID_MAX_GAP)
+		_spawn_incursion_raid()
 	while RunManager.elapsed >= next_era and era < schedule.size() - 1:
 		era += 1
 		next_era += 600.0
 		GameEvents.notice.emit("THE HORDE EVOLVES", "ERA %d / stronger stock joins the field" % era, Color(1, .35, .25))
-	while RunManager.elapsed >= next_elite:
+	if RunManager.elapsed >= next_elite:
 		enemies.spawn(&"bruiser", offscreen(Vector2.from_angle(rng.randf() * TAU)), true)
-		next_elite += 120.0
+		# Time spent inside a room must not bank a burst of overdue elite waves.
+		next_elite = RunManager.elapsed + 120.0
 	while RunManager.elapsed >= next_boss and next_boss <= 1800.0:
 		var stage: int = int(next_boss / 600.0)
 		spawn_guardian(stage, stage == LADDER_FINAL_STAGE)
@@ -145,17 +147,22 @@ func _physics_process(delta: float) -> void:
 				direction = Vector2.from_angle(angle + (i - batch * 0.5) * 0.06)
 			elif wave.formation == "pincer":
 				direction = Vector2.from_angle(angle + PI * (i % 2) + rng.randf_range(-0.18, 0.18))
-			enemies.spawn(region_wave_type(wave, i), offscreen(direction))
+			enemies.spawn(wave.choose(rng), offscreen(direction))
 		break
 
-func region_wave_type(wave: WaveData, index: int = 0) -> StringName:
-	var chosen: StringName = wave.choose(rng)
+func _spawn_incursion_raid() -> void:
+	# The ground's five exclusive families arrive as one periodic special wave
+	# instead of being mixed into every ordinary wave. The incursion family leads;
+	# the rest of the squad rolls across the ground's roster.
 	if world == null or world.region == null or world.region.enemy_roster.is_empty():
-		return chosen
-	if index == 0 or chosen not in COMMON_ENEMIES:
-		var roster: Array[StringName] = world.region.enemy_roster
-		return roster[rng.randi_range(0, roster.size() - 1)]
-	return chosen
+		return
+	var roster: Array[StringName] = world.region.enemy_roster
+	var head: StringName = world.region.incursion if roster.has(world.region.incursion) else roster[0]
+	var size: int = mini(8, 3 + int(RunManager.elapsed / 180.0))
+	var angle: float = rng.randf() * TAU
+	for i in size:
+		var kind: StringName = head if i % 2 == 0 else roster[rng.randi_range(0, roster.size() - 1)]
+		enemies.spawn(kind, offscreen(Vector2.from_angle(angle + (i - size * 0.5) * 0.07)))
 
 func _boss_rush(delta: float) -> void:
 	if rush_stage >= boss_catalog.size() or boss_alive():
@@ -181,7 +188,10 @@ func _endless_cycle(delta: float) -> void:
 
 func spawn_guardian(stage: int, final: bool = false):
 	var data: BossData = boss_catalog[stage]
-	if stage == 0 and world != null and world.region != null:
+	# The ground's own guardian opens expedition runs (03:00). The ladder modes --
+	# the Guardian Gauntlet and Endless cycles -- walk the true ladder instead,
+	# which starts at The Gatekeeper (boss_catalog[0]).
+	if stage == 0 and world != null and world.region != null and _uses_ground_guardian():
 		data = load("res://data/bosses/regions/%s.tres" % world.region.id)
 	var enemy = enemies.spawn(data.kind, offscreen(Vector2.UP), true, stage > 0, final)
 	enemy.boss_title = data.title
@@ -197,3 +207,8 @@ func spawn_guardian(stage: int, final: bool = false):
 	enemy.ability_clock = 2.0
 	GameEvents.notice.emit("GUARDIAN APPROACHING", data.title + " / attacks intensify below half health", Color(1, .4, .4))
 	return enemy
+
+func _uses_ground_guardian() -> bool:
+	# Expedition and Daily runs field the ground's own guardian at the 03:00
+	# rung; the ladder modes use the shared ladder entries.
+	return MetaProgression.mode == "expedition" or MetaProgression.mode == "daily" or MetaProgression.mode == "weekly"

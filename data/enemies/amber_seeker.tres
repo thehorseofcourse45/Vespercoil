@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"amber_seeker"
+title = "Amber Seeker"
+health = 74.0
+speed = 54.0
+damage = 13.0
+radius = 12.0
+xp = 4
+color = Color(0.98, 0.6553, 0.2753, 1)
+behaviour = &"seeker"
+shot_interval = 3.0
+seeker_turn = 3.4
+seeker_speed = 175.0
+seeker_status = &"burn"

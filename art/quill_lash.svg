@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Quill Lash</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffd8cf"/>
+      <stop offset="38%" stop-color="#d86a6a"/>
+      <stop offset="100%" stop-color="#6f3438"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 22 84 26 98 50 92 74 100 66 94 80 80 92 84 104 70 110 64 106 64.0 106 58.0 110 44.0 104 48.0 92 34.0 80 28.0 66 36.0 74 30.0 50 44.0 26 64.0 22Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 22 84 26 98 50 92 74 100 66 94 80 80 92 84 104 70 110 64 106 64.0 106 58.0 110 44.0 104 48.0 92 34.0 80 28.0 66 36.0 74 30.0 50 44.0 26 64.0 22Z" fill="url(#metal0)" stroke="#ffd8cf" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 38 78 48 80 64 70 74 64 76 58 74 48 64 50 48Z" fill="#080d16" opacity=".28" stroke="#fff3bc" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 44 70 52 70 62 64 68 58 62 58 52Z" fill="#080d16" opacity=".28" stroke="#ffd8cf" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="52" cy="62" r="4" fill="#080d16"/><circle cx="52" cy="62" r="1.8" fill="#fff3bc"/>
+    <circle cx="76" cy="62" r="4" fill="#080d16"/><circle cx="76" cy="62" r="1.8" fill="#fff3bc"/>
+    <path d="M64 78 72 82 64 88 56 82Z" fill="#fff3bc" stroke="none"/>
+  </g>
+</svg>

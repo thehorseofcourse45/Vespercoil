@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"magnet_core"
+title = "Magnet Core"
+health = 120.0
+speed = 36.0
+damage = 16.0
+radius = 16.0
+xp = 5
+color = Color(0.6208, 0.6553, 0.9098, 1)
+behaviour = &"buffer"

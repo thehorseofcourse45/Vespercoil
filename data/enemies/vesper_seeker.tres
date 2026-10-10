@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"vesper_seeker"
+title = "Vesper Seeker"
+health = 66.0
+speed = 66.0
+damage = 12.0
+radius = 12.0
+xp = 4
+color = Color(0.778, 0.5612, 0.9498, 1)
+behaviour = &"seeker"
+shot_interval = 2.2
+seeker_turn = 6.2
+seeker_speed = 255.0
+seeker_status = &"chill"

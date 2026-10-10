@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Vein Hound</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#f4afaf"/>
+      <stop offset="38%" stop-color="#e64c4c"/>
+      <stop offset="100%" stop-color="#672222"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M23 48 19 16 45 30 54 20 64 27 74 20 83 30 109 16 105 48 113 65 98 85 90 104 76 111 64 117 52 111 38 104 30 85 15 65Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M23 48 19 16 45 30 54 20 64 27 74 20 83 30 109 16 105 48 113 65 98 85 90 104 76 111 64 117 52 111 38 104 30 85 15 65Z" fill="url(#metal0)" stroke="#f4afaf" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 24 79 39 90 60 83 88 64 111Z" fill="#080d16" opacity=".28" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M28 28 40 49M100 28 88 49M44 37 52 46 47 52M84 37 76 46 81 52M29 72 43 80 39 87M99 72 85 80 89 87" fill="none" stroke="#f4afaf" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M33 57 54 62 45 72 32 65Z" fill="#080d16" stroke="#f4afaf" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M95 57 74 62 83 72 96 65Z" fill="#080d16" stroke="#f4afaf" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="43" cy="63" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="43" cy="63" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><circle cx="85" cy="63" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="85" cy="63" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><path d="M53 78 64 73 75 78 72 91 64 96 56 91Z" fill="#080d16" stroke="#f4afaf" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M59 80 69 80 64 85Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 87V101M49 98 56 102M79 98 72 102" fill="none" stroke="#f4afaf" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

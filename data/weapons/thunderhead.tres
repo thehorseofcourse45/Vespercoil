@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"thunderhead"
+title = "Thunderhead"
+description = "A rolling peal that arcs between everything it finds."
+behavior = &"lightning"
+color = Color(0.55, 0.75, 1, 1)
+base_damage = 21.0
+cooldown = 1.9
+projectile_count = 3
+pierce = 0
+knockback = 10.0
+duration = 0.15
+projectile_speed = 0.0
+radius = 160.0
+weight = 1.0
+damage_type = 3
+on_hit_status = Array[StringName]([&"shock"])
+level_changes = Array[Dictionary]([{"base_damage": 7.3, "cooldown": -0.15}, {"base_damage": 7.3, "projectile_count": 1}, {"base_damage": 7.3, "area_scale": 0.25}, {"base_damage": 7.3, "projectile_count": 1}, {"base_damage": 7.3, "cooldown": -0.15}, {"base_damage": 7.3, "projectile_count": 1}, {"base_damage": 7.3, "area_scale": 0.25}])
+evolution_passive = &"storm_sigil"
+evolution_title = "Skybreaker"
+tags = Array[StringName]([&"lightning", &"area"])

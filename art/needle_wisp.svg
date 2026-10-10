@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Needle Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#dfe6ff"/>
+      <stop offset="38%" stop-color="#8fa2e8"/>
+      <stop offset="100%" stop-color="#46538f"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 40 84 30 96 44 84 52 88 24 104 40 90 52 86 18 108 36 92 54 92 14 112 34 94 56 82 62 78 78 68 88 64 84 64.0 84 60.0 88 50.0 78 46.0 62 34.0 56 16.0 34 36.0 14 36.0 54 20.0 36 42.0 18 38.0 52 24.0 40 40.0 24 44.0 52 32.0 44 44.0 30 64.0 40Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 40 84 30 96 44 84 52 88 24 104 40 90 52 86 18 108 36 92 54 92 14 112 34 94 56 82 62 78 78 68 88 64 84 64.0 84 60.0 88 50.0 78 46.0 62 34.0 56 16.0 34 36.0 14 36.0 54 20.0 36 42.0 18 38.0 52 24.0 40 40.0 24 44.0 52 32.0 44 44.0 30 64.0 40Z" fill="url(#metal0)" stroke="#dfe6ff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 52 76 62 70 76 58 76 52 62Z" fill="#080d16" opacity=".28" stroke="#e8f0ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 58 70 64 67 72 61 72 58 64Z" fill="#080d16" opacity=".28" stroke="#dfe6ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 84 74 112 62 100Z" fill="#080d16" opacity=".28" stroke="#dfe6ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M69.7 98.6 75.7 105.6 69.7 112.6 63.7 105.6Z" fill="#e8f0ff" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M26.2 75.3 32.2 82.3 26.2 89.3 20.2 82.3Z" fill="#e8f0ff" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M34.9 26.7 40.9 33.7 34.9 40.7 28.9 33.7Z" fill="#e8f0ff" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M83.8 20.0 89.8 27.0 83.8 34.0 77.8 27.0Z" fill="#e8f0ff" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M105.3 64.4 111.3 71.4 105.3 78.4 99.3 71.4Z" fill="#e8f0ff" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="52" cy="62" r="4" fill="#080d16"/><circle cx="52" cy="62" r="1.8" fill="#fff3bc"/>
+    <circle cx="76" cy="62" r="4" fill="#080d16"/><circle cx="76" cy="62" r="1.8" fill="#fff3bc"/>
+    <path d="M64 78 72 82 64 88 56 82Z" fill="#fff3bc" stroke="none"/>
+  </g>
+</svg>

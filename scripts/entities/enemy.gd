@@ -1,3 +1,4 @@
+class_name VesperEnemy
 extends Node2D
 @export var data: EnemyData
 @onready var health: HealthComponent = $HealthComponent
@@ -25,6 +26,9 @@ var ability_enraged: float = 2.5
 var windup: float = 0.0
 var charge_time: float = 0.0
 var aim: Vector2 = Vector2.RIGHT
+var laser_time: float = 0.0
+var laser_tick_left: float = 0.0
+var laser_end: Vector2 = Vector2.ZERO
 var boss_title: String = ""
 var boss_attack: StringName = &"ring"
 var boss_stage: int = 0
@@ -40,6 +44,9 @@ var swarm_clock: float = 0.0
 var swarm_count: int = 0
 var affix: StringName = &""
 var affix_clock: float = 0.0
+var affix_fired: bool = false
+# Cached steering from the last full AI step; the manager reuses it on staggered frames.
+var last_direction: Vector2 = Vector2.ZERO
 # Mirrors hurtbox.radius, which is only ever assigned in activate() below. Spatial
 # queries read this per candidate, and a plain member read is cheaper than the two
 # property hops through hurtbox.
@@ -56,11 +63,11 @@ func activate(at: Vector2, token: int, is_elite: bool, is_boss: bool, final: boo
 	var size_factor: float = 2.3 if boss else (1.5 if elite else 1.0)
 	var health_factor: float = 60.0 if boss else (8.0 if elite else 1.0)
 	var time_health: float = RunManager.time_health_scale()
-	health.reset(data.health * health_factor * time_health * float(MetaProgression.DIFFICULTIES[RunManager.difficulty].health) * (1.0 + RunManager.curse * 0.04) * (1.0 + RunManager.ascension * 0.6))
+	health.reset(data.health * health_factor * time_health * float(MetaProgression.DIFFICULTIES[RunManager.difficulty].health) * (1.0 + RunManager.curse * 0.04) * (1.0 + RunManager.ascension * 0.6) * RunManager.mutator_health)
 	hurtbox.radius = data.radius * size_factor
 	reach_radius = hurtbox.radius
 	hitbox.damage = data.damage * (2.0 if boss else (1.4 if elite else 1.0)) * RunManager.time_damage_scale()
-	movement.speed = data.speed * RunManager.time_speed_scale()
+	movement.speed = data.speed * RunManager.time_speed_scale() * RunManager.mutator_speed
 	movement.impulse = Vector2.ZERO
 	drop.value = data.xp
 	shield_max = data.shield * health_factor * time_health
@@ -75,6 +82,9 @@ func activate(at: Vector2, token: int, is_elite: bool, is_boss: bool, final: boo
 	ability_enraged = 2.5
 	windup = 0.0
 	charge_time = 0.0
+	laser_time = 0.0
+	laser_tick_left = 0.0
+	laser_end = at
 	boss_title = ""
 	boss_attack = &"ring"
 	boss_stage = 0
@@ -90,5 +100,7 @@ func activate(at: Vector2, token: int, is_elite: bool, is_boss: bool, final: boo
 	swarm_count = 0
 	affix = &""
 	affix_clock = 0.0
+	affix_fired = false
+	last_direction = Vector2.ZERO
 	body.scale = Vector2.ONE * hurtbox.radius / 25.0
 	body.modulate = Color.WHITE

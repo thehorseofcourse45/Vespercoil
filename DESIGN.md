@@ -159,7 +159,7 @@ push-out in World; open terrain remains non-blocking, so direct pursuit is still
 valid pathfinding across the arena.
 
 One EnemyManager updates every active enemy; enemies have no processing callback.
-Each type has its own free list, initially 224 instances (1,568 total), growing by 32.
+Each type has its own free list, sized from 48 instances for the seven shared combat types down to 8 for the newest families (1,608 total), growing by 32.
 Deaths and far-away despawns return instances. IDs change every activation so
 lingering hit cooldowns cannot confuse a reused instance with its previous life.
 This node approach keeps component scenes inspectable and permits shield/shooter/
@@ -217,7 +217,7 @@ Baseline fields before levels/passives; cooldown in seconds, speed in units/seco
 
 Every two minutes: an elite has ×8 HP, ×1.4 damage, ×1.5 size; bosses at 10/20/30
 minutes have ×60 HP, ×2 damage, ×2.3 size. Final boss death wins; death loses.
-Enemy HP scales +2.5% per minute and speed up to +30%. Spawn cadence rises from
+Enemy HP compounds +8% per minute and speed up to +50%. Spawn cadence rises from
 2/1.4 s to 16/0.34 s. Weapon levels add damage and selected counts/area/pierce;
 five-level passives multiply this growth. A 30-minute run can continue past 30:00
 until its final boss dies. Late power depends on collecting gems and coherent builds.

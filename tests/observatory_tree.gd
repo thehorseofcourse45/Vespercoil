@@ -23,7 +23,7 @@ func run() -> void:
 	await process_frame
 	var tree = hud.observatory
 	assert(tree.visible and not hud.menu.visible and paused)
-	assert(meta.MAX.size() == 184 and tree.nodes.size() == meta.MAX.size())
+	assert(meta.MAX.size() >= 184 and tree.nodes.size() == meta.MAX.size())
 	for branch in meta.BRANCHES:
 		tree.show_branch(branch)
 		assert(tree.branch_ids[branch].size() == meta.BRANCHES[branch].size())

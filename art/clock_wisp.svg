@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Clock Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#f4e8c6"/>
+      <stop offset="38%" stop-color="#e6cc80"/>
+      <stop offset="100%" stop-color="#675c39"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 22 80 27 86 38 99 43 99 58 106 64 99 70 99 85 86 90 80 101 64 106 48 101 42 90 29 85 29 70 22 64 29 58 29 43 42 38 48 27Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 22 80 27 86 38 99 43 99 58 106 64 99 70 99 85 86 90 80 101 64 106 48 101 42 90 29 85 29 70 22 64 29 58 29 43 42 38 48 27Z" fill="url(#metal0)" stroke="#f4e8c6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 38V65L79 72M45 44 49 48M83 44 79 48M45 85 49 81M83 85 79 81" fill="none" stroke="#f4e8c6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="64" cy="65" r="23" fill="#080d16" stroke="#f4e8c6" stroke-width="2"/><path d="M64 38V65L79 72M45 44 49 48M83 44 79 48M45 85 49 81M83 85 79 81" fill="none" stroke="#fff3bc" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 56 71 65 64 74 57 65Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 60 68 65 64 70 60 65Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

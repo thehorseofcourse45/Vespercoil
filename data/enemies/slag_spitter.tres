@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"slag_spitter"
+title = "Slag Spitter"
+health = 40.0
+speed = 44.0
+damage = 11.0
+radius = 12.0
+xp = 5
+color = Color(1, 0.7, 0.2, 1)
+contact_status = &"burn"
+behaviour = &"kiter"

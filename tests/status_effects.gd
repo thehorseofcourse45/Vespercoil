@@ -69,6 +69,12 @@ func run() -> void:
 	# 1 stack is 1x; 3 stacks is 3x. Player stats (notably mult_true) scale the sink, so
 	# zero them for a clean ratio -- same approach as damage_pipeline.gd.
 	var bleed_probe = game.enemies.spawn(&"chaser", Vector2(420, 0))
+	# The ratio must not race the live crit roll, and a chaser dies to three stacks
+	# (which capped the measured ratio at ~1.8 and could dip under the threshold on an
+	# unlucky 5% crit). Pin crit off and use a deep pool so both samples measure raw
+	# scaling: 1 stack is 1x, 3 stacks is 3x.
+	game.player.stats.base[&"crit_chance"] = 0.0
+	bleed_probe.health.reset(10000.0)
 	var bleed_full: float = bleed_probe.health.current
 	bleed_probe.status.apply(StatusLibrary.get_effect(&"bleed"))
 	bleed_probe.shield = 0.0

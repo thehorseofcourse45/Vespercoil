@@ -8,38 +8,15 @@ const DIFFICULTIES: Array[Dictionary] = [
 ]
 const RESOLUTIONS: Array[Vector2i] = [Vector2i(1280, 720), Vector2i(1366, 768), Vector2i(1600, 900), Vector2i(1920, 1080), Vector2i(2560, 1440), Vector2i(3840, 2160)]
 # Every keeper that has to be earned. A fresh save awakens only FRESH_UNLOCKED.
-# Clearing a ground is the headline route and each region file names its own keeper
-# in reward_character; MILESTONE_UNLOCKS is the single-run feat that also works.
+# Clearing a ground is the only route: each region file names its own keeper in
+# reward_character, so a keeper wakes exactly when its atlas card is cleared.
 const NEW_UNLOCKS: Array[String] = [
 	"Artificer", "Pathfinder", "Cinderkeeper", "Frostweaver",
 	"Warden", "Arcanist", "Salvager", "Archivist",
 	"Hexblade", "Eclipse", "Ravager", "Glazier",
 	"Fenwalker", "Starwright", "Veilbinder", "Ashcaller",
 	"Stormwright", "Brinelord", "Polaris",
-]
-# The alternate route: one hard feat inside a single run awakens a keeper, so a
-# player still sealed out of a ground can widen the roster. `stat` names the run
-# counter, `at` is the threshold; "difficulty" counts only on a win.
-const MILESTONE_UNLOCKS: Array[Dictionary] = [
-	{"character": "Artificer", "stat": "kills", "at": 100.0, "hint": "defeat 100 enemies in one run"},
-	{"character": "Pathfinder", "stat": "kills", "at": 250.0, "hint": "defeat 250 enemies in one run"},
-	{"character": "Cinderkeeper", "stat": "kills", "at": 400.0, "hint": "defeat 400 enemies in one run"},
-	{"character": "Warden", "stat": "kills", "at": 500.0, "hint": "defeat 500 enemies in one run"},
-	{"character": "Arcanist", "stat": "seconds", "at": 600.0, "hint": "survive ten minutes in one run"},
-	{"character": "Frostweaver", "stat": "difficulty", "at": 1.0, "hint": "win a run on Veteran or Nightmare"},
-	{"character": "Hexblade", "stat": "kills", "at": 750.0, "hint": "defeat 750 enemies in one run"},
-	{"character": "Eclipse", "stat": "difficulty", "at": 2.0, "hint": "win a run on Nightmare"},
-	{"character": "Ravager", "stat": "kills", "at": 1500.0, "hint": "defeat 1,500 enemies in one run"},
-	{"character": "Salvager", "stat": "caches", "at": 3.0, "hint": "open 3 caches in one run"},
-	{"character": "Archivist", "stat": "rooms", "at": 1.0, "hint": "discover a hidden room"},
-	{"character": "Glazier", "stat": "caches", "at": 6.0, "hint": "open 6 caches in one run"},
-	{"character": "Fenwalker", "stat": "caches", "at": 5.0, "hint": "open 5 caches in one run"},
-	{"character": "Starwright", "stat": "seconds", "at": 300.0, "hint": "survive five minutes in one run"},
-	{"character": "Veilbinder", "stat": "kills", "at": 900.0, "hint": "defeat 900 enemies in one run"},
-	{"character": "Ashcaller", "stat": "rooms", "at": 2.0, "hint": "discover two hidden rooms"},
-	{"character": "Stormwright", "stat": "kills", "at": 1200.0, "hint": "defeat 1,200 enemies in one run"},
-	{"character": "Brinelord", "stat": "seconds", "at": 900.0, "hint": "survive fifteen minutes in one run"},
-	{"character": "Polaris", "stat": "kills", "at": 2000.0, "hint": "defeat 2,000 enemies in one run"},
+	"Saltsworn", "Amberkeeper", "Bellsinger", "Lodestar", "Quillkeeper",
 ]
 const BOSS_UPGRADE_REQUIRES: Dictionary = {
 	"boss_veilwood": "veilwood",
@@ -76,6 +53,24 @@ const BOSS_UPGRADE_REQUIRES: Dictionary = {
 	&"boss_black_voidlance": "black_aurora",
 	&"boss_black_prism_recoil": "black_aurora",
 	&"boss_black_meridian": "black_aurora",
+	"boss_veilwood_canopy": "veilwood",
+	"boss_veilwood_rootblade": "veilwood",
+	"boss_veilwood_green_archive": "veilwood",
+	"boss_veilwood_harvest_moon": "veilwood",
+	"boss_cinder_solar_ward": "cinder_reach",
+	"boss_cinder_forgeheart": "cinder_reach",
+	"boss_cinder_coal_ledger": "cinder_reach",
+	"boss_cinder_sunblade": "cinder_reach",
+	"boss_storm_lightning_rod": "storm_citadel",
+	"boss_storm_skyblade": "storm_citadel",
+	"boss_storm_cloudstep": "storm_citadel",
+	"boss_storm_thunder_archive": "storm_citadel",
+	"boss_tidal_mirrorwater": "tidal_maw",
+	"boss_tidal_deepwinter": "tidal_maw",
+	"boss_tidal_pearl_ledger": "tidal_maw",
+	"boss_black_prismguard": "black_aurora",
+	"boss_black_nightblade": "black_aurora",
+	"boss_black_star_archive": "black_aurora",
 }
 const BOSS_UPGRADE_NAMES: Dictionary = {
 	"veilwood": "THE VERDANT WARDEN",
@@ -220,6 +215,96 @@ const NEW_STAT_BONUSES: Dictionary = {
 	"boss_black_voidlance": [[&"mult_physical", 0, 0.07], [&"damage", 0, 0.06]],
 	"boss_black_prism_recoil": [[&"area", 0, 0.06], [&"crit_damage", 0.04, 0]],
 	"boss_black_meridian": [[&"speed", 0, 0.03], [&"pickup", 0, 0.06]],
+	"razor_constellation": [[&"mult_physical", 0, 0.04], [&"crit_damage", 0.03, 0]],
+	"hunters_focus": [[&"crit_chance", 0.005, 0], [&"damage", 0, 0.02]],
+	"terminal_edge": [[&"crit_damage", 0.04, 0], [&"mult_physical", 0, 0.03]],
+	"expanding_blade": [[&"area", 0, 0.03], [&"mult_physical", 0, 0.03]],
+	"sunfire_script": [[&"mult_fire", 0, 0.04], [&"area", 0, 0.02]],
+	"scorching_precision": [[&"mult_fire", 0, 0.04], [&"crit_chance", 0.005, 0]],
+	"ember_reach": [[&"area", 0, 0.03], [&"mult_fire", 0, 0.03]],
+	"winter_script": [[&"mult_ice", 0, 0.04], [&"area", 0, 0.02]],
+	"crystal_precision": [[&"mult_ice", 0, 0.04], [&"crit_chance", 0.005, 0]],
+	"shattering_edge": [[&"crit_damage", 0.04, 0], [&"mult_ice", 0, 0.03]],
+	"tempest_script": [[&"mult_lightning", 0, 0.04], [&"area", 0, 0.02]],
+	"charged_precision": [[&"mult_lightning", 0, 0.04], [&"crit_chance", 0.005, 0]],
+	"thunder_reach": [[&"area", 0, 0.03], [&"mult_lightning", 0, 0.03]],
+	"void_geometry": [[&"mult_true", 0, 0.04], [&"area", 0, 0.02]],
+	"astral_execution": [[&"crit_damage", 0.04, 0], [&"mult_true", 0, 0.03]],
+	"siege_doctrine": [[&"damage", 0, 0.03], [&"area", 0, 0.02]],
+	"mobile_arsenal": [[&"damage", 0, 0.03], [&"speed", 0, 0.01]],
+	"balanced_arsenal": [[&"mult_physical", 0, 0.03], [&"mult_true", 0, 0.03]],
+	"prismatic_insulation": [[&"resist_laser", 0.03, 0], [&"max_health", 3, 0]],
+	"beam_bastion": [[&"resist_laser", 0.04, 0], [&"armour", 0.25, 0]],
+	"refractive_shell": [[&"resist_laser", 0.03, 0], [&"speed", 0, 0.01]],
+	"radiant_shelter": [[&"resist_laser", 0.03, 0], [&"resist_physical", 0.02, 0]],
+	"iron_constellation": [[&"max_health", 4, 0], [&"armour", 0.25, 0]],
+	"layered_plate": [[&"armour", 0.35, 0], [&"resist_physical", 0.02, 0]],
+	"granite_oath": [[&"resist_physical", 0.025, 0], [&"max_health", 3, 0]],
+	"furnace_lining": [[&"resist_fire", 0.025, 0], [&"armour", 0.25, 0]],
+	"winter_lining": [[&"resist_ice", 0.025, 0], [&"armour", 0.25, 0]],
+	"tempest_lining": [[&"resist_lightning", 0.025, 0], [&"armour", 0.25, 0]],
+	"null_lining": [[&"resist_laser", 0.025, 0], [&"max_health", 3, 0]],
+	"nimble_bastion": [[&"max_health", 3, 0], [&"speed", 0, 0.015]],
+	"storm_shelter": [[&"resist_lightning", 0.025, 0], [&"speed", 0, 0.015]],
+	"hearth_shelter": [[&"resist_fire", 0.025, 0], [&"max_health", 3, 0]],
+	"briar_shelter": [[&"resist_ice", 0.025, 0], [&"max_health", 3, 0]],
+	"polar_shelter": [[&"resist_laser", 0.025, 0], [&"resist_ice", 0.02, 0]],
+	"pilgrims_bastion": [[&"max_health", 4, 0], [&"pickup", 0, 0.02]],
+	"wardens_discipline": [[&"armour", 0.35, 0], [&"max_health", 3, 0]],
+	"cartographers_stride": [[&"speed", 0, 0.015], [&"xp", 0, 0.025]],
+	"treasure_compass": [[&"gold", 0, 0.03], [&"pickup", 0, 0.025]],
+	"scholars_route": [[&"xp", 0, 0.03], [&"pickup", 0, 0.02]],
+	"magnetic_horizon": [[&"pickup", 0, 0.04], [&"xp", 0, 0.02]],
+	"prospectors_route": [[&"gold", 0, 0.03], [&"speed", 0, 0.01]],
+	"pilgrims_provision": [[&"max_health", 3, 0], [&"xp", 0, 0.025]],
+	"fleet_collector": [[&"pickup", 0, 0.03], [&"speed", 0, 0.01]],
+	"golden_archive": [[&"xp", 0, 0.03], [&"gold", 0, 0.025]],
+	"wide_survey": [[&"area", 0, 0.025], [&"pickup", 0, 0.025]],
+	"pathfinders_ward": [[&"speed", 0, 0.01], [&"armour", 0.25, 0]],
+	"expedition_rations": [[&"max_health", 3, 0], [&"speed", 0, 0.01]],
+	"field_studies": [[&"xp", 0, 0.03], [&"mult_true", 0, 0.02]],
+	"salvagers_edge": [[&"gold", 0, 0.03], [&"damage", 0, 0.02]],
+	"rangers_circuit": [[&"speed", 0, 0.015], [&"mult_physical", 0, 0.02]],
+	"ember_survey": [[&"xp", 0, 0.03], [&"mult_fire", 0, 0.02]],
+	"frost_survey": [[&"xp", 0, 0.03], [&"mult_ice", 0, 0.02]],
+	"storm_survey": [[&"pickup", 0, 0.03], [&"mult_lightning", 0, 0.02]],
+	"distant_beacon": [[&"pickup", 0, 0.04], [&"max_health", 3, 0]],
+	"razors_due": [[&"damage", 0, 0.05], [&"max_health", -2, 0], [&"curse", 1, 0]],
+	"fragile_precision": [[&"crit_chance", 0.01, 0], [&"max_health", -2, 0], [&"curse", 1, 0]],
+	"hollow_execution": [[&"crit_damage", 0.07, 0], [&"armour", -0.2, 0], [&"curse", 1, 0]],
+	"burning_debt": [[&"mult_fire", 0, 0.06], [&"resist_fire", -0.01, 0], [&"curse", 1, 0]],
+	"winter_debt": [[&"mult_ice", 0, 0.06], [&"resist_ice", -0.01, 0], [&"curse", 1, 0]],
+	"storm_debt": [[&"mult_lightning", 0, 0.06], [&"resist_lightning", -0.01, 0], [&"curse", 1, 0]],
+	"void_debt": [[&"mult_true", 0, 0.06], [&"resist_laser", -0.01, 0], [&"curse", 1, 0]],
+	"golden_hunger": [[&"gold", 0, 0.06], [&"max_health", -2, 0], [&"curse", 1, 0]],
+	"forbidden_archive": [[&"xp", 0, 0.06], [&"gold", 0, -0.02], [&"curse", 1, 0]],
+	"reckless_stride": [[&"speed", 0, 0.03], [&"armour", -0.2, 0], [&"curse", 1, 0]],
+	"unbound_geometry": [[&"area", 0, 0.05], [&"max_health", -2, 0], [&"curse", 1, 0]],
+	"brittle_blade": [[&"mult_physical", 0, 0.06], [&"resist_physical", -0.01, 0], [&"curse", 1, 0]],
+	"scorching_ledger": [[&"gold", 0, 0.05], [&"resist_fire", -0.01, 0], [&"curse", 1, 0]],
+	"frozen_ledger": [[&"xp", 0, 0.05], [&"speed", 0, -0.005], [&"curse", 1, 0]],
+	"charged_ledger": [[&"pickup", 0, 0.07], [&"resist_lightning", -0.01, 0], [&"curse", 1, 0]],
+	"crimson_survey": [[&"pickup", 0, 0.06], [&"max_health", -2, 0], [&"curse", 1, 0]],
+	"predators_bargain": [[&"damage", 0, 0.05], [&"pickup", 0, -0.02], [&"curse", 1, 0]],
+	"eclipse_bargain": [[&"mult_true", 0, 0.05], [&"xp", 0, -0.02], [&"curse", 1, 0]],
+	"boss_veilwood_canopy": [[&"max_health", 4, 0], [&"resist_laser", 0.02, 0]],
+	"boss_veilwood_rootblade": [[&"mult_physical", 0, 0.04], [&"armour", 0.25, 0]],
+	"boss_veilwood_green_archive": [[&"xp", 0, 0.04], [&"max_health", 3, 0]],
+	"boss_veilwood_harvest_moon": [[&"gold", 0, 0.04], [&"pickup", 0, 0.03]],
+	"boss_cinder_solar_ward": [[&"resist_laser", 0.03, 0], [&"resist_fire", 0.02, 0]],
+	"boss_cinder_forgeheart": [[&"mult_fire", 0, 0.04], [&"max_health", 3, 0]],
+	"boss_cinder_coal_ledger": [[&"gold", 0, 0.04], [&"mult_fire", 0, 0.02]],
+	"boss_cinder_sunblade": [[&"crit_damage", 0.04, 0], [&"mult_fire", 0, 0.03]],
+	"boss_storm_lightning_rod": [[&"resist_lightning", 0.025, 0], [&"resist_laser", 0.025, 0]],
+	"boss_storm_skyblade": [[&"mult_lightning", 0, 0.04], [&"crit_chance", 0.005, 0]],
+	"boss_storm_cloudstep": [[&"speed", 0, 0.015], [&"resist_lightning", 0.02, 0]],
+	"boss_storm_thunder_archive": [[&"xp", 0, 0.04], [&"mult_lightning", 0, 0.02]],
+	"boss_tidal_mirrorwater": [[&"resist_laser", 0.03, 0], [&"resist_ice", 0.02, 0]],
+	"boss_tidal_deepwinter": [[&"mult_ice", 0, 0.04], [&"pickup", 0, 0.03]],
+	"boss_tidal_pearl_ledger": [[&"gold", 0, 0.04], [&"armour", 0.25, 0]],
+	"boss_black_prismguard": [[&"resist_laser", 0.03, 0], [&"resist_physical", 0.02, 0]],
+	"boss_black_nightblade": [[&"mult_true", 0, 0.04], [&"crit_damage", 0.03, 0]],
+	"boss_black_star_archive": [[&"xp", 0, 0.04], [&"mult_true", 0, 0.02]],
 }
 
 const MAX: Dictionary = {
@@ -407,6 +492,96 @@ const MAX: Dictionary = {
 	&"boss_black_voidlance": 3,
 	&"boss_black_prism_recoil": 3,
 	&"boss_black_meridian": 4,
+	"razor_constellation": 3,
+	"hunters_focus": 3,
+	"terminal_edge": 3,
+	"expanding_blade": 3,
+	"sunfire_script": 3,
+	"scorching_precision": 3,
+	"ember_reach": 3,
+	"winter_script": 3,
+	"crystal_precision": 3,
+	"shattering_edge": 3,
+	"tempest_script": 3,
+	"charged_precision": 3,
+	"thunder_reach": 3,
+	"void_geometry": 3,
+	"astral_execution": 3,
+	"siege_doctrine": 3,
+	"mobile_arsenal": 3,
+	"balanced_arsenal": 3,
+	"prismatic_insulation": 3,
+	"beam_bastion": 3,
+	"refractive_shell": 3,
+	"radiant_shelter": 3,
+	"iron_constellation": 3,
+	"layered_plate": 3,
+	"granite_oath": 3,
+	"furnace_lining": 3,
+	"winter_lining": 3,
+	"tempest_lining": 3,
+	"null_lining": 3,
+	"nimble_bastion": 3,
+	"storm_shelter": 3,
+	"hearth_shelter": 3,
+	"briar_shelter": 3,
+	"polar_shelter": 3,
+	"pilgrims_bastion": 3,
+	"wardens_discipline": 3,
+	"cartographers_stride": 3,
+	"treasure_compass": 3,
+	"scholars_route": 3,
+	"magnetic_horizon": 3,
+	"prospectors_route": 3,
+	"pilgrims_provision": 3,
+	"fleet_collector": 3,
+	"golden_archive": 3,
+	"wide_survey": 3,
+	"pathfinders_ward": 3,
+	"expedition_rations": 3,
+	"field_studies": 3,
+	"salvagers_edge": 3,
+	"rangers_circuit": 3,
+	"ember_survey": 3,
+	"frost_survey": 3,
+	"storm_survey": 3,
+	"distant_beacon": 3,
+	"razors_due": 3,
+	"fragile_precision": 3,
+	"hollow_execution": 3,
+	"burning_debt": 3,
+	"winter_debt": 3,
+	"storm_debt": 3,
+	"void_debt": 3,
+	"golden_hunger": 3,
+	"forbidden_archive": 3,
+	"reckless_stride": 3,
+	"unbound_geometry": 3,
+	"brittle_blade": 3,
+	"scorching_ledger": 3,
+	"frozen_ledger": 3,
+	"charged_ledger": 3,
+	"crimson_survey": 3,
+	"predators_bargain": 3,
+	"eclipse_bargain": 3,
+	"boss_veilwood_canopy": 3,
+	"boss_veilwood_rootblade": 3,
+	"boss_veilwood_green_archive": 3,
+	"boss_veilwood_harvest_moon": 3,
+	"boss_cinder_solar_ward": 3,
+	"boss_cinder_forgeheart": 3,
+	"boss_cinder_coal_ledger": 3,
+	"boss_cinder_sunblade": 3,
+	"boss_storm_lightning_rod": 3,
+	"boss_storm_skyblade": 3,
+	"boss_storm_cloudstep": 3,
+	"boss_storm_thunder_archive": 3,
+	"boss_tidal_mirrorwater": 3,
+	"boss_tidal_deepwinter": 3,
+	"boss_tidal_pearl_ledger": 3,
+	"boss_black_prismguard": 3,
+	"boss_black_nightblade": 3,
+	"boss_black_star_archive": 3,
 }
 const BONUS_INFO: Dictionary = {
 	"might": "+3% damage",
@@ -593,13 +768,103 @@ const BONUS_INFO: Dictionary = {
 	&"boss_black_voidlance": "+7% physical damage, +6% damage",
 	&"boss_black_prism_recoil": "+6% weapon area, +4% critical damage",
 	&"boss_black_meridian": "+3% speed, +6% pickup radius",
+	"razor_constellation": "+4% physical damage; +3 percentage points critical damage per rank.",
+	"hunters_focus": "+0.5 percentage points critical chance; +2% damage per rank.",
+	"terminal_edge": "+4 percentage points critical damage; +3% physical damage per rank.",
+	"expanding_blade": "+3% attack area; +3% physical damage per rank.",
+	"sunfire_script": "+4% fire damage; +2% attack area per rank.",
+	"scorching_precision": "+4% fire damage; +0.5 percentage points critical chance per rank.",
+	"ember_reach": "+3% attack area; +3% fire damage per rank.",
+	"winter_script": "+4% ice damage; +2% attack area per rank.",
+	"crystal_precision": "+4% ice damage; +0.5 percentage points critical chance per rank.",
+	"shattering_edge": "+4 percentage points critical damage; +3% ice damage per rank.",
+	"tempest_script": "+4% lightning damage; +2% attack area per rank.",
+	"charged_precision": "+4% lightning damage; +0.5 percentage points critical chance per rank.",
+	"thunder_reach": "+3% attack area; +3% lightning damage per rank.",
+	"void_geometry": "+4% true damage; +2% attack area per rank.",
+	"astral_execution": "+4 percentage points critical damage; +3% true damage per rank.",
+	"siege_doctrine": "+3% damage; +2% attack area per rank.",
+	"mobile_arsenal": "+3% damage; +1% move speed per rank.",
+	"balanced_arsenal": "+3% physical damage; +3% true damage per rank.",
+	"prismatic_insulation": "+3 percentage points laser resistance; +3 max health per rank.",
+	"beam_bastion": "+4 percentage points laser resistance; +0.25 armour per rank.",
+	"refractive_shell": "+3 percentage points laser resistance; +1% move speed per rank.",
+	"radiant_shelter": "+3 percentage points laser resistance; +2 percentage points physical resistance per rank.",
+	"iron_constellation": "+4 max health; +0.25 armour per rank.",
+	"layered_plate": "+0.35 armour; +2 percentage points physical resistance per rank.",
+	"granite_oath": "+2.5 percentage points physical resistance; +3 max health per rank.",
+	"furnace_lining": "+2.5 percentage points fire resistance; +0.25 armour per rank.",
+	"winter_lining": "+2.5 percentage points ice resistance; +0.25 armour per rank.",
+	"tempest_lining": "+2.5 percentage points lightning resistance; +0.25 armour per rank.",
+	"null_lining": "+2.5 percentage points laser resistance; +3 max health per rank.",
+	"nimble_bastion": "+3 max health; +1.5% move speed per rank.",
+	"storm_shelter": "+2.5 percentage points lightning resistance; +1.5% move speed per rank.",
+	"hearth_shelter": "+2.5 percentage points fire resistance; +3 max health per rank.",
+	"briar_shelter": "+2.5 percentage points ice resistance; +3 max health per rank.",
+	"polar_shelter": "+2.5 percentage points laser resistance; +2 percentage points ice resistance per rank.",
+	"pilgrims_bastion": "+4 max health; +2% pickup radius per rank.",
+	"wardens_discipline": "+0.35 armour; +3 max health per rank.",
+	"cartographers_stride": "+1.5% move speed; +2.5% XP gain per rank.",
+	"treasure_compass": "+3% gold gain; +2.5% pickup radius per rank.",
+	"scholars_route": "+3% XP gain; +2% pickup radius per rank.",
+	"magnetic_horizon": "+4% pickup radius; +2% XP gain per rank.",
+	"prospectors_route": "+3% gold gain; +1% move speed per rank.",
+	"pilgrims_provision": "+3 max health; +2.5% XP gain per rank.",
+	"fleet_collector": "+3% pickup radius; +1% move speed per rank.",
+	"golden_archive": "+3% XP gain; +2.5% gold gain per rank.",
+	"wide_survey": "+2.5% attack area; +2.5% pickup radius per rank.",
+	"pathfinders_ward": "+1% move speed; +0.25 armour per rank.",
+	"expedition_rations": "+3 max health; +1% move speed per rank.",
+	"field_studies": "+3% XP gain; +2% true damage per rank.",
+	"salvagers_edge": "+3% gold gain; +2% damage per rank.",
+	"rangers_circuit": "+1.5% move speed; +2% physical damage per rank.",
+	"ember_survey": "+3% XP gain; +2% fire damage per rank.",
+	"frost_survey": "+3% XP gain; +2% ice damage per rank.",
+	"storm_survey": "+3% pickup radius; +2% lightning damage per rank.",
+	"distant_beacon": "+4% pickup radius; +3 max health per rank.",
+	"razors_due": "+5% damage; -2 max health; +1 curse per rank.",
+	"fragile_precision": "+1 percentage points critical chance; -2 max health; +1 curse per rank.",
+	"hollow_execution": "+7 percentage points critical damage; -0.2 armour; +1 curse per rank.",
+	"burning_debt": "+6% fire damage; -1 percentage points fire resistance; +1 curse per rank.",
+	"winter_debt": "+6% ice damage; -1 percentage points ice resistance; +1 curse per rank.",
+	"storm_debt": "+6% lightning damage; -1 percentage points lightning resistance; +1 curse per rank.",
+	"void_debt": "+6% true damage; -1 percentage points laser resistance; +1 curse per rank.",
+	"golden_hunger": "+6% gold gain; -2 max health; +1 curse per rank.",
+	"forbidden_archive": "+6% XP gain; -2% gold gain; +1 curse per rank.",
+	"reckless_stride": "+3% move speed; -0.2 armour; +1 curse per rank.",
+	"unbound_geometry": "+5% attack area; -2 max health; +1 curse per rank.",
+	"brittle_blade": "+6% physical damage; -1 percentage points physical resistance; +1 curse per rank.",
+	"scorching_ledger": "+5% gold gain; -1 percentage points fire resistance; +1 curse per rank.",
+	"frozen_ledger": "+5% XP gain; -0.5% move speed; +1 curse per rank.",
+	"charged_ledger": "+7% pickup radius; -1 percentage points lightning resistance; +1 curse per rank.",
+	"crimson_survey": "+6% pickup radius; -2 max health; +1 curse per rank.",
+	"predators_bargain": "+5% damage; -2% pickup radius; +1 curse per rank.",
+	"eclipse_bargain": "+5% true damage; -2% XP gain; +1 curse per rank.",
+	"boss_veilwood_canopy": "+4 max health; +2 percentage points laser resistance per rank.",
+	"boss_veilwood_rootblade": "+4% physical damage; +0.25 armour per rank.",
+	"boss_veilwood_green_archive": "+4% XP gain; +3 max health per rank.",
+	"boss_veilwood_harvest_moon": "+4% gold gain; +3% pickup radius per rank.",
+	"boss_cinder_solar_ward": "+3 percentage points laser resistance; +2 percentage points fire resistance per rank.",
+	"boss_cinder_forgeheart": "+4% fire damage; +3 max health per rank.",
+	"boss_cinder_coal_ledger": "+4% gold gain; +2% fire damage per rank.",
+	"boss_cinder_sunblade": "+4 percentage points critical damage; +3% fire damage per rank.",
+	"boss_storm_lightning_rod": "+2.5 percentage points lightning resistance; +2.5 percentage points laser resistance per rank.",
+	"boss_storm_skyblade": "+4% lightning damage; +0.5 percentage points critical chance per rank.",
+	"boss_storm_cloudstep": "+1.5% move speed; +2 percentage points lightning resistance per rank.",
+	"boss_storm_thunder_archive": "+4% XP gain; +2% lightning damage per rank.",
+	"boss_tidal_mirrorwater": "+3 percentage points laser resistance; +2 percentage points ice resistance per rank.",
+	"boss_tidal_deepwinter": "+4% ice damage; +3% pickup radius per rank.",
+	"boss_tidal_pearl_ledger": "+4% gold gain; +0.25 armour per rank.",
+	"boss_black_prismguard": "+3 percentage points laser resistance; +2 percentage points physical resistance per rank.",
+	"boss_black_nightblade": "+4% true damage; +3 percentage points critical damage per rank.",
+	"boss_black_star_archive": "+4% XP gain; +2% true damage per rank.",
 }
 const BRANCHES: Dictionary = {
-	"OFFENSE": ["might", "precision", "execution", "volley", "area", "fire", "ice", "lightning", "knockback", "physical_edge", "piercing", "ballistics", "catalyst", "armor_break", "tempered_edge", "quickdraw", "wide_arc", "critical_mass", "ember_fang", "glacial_edge", "storm_lance", "void_cut", "siege_round", "keening_edge", "forked_volley", "ember_oath", "glacial_oath", "storm_oath", "honed_edge", "execution_rite", "finishing_arc", "deep_cut", "cinderbrand", "flare_step", "frostbrand", "shattercold", "stormbrand", "voltaic_rhythm", "double_tap", "swift_flurry", "rifle_pace", "hunt_step", "execution_surge"],
-	"SURVIVAL": ["vitality", "aegis", "revive", "physical_ward", "fire_ward", "evasion", "regeneration", "last_stand", "cursed_plate", "frost_ward", "lightning_ward", "iron_heart", "moving_guard", "ember_skin", "oathshield", "refuge", "stone_blood", "elemental_aegis", "windstep", "second_pulse", "sparkshrine", "fortified_frame", "tower_guard", "molten_aegis", "glacial_aegis", "voltaic_aegis", "all_weather", "fleet_guard", "stormfoot", "pulse_battery", "siphon_guard", "frontier_survival", "cinder_kin", "briar_kin", "storm_kin", "oath_of_continuity"],
-	"EXPEDITION": ["boots", "haste", "wisdom", "reroll", "reserve", "pickup", "gold", "banish", "trinket_slot", "beacon_focus", "contract_scribe", "cache_salvage", "early_evolution", "event_surveyor", "trailblazer", "astral_lens", "fortune_finder", "deep_pockets", "swift_harvest", "guiding_star", "vanguard_steps", "wayfarer_stride", "salvager_sense", "trail_clock", "open_quiver", "far_scout", "long_road", "swift_cache", "measured_march", "split_the_trail", "star_chart", "dust_road", "salvage_ledger", "field_reserve", "far_reach", "pacer_ritual", "salvage_sprint", "clockwork_trek", "horizon_sight", "wayfarer_cache", "prismatic_horizon"],
-	"RISK": ["curse", "glass_cannon", "gilded_famine", "redline", "blood_oath", "fever_pitch", "storm_pact", "frozen_bargain", "gilded_danger", "abyss_hunger", "dangerous_ambition", "barbed_pact", "ember_gamble", "frost_gamble", "storm_gamble", "crimson_ambition", "gilded_edge", "brutal_reflex", "ember_surge", "frost_surge", "storm_surge", "redline_reprise", "cursed_purse", "ember_reverie", "glacial_reverie", "storm_reverie", "crimson_reverie", "mercury_malice", "deep_greed", "cataclysmic_pact"],
-	"BOSSES": ["boss_veilwood", "boss_cinder_reach", "boss_storm_citadel", "boss_tidal_maw", "boss_black_aurora", "boss_veilwood_edge", "boss_storm_ward", "boss_tidal_greed", "boss_veilwood_bloom", "boss_cinder_crown", "boss_storm_conduit", "boss_tidal_shell", "boss_aurora_prism", "boss_cinder_ash", "boss_veilwood_heartwood", "boss_veilwood_deeproots", "boss_veilwood_groveguard", "boss_veilwood_bounty", "boss_cinder_kindling", "boss_cinder_hearthguard", "boss_cinder_forge_edge", "boss_cinder_ember_crown", "boss_storm_static_charge", "boss_storm_skyshroud", "boss_storm_thunder_focus", "boss_storm_overcharge", "boss_tidal_deepcurrent", "boss_tidal_tidegold", "boss_tidal_undertow", "boss_tidal_abyss_plate", "boss_black_eclipse", "boss_black_voidlance", "boss_black_prism_recoil", "boss_black_meridian"],
+	"OFFENSE": ["might", "precision", "execution", "volley", "area", "fire", "ice", "lightning", "knockback", "physical_edge", "piercing", "ballistics", "catalyst", "armor_break", "tempered_edge", "quickdraw", "wide_arc", "critical_mass", "ember_fang", "glacial_edge", "storm_lance", "void_cut", "siege_round", "keening_edge", "forked_volley", "ember_oath", "glacial_oath", "storm_oath", "honed_edge", "execution_rite", "finishing_arc", "deep_cut", "cinderbrand", "flare_step", "frostbrand", "shattercold", "stormbrand", "voltaic_rhythm", "double_tap", "swift_flurry", "rifle_pace", "hunt_step", "execution_surge", "razor_constellation", "hunters_focus", "terminal_edge", "expanding_blade", "sunfire_script", "scorching_precision", "ember_reach", "winter_script", "crystal_precision", "shattering_edge", "tempest_script", "charged_precision", "thunder_reach", "void_geometry", "astral_execution", "siege_doctrine", "mobile_arsenal", "balanced_arsenal"],
+	"SURVIVAL": ["vitality", "aegis", "revive", "physical_ward", "fire_ward", "evasion", "regeneration", "last_stand", "cursed_plate", "frost_ward", "lightning_ward", "iron_heart", "moving_guard", "ember_skin", "oathshield", "refuge", "stone_blood", "elemental_aegis", "windstep", "second_pulse", "sparkshrine", "fortified_frame", "tower_guard", "molten_aegis", "glacial_aegis", "voltaic_aegis", "all_weather", "fleet_guard", "stormfoot", "pulse_battery", "siphon_guard", "frontier_survival", "cinder_kin", "briar_kin", "storm_kin", "oath_of_continuity", "prismatic_insulation", "beam_bastion", "refractive_shell", "radiant_shelter", "iron_constellation", "layered_plate", "granite_oath", "furnace_lining", "winter_lining", "tempest_lining", "null_lining", "nimble_bastion", "storm_shelter", "hearth_shelter", "briar_shelter", "polar_shelter", "pilgrims_bastion", "wardens_discipline"],
+	"EXPEDITION": ["boots", "haste", "wisdom", "reroll", "reserve", "pickup", "gold", "banish", "trinket_slot", "beacon_focus", "contract_scribe", "cache_salvage", "early_evolution", "event_surveyor", "trailblazer", "astral_lens", "fortune_finder", "deep_pockets", "swift_harvest", "guiding_star", "vanguard_steps", "wayfarer_stride", "salvager_sense", "trail_clock", "open_quiver", "far_scout", "long_road", "swift_cache", "measured_march", "split_the_trail", "star_chart", "dust_road", "salvage_ledger", "field_reserve", "far_reach", "pacer_ritual", "salvage_sprint", "clockwork_trek", "horizon_sight", "wayfarer_cache", "prismatic_horizon", "cartographers_stride", "treasure_compass", "scholars_route", "magnetic_horizon", "prospectors_route", "pilgrims_provision", "fleet_collector", "golden_archive", "wide_survey", "pathfinders_ward", "expedition_rations", "field_studies", "salvagers_edge", "rangers_circuit", "ember_survey", "frost_survey", "storm_survey", "distant_beacon"],
+	"RISK": ["curse", "glass_cannon", "gilded_famine", "redline", "blood_oath", "fever_pitch", "storm_pact", "frozen_bargain", "gilded_danger", "abyss_hunger", "dangerous_ambition", "barbed_pact", "ember_gamble", "frost_gamble", "storm_gamble", "crimson_ambition", "gilded_edge", "brutal_reflex", "ember_surge", "frost_surge", "storm_surge", "redline_reprise", "cursed_purse", "ember_reverie", "glacial_reverie", "storm_reverie", "crimson_reverie", "mercury_malice", "deep_greed", "cataclysmic_pact", "razors_due", "fragile_precision", "hollow_execution", "burning_debt", "winter_debt", "storm_debt", "void_debt", "golden_hunger", "forbidden_archive", "reckless_stride", "unbound_geometry", "brittle_blade", "scorching_ledger", "frozen_ledger", "charged_ledger", "crimson_survey", "predators_bargain", "eclipse_bargain"],
+	"BOSSES": ["boss_veilwood", "boss_cinder_reach", "boss_storm_citadel", "boss_tidal_maw", "boss_black_aurora", "boss_veilwood_edge", "boss_storm_ward", "boss_tidal_greed", "boss_veilwood_bloom", "boss_cinder_crown", "boss_storm_conduit", "boss_tidal_shell", "boss_aurora_prism", "boss_cinder_ash", "boss_veilwood_heartwood", "boss_veilwood_deeproots", "boss_veilwood_groveguard", "boss_veilwood_bounty", "boss_cinder_kindling", "boss_cinder_hearthguard", "boss_cinder_forge_edge", "boss_cinder_ember_crown", "boss_storm_static_charge", "boss_storm_skyshroud", "boss_storm_thunder_focus", "boss_storm_overcharge", "boss_tidal_deepcurrent", "boss_tidal_tidegold", "boss_tidal_undertow", "boss_tidal_abyss_plate", "boss_black_eclipse", "boss_black_voidlance", "boss_black_prism_recoil", "boss_black_meridian", "boss_veilwood_canopy", "boss_veilwood_rootblade", "boss_veilwood_green_archive", "boss_veilwood_harvest_moon", "boss_cinder_solar_ward", "boss_cinder_forgeheart", "boss_cinder_coal_ledger", "boss_cinder_sunblade", "boss_storm_lightning_rod", "boss_storm_skyblade", "boss_storm_cloudstep", "boss_storm_thunder_archive", "boss_tidal_mirrorwater", "boss_tidal_deepwinter", "boss_tidal_pearl_ledger", "boss_black_prismguard", "boss_black_nightblade", "boss_black_star_archive"],
 }
 
 const UPGRADE_REQUIRES: Dictionary = {
@@ -762,14 +1027,104 @@ const UPGRADE_REQUIRES: Dictionary = {
 	&"boss_black_voidlance": {&"might": 10},
 	&"boss_black_prism_recoil": {&"boss_black_eclipse": 2},
 	&"boss_black_meridian": {&"boss_black_voidlance": 3},
+	"razor_constellation": {"honed_edge": 2},
+	"hunters_focus": {"precision": 2},
+	"terminal_edge": {"deep_cut": 2},
+	"expanding_blade": {"wide_arc": 2},
+	"sunfire_script": {"cinderbrand": 2},
+	"scorching_precision": {"ember_fang": 2},
+	"ember_reach": {"flare_step": 2},
+	"winter_script": {"frostbrand": 2},
+	"crystal_precision": {"glacial_edge": 2},
+	"shattering_edge": {"shattercold": 2},
+	"tempest_script": {"stormbrand": 2},
+	"charged_precision": {"storm_lance": 2},
+	"thunder_reach": {"voltaic_rhythm": 2},
+	"void_geometry": {"void_cut": 2},
+	"astral_execution": {"execution_surge": 2},
+	"siege_doctrine": {"siege_round": 2},
+	"mobile_arsenal": {"hunt_step": 2},
+	"balanced_arsenal": {"keening_edge": 2},
+	"prismatic_insulation": {"aegis": 2},
+	"beam_bastion": {"prismatic_insulation": 2},
+	"refractive_shell": {"beam_bastion": 2},
+	"radiant_shelter": {"refuge": 2},
+	"iron_constellation": {"fortified_frame": 2},
+	"layered_plate": {"tower_guard": 2},
+	"granite_oath": {"stone_blood": 2},
+	"furnace_lining": {"molten_aegis": 2},
+	"winter_lining": {"glacial_aegis": 2},
+	"tempest_lining": {"voltaic_aegis": 2},
+	"null_lining": {"all_weather": 2},
+	"nimble_bastion": {"fleet_guard": 2},
+	"storm_shelter": {"stormfoot": 2},
+	"hearth_shelter": {"cinder_kin": 2},
+	"briar_shelter": {"briar_kin": 2},
+	"polar_shelter": {"oath_of_continuity": 2},
+	"pilgrims_bastion": {"frontier_survival": 2},
+	"wardens_discipline": {"iron_heart": 2},
+	"cartographers_stride": {"long_road": 2},
+	"treasure_compass": {"salvage_ledger": 2},
+	"scholars_route": {"star_chart": 2},
+	"magnetic_horizon": {"far_reach": 2},
+	"prospectors_route": {"wayfarer_cache": 2},
+	"pilgrims_provision": {"field_reserve": 2},
+	"fleet_collector": {"salvage_sprint": 2},
+	"golden_archive": {"fortune_finder": 2},
+	"wide_survey": {"horizon_sight": 2},
+	"pathfinders_ward": {"trailblazer": 2},
+	"expedition_rations": {"wayfarer_stride": 2},
+	"field_studies": {"guiding_star": 2},
+	"salvagers_edge": {"swift_cache": 2},
+	"rangers_circuit": {"pacer_ritual": 2},
+	"ember_survey": {"event_surveyor": 2},
+	"frost_survey": {"astral_lens": 2},
+	"storm_survey": {"prismatic_horizon": 2},
+	"distant_beacon": {"far_scout": 2},
+	"razors_due": {"blood_oath": 2},
+	"fragile_precision": {"glass_cannon": 2},
+	"hollow_execution": {"crimson_reverie": 2},
+	"burning_debt": {"ember_reverie": 2},
+	"winter_debt": {"glacial_reverie": 2},
+	"storm_debt": {"storm_reverie": 2},
+	"void_debt": {"abyss_hunger": 2},
+	"golden_hunger": {"deep_greed": 2},
+	"forbidden_archive": {"cursed_purse": 2},
+	"reckless_stride": {"mercury_malice": 2},
+	"unbound_geometry": {"cataclysmic_pact": 2},
+	"brittle_blade": {"barbed_pact": 2},
+	"scorching_ledger": {"ember_gamble": 2},
+	"frozen_ledger": {"frost_gamble": 2},
+	"charged_ledger": {"storm_gamble": 2},
+	"crimson_survey": {"gilded_edge": 2},
+	"predators_bargain": {"brutal_reflex": 2},
+	"eclipse_bargain": {"dangerous_ambition": 2},
+	"boss_veilwood_canopy": {"boss_veilwood_groveguard": 2},
+	"boss_veilwood_rootblade": {"boss_veilwood_groveguard": 2},
+	"boss_veilwood_green_archive": {"boss_veilwood_groveguard": 2},
+	"boss_veilwood_harvest_moon": {"boss_veilwood_groveguard": 2},
+	"boss_cinder_solar_ward": {"boss_cinder_ember_crown": 2},
+	"boss_cinder_forgeheart": {"boss_cinder_ember_crown": 2},
+	"boss_cinder_coal_ledger": {"boss_cinder_ember_crown": 2},
+	"boss_cinder_sunblade": {"boss_cinder_ember_crown": 2},
+	"boss_storm_lightning_rod": {"boss_storm_overcharge": 2},
+	"boss_storm_skyblade": {"boss_storm_overcharge": 2},
+	"boss_storm_cloudstep": {"boss_storm_overcharge": 2},
+	"boss_storm_thunder_archive": {"boss_storm_overcharge": 2},
+	"boss_tidal_mirrorwater": {"boss_tidal_abyss_plate": 2},
+	"boss_tidal_deepwinter": {"boss_tidal_abyss_plate": 2},
+	"boss_tidal_pearl_ledger": {"boss_tidal_abyss_plate": 2},
+	"boss_black_prismguard": {"boss_black_meridian": 2},
+	"boss_black_nightblade": {"boss_black_meridian": 2},
+	"boss_black_star_archive": {"boss_black_meridian": 2},
 }
-const MODES: Array[String] = ["expedition", "daily", "bossrush", "endless"]
+const MODES: Array[String] = ["expedition", "daily", "bossrush", "endless", "weekly"]
 # What a fresh install starts with. Clearing the save restores exactly this list.
-# Ranger is the one keeper nobody has to earn; the other twelve are awakened by
-# clearing the ground that names them, or by the milestone in MILESTONE_UNLOCKS.
+# Ranger is the one keeper nobody has to earn; the other twenty-four are awakened
+# by clearing the ground that names them, and by nothing else.
 const FRESH_UNLOCKED: Array[String] = ["Ranger"]
 var gold: int = 0
-var bonuses: Dictionary = {&"keening_edge": 0, &"forked_volley": 0, &"ember_oath": 0, &"glacial_oath": 0, &"storm_oath": 0, &"honed_edge": 0, &"execution_rite": 0, &"finishing_arc": 0, &"deep_cut": 0, &"cinderbrand": 0, &"flare_step": 0, &"frostbrand": 0, &"shattercold": 0, &"stormbrand": 0, &"voltaic_rhythm": 0, &"double_tap": 0, &"swift_flurry": 0, &"rifle_pace": 0, &"hunt_step": 0, &"execution_surge": 0, &"stone_blood": 0, &"elemental_aegis": 0, &"windstep": 0, &"second_pulse": 0, &"sparkshrine": 0, &"fortified_frame": 0, &"tower_guard": 0, &"molten_aegis": 0, &"glacial_aegis": 0, &"voltaic_aegis": 0, &"all_weather": 0, &"fleet_guard": 0, &"stormfoot": 0, &"pulse_battery": 0, &"siphon_guard": 0, &"frontier_survival": 0, &"cinder_kin": 0, &"briar_kin": 0, &"storm_kin": 0, &"oath_of_continuity": 0, &"wayfarer_stride": 0, &"salvager_sense": 0, &"trail_clock": 0, &"open_quiver": 0, &"far_scout": 0, &"long_road": 0, &"swift_cache": 0, &"measured_march": 0, &"split_the_trail": 0, &"star_chart": 0, &"dust_road": 0, &"salvage_ledger": 0, &"field_reserve": 0, &"far_reach": 0, &"pacer_ritual": 0, &"salvage_sprint": 0, &"clockwork_trek": 0, &"horizon_sight": 0, &"wayfarer_cache": 0, &"prismatic_horizon": 0, &"dangerous_ambition": 0, &"barbed_pact": 0, &"ember_gamble": 0, &"frost_gamble": 0, &"storm_gamble": 0, &"crimson_ambition": 0, &"gilded_edge": 0, &"brutal_reflex": 0, &"ember_surge": 0, &"frost_surge": 0, &"storm_surge": 0, &"redline_reprise": 0, &"cursed_purse": 0, &"ember_reverie": 0, &"glacial_reverie": 0, &"storm_reverie": 0, &"crimson_reverie": 0, &"mercury_malice": 0, &"deep_greed": 0, &"cataclysmic_pact": 0, &"boss_veilwood_heartwood": 0, &"boss_veilwood_deeproots": 0, &"boss_veilwood_groveguard": 0, &"boss_veilwood_bounty": 0, &"boss_cinder_kindling": 0, &"boss_cinder_hearthguard": 0, &"boss_cinder_forge_edge": 0, &"boss_cinder_ember_crown": 0, &"boss_storm_static_charge": 0, &"boss_storm_skyshroud": 0, &"boss_storm_thunder_focus": 0, &"boss_storm_overcharge": 0, &"boss_tidal_deepcurrent": 0, &"boss_tidal_tidegold": 0, &"boss_tidal_undertow": 0, &"boss_tidal_abyss_plate": 0, &"boss_black_eclipse": 0, &"boss_black_voidlance": 0, &"boss_black_prism_recoil": 0, &"boss_black_meridian": 0, "might": 0, "precision": 0, "execution": 0, "volley": 0, "area": 0, "fire": 0, "ice": 0, "lightning": 0, "knockback": 0, "vitality": 0, "aegis": 0, "revive": 0, "physical_ward": 0, "fire_ward": 0, "boots": 0, "haste": 0, "wisdom": 0, "reroll": 0, "reserve": 0, "pickup": 0, "gold": 0, "banish": 0, "trinket_slot": 0, "curse": 0, "boss_veilwood": 0, "boss_cinder_reach": 0, "boss_storm_citadel": 0, "boss_tidal_maw": 0, "boss_black_aurora": 0, "physical_edge": 0, "piercing": 0, "ballistics": 0, "catalyst": 0, "armor_break": 0, "evasion": 0, "regeneration": 0, "last_stand": 0, "cursed_plate": 0, "beacon_focus": 0, "contract_scribe": 0, "cache_salvage": 0, "early_evolution": 0, "event_surveyor": 0, "glass_cannon": 0, "gilded_famine": 0, "redline": 0, "boss_veilwood_edge": 0, "boss_storm_ward": 0, "boss_tidal_greed": 0,
+var bonuses: Dictionary = {"razor_constellation": 0, "hunters_focus": 0, "terminal_edge": 0, "expanding_blade": 0, "sunfire_script": 0, "scorching_precision": 0, "ember_reach": 0, "winter_script": 0, "crystal_precision": 0, "shattering_edge": 0, "tempest_script": 0, "charged_precision": 0, "thunder_reach": 0, "void_geometry": 0, "astral_execution": 0, "siege_doctrine": 0, "mobile_arsenal": 0, "balanced_arsenal": 0, "prismatic_insulation": 0, "beam_bastion": 0, "refractive_shell": 0, "radiant_shelter": 0, "iron_constellation": 0, "layered_plate": 0, "granite_oath": 0, "furnace_lining": 0, "winter_lining": 0, "tempest_lining": 0, "null_lining": 0, "nimble_bastion": 0, "storm_shelter": 0, "hearth_shelter": 0, "briar_shelter": 0, "polar_shelter": 0, "pilgrims_bastion": 0, "wardens_discipline": 0, "cartographers_stride": 0, "treasure_compass": 0, "scholars_route": 0, "magnetic_horizon": 0, "prospectors_route": 0, "pilgrims_provision": 0, "fleet_collector": 0, "golden_archive": 0, "wide_survey": 0, "pathfinders_ward": 0, "expedition_rations": 0, "field_studies": 0, "salvagers_edge": 0, "rangers_circuit": 0, "ember_survey": 0, "frost_survey": 0, "storm_survey": 0, "distant_beacon": 0, "razors_due": 0, "fragile_precision": 0, "hollow_execution": 0, "burning_debt": 0, "winter_debt": 0, "storm_debt": 0, "void_debt": 0, "golden_hunger": 0, "forbidden_archive": 0, "reckless_stride": 0, "unbound_geometry": 0, "brittle_blade": 0, "scorching_ledger": 0, "frozen_ledger": 0, "charged_ledger": 0, "crimson_survey": 0, "predators_bargain": 0, "eclipse_bargain": 0, "boss_veilwood_canopy": 0, "boss_veilwood_rootblade": 0, "boss_veilwood_green_archive": 0, "boss_veilwood_harvest_moon": 0, "boss_cinder_solar_ward": 0, "boss_cinder_forgeheart": 0, "boss_cinder_coal_ledger": 0, "boss_cinder_sunblade": 0, "boss_storm_lightning_rod": 0, "boss_storm_skyblade": 0, "boss_storm_cloudstep": 0, "boss_storm_thunder_archive": 0, "boss_tidal_mirrorwater": 0, "boss_tidal_deepwinter": 0, "boss_tidal_pearl_ledger": 0, "boss_black_prismguard": 0, "boss_black_nightblade": 0, "boss_black_star_archive": 0, &"keening_edge": 0, &"forked_volley": 0, &"ember_oath": 0, &"glacial_oath": 0, &"storm_oath": 0, &"honed_edge": 0, &"execution_rite": 0, &"finishing_arc": 0, &"deep_cut": 0, &"cinderbrand": 0, &"flare_step": 0, &"frostbrand": 0, &"shattercold": 0, &"stormbrand": 0, &"voltaic_rhythm": 0, &"double_tap": 0, &"swift_flurry": 0, &"rifle_pace": 0, &"hunt_step": 0, &"execution_surge": 0, &"stone_blood": 0, &"elemental_aegis": 0, &"windstep": 0, &"second_pulse": 0, &"sparkshrine": 0, &"fortified_frame": 0, &"tower_guard": 0, &"molten_aegis": 0, &"glacial_aegis": 0, &"voltaic_aegis": 0, &"all_weather": 0, &"fleet_guard": 0, &"stormfoot": 0, &"pulse_battery": 0, &"siphon_guard": 0, &"frontier_survival": 0, &"cinder_kin": 0, &"briar_kin": 0, &"storm_kin": 0, &"oath_of_continuity": 0, &"wayfarer_stride": 0, &"salvager_sense": 0, &"trail_clock": 0, &"open_quiver": 0, &"far_scout": 0, &"long_road": 0, &"swift_cache": 0, &"measured_march": 0, &"split_the_trail": 0, &"star_chart": 0, &"dust_road": 0, &"salvage_ledger": 0, &"field_reserve": 0, &"far_reach": 0, &"pacer_ritual": 0, &"salvage_sprint": 0, &"clockwork_trek": 0, &"horizon_sight": 0, &"wayfarer_cache": 0, &"prismatic_horizon": 0, &"dangerous_ambition": 0, &"barbed_pact": 0, &"ember_gamble": 0, &"frost_gamble": 0, &"storm_gamble": 0, &"crimson_ambition": 0, &"gilded_edge": 0, &"brutal_reflex": 0, &"ember_surge": 0, &"frost_surge": 0, &"storm_surge": 0, &"redline_reprise": 0, &"cursed_purse": 0, &"ember_reverie": 0, &"glacial_reverie": 0, &"storm_reverie": 0, &"crimson_reverie": 0, &"mercury_malice": 0, &"deep_greed": 0, &"cataclysmic_pact": 0, &"boss_veilwood_heartwood": 0, &"boss_veilwood_deeproots": 0, &"boss_veilwood_groveguard": 0, &"boss_veilwood_bounty": 0, &"boss_cinder_kindling": 0, &"boss_cinder_hearthguard": 0, &"boss_cinder_forge_edge": 0, &"boss_cinder_ember_crown": 0, &"boss_storm_static_charge": 0, &"boss_storm_skyshroud": 0, &"boss_storm_thunder_focus": 0, &"boss_storm_overcharge": 0, &"boss_tidal_deepcurrent": 0, &"boss_tidal_tidegold": 0, &"boss_tidal_undertow": 0, &"boss_tidal_abyss_plate": 0, &"boss_black_eclipse": 0, &"boss_black_voidlance": 0, &"boss_black_prism_recoil": 0, &"boss_black_meridian": 0, "might": 0, "precision": 0, "execution": 0, "volley": 0, "area": 0, "fire": 0, "ice": 0, "lightning": 0, "knockback": 0, "vitality": 0, "aegis": 0, "revive": 0, "physical_ward": 0, "fire_ward": 0, "boots": 0, "haste": 0, "wisdom": 0, "reroll": 0, "reserve": 0, "pickup": 0, "gold": 0, "banish": 0, "trinket_slot": 0, "curse": 0, "boss_veilwood": 0, "boss_cinder_reach": 0, "boss_storm_citadel": 0, "boss_tidal_maw": 0, "boss_black_aurora": 0, "physical_edge": 0, "piercing": 0, "ballistics": 0, "catalyst": 0, "armor_break": 0, "evasion": 0, "regeneration": 0, "last_stand": 0, "cursed_plate": 0, "beacon_focus": 0, "contract_scribe": 0, "cache_salvage": 0, "early_evolution": 0, "event_surveyor": 0, "glass_cannon": 0, "gilded_famine": 0, "redline": 0, "boss_veilwood_edge": 0, "boss_storm_ward": 0, "boss_tidal_greed": 0,
 	"tempered_edge": 0, "quickdraw": 0, "wide_arc": 0, "critical_mass": 0, "ember_fang": 0, "glacial_edge": 0, "storm_lance": 0, "void_cut": 0, "siege_round": 0,
 	"frost_ward": 0, "lightning_ward": 0, "iron_heart": 0, "moving_guard": 0, "ember_skin": 0, "oathshield": 0, "refuge": 0,
 	"trailblazer": 0, "astral_lens": 0, "fortune_finder": 0, "deep_pockets": 0, "swift_harvest": 0, "guiding_star": 0, "vanguard_steps": 0,
@@ -789,12 +1144,17 @@ var daily_best: int = 0
 var daily_best_ascension: int = 0
 var progress: Dictionary = {}
 var unlocked_achievements: Array[String] = []
-var settings: Dictionary = {"shake": true, "damage": true, "aim": true, "pause": true, "palette": 0, "resolution": 0}
+var settings: Dictionary = {"shake": true, "damage": true, "aim": true, "pause": true, "palette": 0, "resolution": 0, "vsync": false}
 
 func _ready() -> void:
 	GameEvents.regional_boss_defeated.connect(_regional_boss_defeated)
 	load_save()
 	apply_resolution()
+	apply_vsync()
+
+func apply_vsync() -> void:
+	if DisplayServer.get_name() != "headless":
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if bool(settings.get("vsync", false)) else DisplayServer.VSYNC_DISABLED)
 
 func resolution_available(index: int) -> bool:
 	if index < 0 or index >= RESOLUTIONS.size():
@@ -865,6 +1225,7 @@ func load_save() -> void:
 			unlocked.append(name)
 	selected = str(cfg.get_value("save", "selected", "Ranger"))
 	difficulty = clampi(int(cfg.get_value("save", "difficulty", 0)), 0, DIFFICULTIES.size() - 1)
+	region = clampi(int(cfg.get_value("save", "region", 0)), 0, Regions.count() - 1)
 	if not unlocked.has(selected):
 		selected = "Ranger"
 	mode = str(cfg.get_value("modes", "mode", "expedition"))
@@ -882,6 +1243,9 @@ func load_save() -> void:
 		for name in cfg.get_section_keys("achievements"):
 			if bool(cfg.get_value("achievements", name, false)) and not unlocked_achievements.has(name):
 				unlocked_achievements.append(name)
+	# region_unlocked() reads progress, so this must run after [progress] is loaded.
+	if not region_unlocked(region):
+		region = 0
 
 func save_data() -> void:
 	if future_version:
@@ -891,6 +1255,7 @@ func save_data() -> void:
 	cfg.set_value("save", "gold", gold)
 	cfg.set_value("save", "selected", selected)
 	cfg.set_value("save", "difficulty", difficulty)
+	cfg.set_value("save", "region", region)
 	for key in bonuses:
 		cfg.set_value("bonuses", key, bonuses[key])
 	for name in unlocked:
@@ -933,7 +1298,7 @@ func _regional_boss_defeated(region_id: String, _title: String) -> void:
 	progress_add_dict("bosses_defeated", {region_id: 1.0})
 	save_data()
 
-func bank_run(amount: int, kills: int, seconds: float, caches_opened: int = 0, rooms_found: int = 0, won: bool = false, run_difficulty: int = 0) -> void:
+func bank_run(amount: int, kills: int, seconds: float, caches_opened: int = 0, rooms_found: int = 0, won: bool = false, _run_difficulty: int = 0) -> void:
 	gold += amount
 	progress_add("total_gold", amount)
 	progress_add("total_kills", kills)
@@ -949,30 +1314,19 @@ func bank_run(amount: int, kills: int, seconds: float, caches_opened: int = 0, r
 		var ground: RegionData = Regions.get_region(region)
 		progress_add_dict("regions_cleared", {ground.id: 1})
 		awaken(ground.reward_character)
-	for entry in MILESTONE_UNLOCKS:
-		var reached: bool = false
-		match String(entry.stat):
-			"kills": reached = float(kills) >= float(entry.at)
-			"caches": reached = float(caches_opened) >= float(entry.at)
-			"rooms": reached = float(rooms_found) >= float(entry.at)
-			"seconds": reached = seconds >= float(entry.at)
-			"difficulty": reached = won and run_difficulty >= int(entry.at)
-		if reached:
-			awaken(String(entry.character))
 	save_data()
 
-# Awakening is idempotent and every route flows through here. Routes overlap on
-# purpose (a deep ground clear also passes its kill milestone), so callers never
-# have to check the roster first.
+# Awakening is idempotent. Ground clears are the only route, so callers never have
+# to check the roster first -- a repeat clear simply reports no progress.
 func awaken(name: String) -> bool:
 	if name.is_empty() or unlocked.has(name):
 		return false
 	unlocked.append(name)
 	return true
 
-# The ground whose clear awakens `name`, or null when only a milestone or the
-# starting roster grants it. The region file owns the pairing; nothing else keeps
-# a second copy that could drift out of date.
+# The ground whose clear awakens `name`, or null when the starting roster grants it
+# (only Ranger). The region file owns the pairing; nothing else keeps a second copy
+# that could drift out of date.
 func keeper_ground(name: String) -> RegionData:
 	for ground in Regions.all():
 		if ground.reward_character == name:
@@ -986,19 +1340,9 @@ func keeper_total() -> int:
 # The one-line route the keeper directory prints for a sealed keeper.
 func keeper_unlock_hint(name: String) -> String:
 	var ground: RegionData = keeper_ground(name)
-	var milestone: String = ""
-	for entry in MILESTONE_UNLOCKS:
-		if String(entry.character) == name:
-			milestone = String(entry.hint)
-			break
-	var routes: Array[String] = []
 	if ground != null:
-		routes.append("clear " + String(ground.name).capitalize())
-	if not milestone.is_empty():
-		routes.append(milestone)
-	if routes.is_empty():
-		return "Awakened from the start."
-	return " or ".join(routes) + "."
+		return "clear " + String(ground.name).capitalize() + "."
+	return "Awakened from the start."
 
 func cleared_grounds() -> Dictionary:
 	return progress.get("regions_cleared", {})
@@ -1114,6 +1458,10 @@ func daily_seed() -> int:
 		value = (value * 31 + key.unicode_at(i)) & 0x7fffffff
 	return value
 
+func weekly_seed() -> int:
+	# One seed per ISO week, so the ladder rolls over Monday.
+	return int(Time.get_unix_time_from_system() / 604800.0) & 0x7fffffff
+
 func refresh_daily_key() -> String:
 	var date: Dictionary = Time.get_date_dict_from_system()
 	return "%04d-%02d-%02d" % [int(date.year), int(date.month), int(date.day)]
@@ -1126,6 +1474,7 @@ func mode_title() -> String:
 		"daily": return "DAILY CHALLENGE"
 		"bossrush": return "GUARDIAN GAUNTLET"
 		"endless": return "ENDLESS ASCENT"
+		"weekly": return "WEEKLY MUTATOR"
 	return "EXPEDITION"
 
 func apply(stats: StatsComponent) -> void:
@@ -1194,6 +1543,26 @@ func apply(stats: StatsComponent) -> void:
 		stats.set_bonus(&"character", &"mult_true", 0.0, 0.25)
 		stats.set_bonus(&"character_scholar", &"xp", 0.0, 0.1)
 		stats.set_bonus(&"character_frail", &"max_health", -20.0, 0.0)
+	elif selected == "Saltsworn":
+		stats.set_bonus(&"character", &"speed", 0.0, 0.08)
+		stats.set_bonus(&"character_edge", &"armour", 1.0, 0.0)
+		stats.set_bonus(&"character_frail", &"max_health", -8.0, 0.0)
+	elif selected == "Amberkeeper":
+		stats.set_bonus(&"character", &"mult_fire", 0.0, 0.15)
+		stats.set_bonus(&"character_scholar", &"xp", 0.0, 0.10)
+		stats.set_bonus(&"character_slow", &"speed", 0.0, -0.06)
+	elif selected == "Bellsinger":
+		stats.set_bonus(&"character", &"cdr", 0.08, 0.0)
+		stats.set_bonus(&"character_echo", &"area", 0.0, 0.06)
+		stats.set_bonus(&"character_frail", &"max_health", -10.0, 0.0)
+	elif selected == "Lodestar":
+		stats.set_bonus(&"character", &"mult_lightning", 0.0, 0.15)
+		stats.set_bonus(&"character_ward", &"resist_lightning", 0.10, 0.0)
+		stats.set_bonus(&"character_slow", &"speed", 0.0, -0.08)
+	elif selected == "Quillkeeper":
+		stats.set_bonus(&"character", &"crit_chance", 0.10, 0.0)
+		stats.set_bonus(&"character_precision", &"crit_damage", 0.30, 0.0)
+		stats.set_bonus(&"character_frail", &"max_health", -10.0, 0.0)
 	# Ground bias is data-driven: each region file lists its stat trade-offs.
 	var ground: RegionData = Regions.get_region(region)
 	for entry in ground.bonus:

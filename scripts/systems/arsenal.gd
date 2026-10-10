@@ -15,16 +15,17 @@ var effects
 
 func _ready() -> void:
 	for id in ["needle", "orbit", "seeker", "flask", "lightning", "field", "sawdisc", "meteor", "frost", "dart_fan", "nova_shard", "cascade",
-			"scatter", "chain_bolt", "crescent", "ricochet", "carousel", "halo", "railshot", "shardstorm"]:
+			"scatter", "chain_bolt", "crescent", "ricochet", "carousel", "halo", "railshot", "shardstorm",
+			"cinder_jet", "sleetfall", "whipsnap", "rend", "miasma", "voidlance", "thunderhead"]:
 		weapon_catalog.append(load("res://data/weapons/%s.tres" % id))
 	for id in ["vitality", "boots", "clock", "might", "lens", "duplicator", "magnet", "wisdom", "plate", "sightline", "razor", "ember_sigil", "rime_sigil", "storm_sigil", "stone_skin", "cinder_ward", "winter_ward", "spark_ward", "prospector",
 			"dead_eye", "overclock", "hoarder", "iron_will", "titan", "spirit_ward", "void_pact",
 			"whetstone", "voidglass", "emberdrift", "frostbloom", "stormlace", "bulwark",
-			"perimeter", "scholar", "duelist", "steadfast", "prismatic_ward", "gamblers_ledger"]:
+			"perimeter", "scholar", "duelist", "steadfast", "prismatic_ward", "gamblers_ledger", "refractor_shield"]:
 		passive_catalog.append(load("res://data/passives/%s.tres" % id))
 	for id in ["life_siphon", "gold_fang", "brambles", "frenzy", "grave_bell", "ward_pulse",
 			"blink_ward", "bounty_mark", "frostbite", "tremor", "second_wind", "greed_engine",
-			"cinder_burst", "shrapnel", "vital_echo"]:
+			"cinder_burst", "shrapnel", "vital_echo", "sanguine", "venom_fang"]:
 		trinket_catalog.append(load("res://data/trinkets/%s.tres" % id))
 	GameEvents.pickup_collected.connect(_pickup)
 	GameEvents.inventory_changed.connect(func(): Synergy.apply(self))

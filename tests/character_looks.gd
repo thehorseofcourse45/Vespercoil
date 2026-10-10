@@ -10,7 +10,7 @@ func run() -> void:
 	for name in meta.NEW_UNLOCKS:
 		if not names.has(name):
 			names.append(name)
-	assert(names.size() == 20)
+	assert(names.size() == 25)
 	var textures: Dictionary = {}
 	for name in names:
 		meta.selected = name
@@ -21,5 +21,5 @@ func run() -> void:
 		assert(not textures.has(path))
 		textures[path] = true
 		player.free()
-	print("CHARACTER LOOKS PASS: all 20 keepers use distinct imported sprites")
+	print("CHARACTER LOOKS PASS: all 25 keepers use distinct imported sprites")
 	quit()

@@ -23,6 +23,11 @@ const IDS: Array[String] = [
 	"storm_citadel",
 	"tidal_maw",
 	"black_aurora",
+	"saltbound",
+	"amberhold",
+	"vesperine",
+	"lodestone",
+	"chancery",
 ]
 const DEFAULT_UNLOCKED: int = 3
 static var _cache: Array[RegionData] = []

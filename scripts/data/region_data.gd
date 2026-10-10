@@ -15,7 +15,7 @@ extends Resource
 @export var hazard: StringName = &""
 # 0.0 = open ground; 1.0 = the darkness veil of the deep regions.
 @export var veil: float = 0.0
-# Enemy family that raids this ground every 18 seconds.
+# Enemy family that leads the ground's periodic incursion raid.
 @export var incursion: StringName = &"charger"
 # Enemy families exclusive to this ground. Common horde enemies remain shared.
 @export var enemy_roster: Array[StringName] = []

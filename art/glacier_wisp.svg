@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Glacier Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e8f9ff"/>
+      <stop offset="38%" stop-color="#ccf2ff"/>
+      <stop offset="100%" stop-color="#5c6d73"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 13 83 42 103 35 95 65 111 80 84 86 80 112 64 95 48 112 44 86 17 80 33 65 25 35 45 42Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 13 83 42 103 35 95 65 111 80 84 86 80 112 64 95 48 112 44 86 17 80 33 65 25 35 45 42Z" fill="url(#metal0)" stroke="#e8f9ff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 13V95M25 35 64 65 103 35M17 80 64 65 111 80M48 112 64 65 80 112" fill="none" stroke="#e8f9ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 56 71 65 64 74 57 65Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 60 68 65 64 70 60 65Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

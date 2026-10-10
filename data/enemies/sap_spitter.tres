@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"sap_spitter"
+title = "Sap Spitter"
+health = 70.0
+speed = 52.0
+damage = 13.0
+radius = 13.0
+xp = 4
+color = Color(0.9698, 0.6553, 0.2353, 1)
+behaviour = &"kiter"
+shot_interval = 2.0

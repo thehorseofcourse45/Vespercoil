@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Mirror Hound</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e8e8f4"/>
+      <stop offset="38%" stop-color="#cccce6"/>
+      <stop offset="100%" stop-color="#5c5c67"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M21 46 19 15 47 31 64 22 81 31 109 15 107 46 116 66 95 83 88 100 64 116 40 100 33 83 12 66Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M21 46 19 15 47 31 64 22 81 31 109 15 107 46 116 66 95 83 88 100 64 116 40 100 33 83 12 66Z" fill="url(#metal0)" stroke="#e8e8f4" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 24 79 39 90 60 83 88 64 111Z" fill="#080d16" opacity=".28" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M28 28 41 49 47 37M100 28 87 49 81 37M24 65 40 81 48 78M104 65 88 81 80 78M48 103 64 96 80 103" fill="none" stroke="#e8e8f4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M33 57 54 62 45 72 32 65Z" fill="#080d16" stroke="#e8e8f4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M95 57 74 62 83 72 96 65Z" fill="#080d16" stroke="#e8e8f4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="43" cy="63" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="43" cy="63" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><circle cx="85" cy="63" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="85" cy="63" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><path d="M53 78 64 73 75 78 72 91 64 96 56 91Z" fill="#080d16" stroke="#e8e8f4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M59 80 69 80 64 85Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 87V101M49 98 56 102M79 98 72 102" fill="none" stroke="#e8e8f4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

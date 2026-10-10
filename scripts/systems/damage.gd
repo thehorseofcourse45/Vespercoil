@@ -6,13 +6,13 @@ extends Node
 # TRUE damage skips resist/armour, still crits, but DOES take the attacker's mult_true.
 # Crit bonus is 1.0 + crit_damage stat (base crit_damage 0.5 -> 1.5x).
 const RESIST_CAP: float = 0.8
-const MINIMUM_DAMAGE: float = 1.0
-const CRIT_BASE: float = 2.0
-var _pools: Dictionary = {}
 func info(source: StringName) -> DamageInfo:
-	if not _pools.has(source):
-		_pools[source] = DamageInfo.new()
-	return (_pools[source] as DamageInfo).reset()
+	# Was: one pooled instance per source key, reset() on every call.
+	# A second hit() with the same key wiped the object a prior caller /
+	# damage_resolved listener still held. Fresh instance per hit instead.
+	var hit := DamageInfo.new()
+	hit.source = source
+	return hit
 func resolve(attacker_stats, defender_stats, info: DamageInfo) -> float:
 	if attacker_stats != null:
 		info.attacker_mult = attacker_stats.value(DamageTypes.mult_key(info.type))
@@ -26,10 +26,8 @@ func resolve(attacker_stats, defender_stats, info: DamageInfo) -> float:
 		info.armour = defender_stats.value(&"armour")
 	# vulnerability is caller-supplied from status effects; do not zero it here.
 	var final: float = info.resolve()
+	if defender_stats != null and info.source == &"laser":
+		final *= 1.0 - clampf(defender_stats.value(&"resist_laser"), 0.0, RESIST_CAP)
 	info.final = final
 	GameEvents.damage_resolved.emit(info, final)
 	return final
-func crit_multiplier(stats) -> float:
-	if stats == null:
-		return 1.0
-	return CRIT_BASE if randf() < stats.value(&"crit_chance") else 1.0

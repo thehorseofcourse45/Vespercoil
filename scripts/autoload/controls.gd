@@ -67,6 +67,12 @@ func apply() -> void:
 			var button: int = int(custom.get("button", definition.button))
 			if button >= 0:
 				InputMap.action_add_event(action, button_event(button))
+			# Alternate bindings survive a rebind: the custom key replaces the default
+			# key only, arrow keys (and any other extra) keep their events.
+			for extra in definition.extra:
+				if int(extra) == int(custom.get("key", 0)):
+					continue
+				InputMap.action_add_event(action, key_event(int(extra)))
 
 func start_capture(action: String) -> void:
 	capturing = action

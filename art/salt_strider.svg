@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Salt Strider</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffe3e0"/>
+      <stop offset="38%" stop-color="#e8a8a8"/>
+      <stop offset="100%" stop-color="#7d5257"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 16 76 26 80 18 86 30 84 44 90 58 96 66 104 80 94 84 82 92 80 112 68 112 64 106 64.0 106 60.0 112 48.0 112 46.0 92 34.0 84 24.0 80 32.0 66 38.0 58 44.0 44 42.0 30 48.0 18 52.0 26 64.0 16Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 16 76 26 80 18 86 30 84 44 90 58 96 66 104 80 94 84 82 92 80 112 68 112 64 106 64.0 106 60.0 112 48.0 112 46.0 92 34.0 84 24.0 80 32.0 66 38.0 58 44.0 44 42.0 30 48.0 18 52.0 26 64.0 16Z" fill="url(#metal0)" stroke="#ffe3e0" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 36 78 44 80 58 70 66 64 68 58 66 48 58 50 44Z" fill="#080d16" opacity=".28" stroke="#bff3ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 44 72 50 72 60 64 64 56 60 56 50Z" fill="#080d16" opacity=".28" stroke="#ffe3e0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M54 74 64 70 74 74 70 92 64 96 58 92Z" fill="#080d16" opacity=".28" stroke="#ffe3e0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="52" cy="62" r="4" fill="#080d16"/><circle cx="52" cy="62" r="1.8" fill="#fff3bc"/>
+    <circle cx="76" cy="62" r="4" fill="#080d16"/><circle cx="76" cy="62" r="1.8" fill="#fff3bc"/>
+    <path d="M64 78 72 82 64 88 56 82Z" fill="#fff3bc" stroke="none"/>
+  </g>
+</svg>

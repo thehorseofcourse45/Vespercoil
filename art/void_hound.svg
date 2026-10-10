@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Void Hound</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#c6baf4"/>
+      <stop offset="38%" stop-color="#8066e6"/>
+      <stop offset="100%" stop-color="#392e67"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M21 47 13 19 44 29 55 16 73 16 84 29 115 19 107 47 112 64 97 83 89 106 70 100 64 117 58 100 39 106 31 83 16 64Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M21 47 13 19 44 29 55 16 73 16 84 29 115 19 107 47 112 64 97 83 89 106 70 100 64 117 58 100 39 106 31 83 16 64Z" fill="url(#metal0)" stroke="#c6baf4" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 24 79 39 90 60 83 88 64 111Z" fill="#080d16" opacity=".28" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M31 38 46 46 37 54M97 38 82 46 91 54M33 81 44 95M95 81 84 95" fill="none" stroke="#c6baf4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M33 57 54 62 45 72 32 65Z" fill="#080d16" stroke="#c6baf4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M95 57 74 62 83 72 96 65Z" fill="#080d16" stroke="#c6baf4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="43" cy="63" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="43" cy="63" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><circle cx="85" cy="63" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="85" cy="63" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><path d="M53 78 64 73 75 78 72 91 64 96 56 91Z" fill="#080d16" stroke="#c6baf4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M59 80 69 80 64 85Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 87V101M49 98 56 102M79 98 72 102" fill="none" stroke="#c6baf4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

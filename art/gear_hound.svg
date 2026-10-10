@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Gear Hound</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#e8ddc6"/>
+      <stop offset="38%" stop-color="#ccb280"/>
+      <stop offset="100%" stop-color="#5c5039"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M18 45 18 25 32 25 32 17 46 30 55 25 73 25 82 30 96 17 96 25 110 25 110 45 117 52 110 64 117 76 103 83 96 99 81 105 81 113 47 113 47 105 32 99 25 83 11 76 18 64 11 52Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M18 45 18 25 32 25 32 17 46 30 55 25 73 25 82 30 96 17 96 25 110 25 110 45 117 52 110 64 117 76 103 83 96 99 81 105 81 113 47 113 47 105 32 99 25 83 11 76 18 64 11 52Z" fill="url(#metal0)" stroke="#e8ddc6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 24 79 39 90 60 83 88 64 111Z" fill="#080d16" opacity=".28" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M29 33 39 47M99 33 89 47M48 37H80M34 83 45 89M94 83 83 89" fill="none" stroke="#e8ddc6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M33 57 54 62 45 72 32 65Z" fill="#080d16" stroke="#e8ddc6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M95 57 74 62 83 72 96 65Z" fill="#080d16" stroke="#e8ddc6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="43" cy="63" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="43" cy="63" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><circle cx="85" cy="63" r="4" fill="#080d16" stroke="#080d16" stroke-width="2"/><circle cx="85" cy="63" r="1.8" fill="#fff3bc" stroke="none" stroke-width="0"/><path d="M53 78 64 73 75 78 72 91 64 96 56 91Z" fill="#080d16" stroke="#e8ddc6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M59 80 69 80 64 85Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 87V101M49 98 56 102M79 98 72 102" fill="none" stroke="#e8ddc6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="29" cy="54" r="2" fill="#fff3bc" stroke="none" stroke-width="2"/><circle cx="99" cy="54" r="2" fill="#fff3bc" stroke="none" stroke-width="2"/>
+  </g>
+</svg>

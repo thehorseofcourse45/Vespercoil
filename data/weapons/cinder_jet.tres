@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=6 format=3]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/firing_pattern.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/projectile_behavior.gd" id="3"]
+[sub_resource type="Resource" id="pattern"]
+script = ExtResource("2")
+kind = 1
+count = 6
+arc_degrees = 58.0
+[sub_resource type="Resource" id="behavior"]
+script = ExtResource("3")
+kind = 0
+[resource]
+script = ExtResource("1")
+id = &"cinder_jet"
+title = "Cinder Jet"
+description = "A gout of flame washes over everything in front of you."
+behavior = &"composed"
+color = Color(1, 0.45, 0.15, 1)
+base_damage = 1.5
+cooldown = 0.9
+projectile_count = 1
+pierce = 2
+knockback = 0.0
+duration = 0.5
+projectile_speed = 500.0
+radius = 7.0
+weight = 1.1
+damage_type = 1
+on_hit_status = Array[StringName]([&"burn"])
+pattern = SubResource("pattern")
+proj_behavior = SubResource("behavior")
+level_changes = Array[Dictionary]([{"base_damage": 0.12, "cooldown": -0.06}, {"base_damage": 0.12, "projectile_count": 1}, {"base_damage": 0.12, "projectile_count": 1}, {"base_damage": 0.12, "cooldown": -0.06}, {"base_damage": 0.12, "area_scale": 0.2}, {"base_damage": 0.12, "pierce": 1}, {"base_damage": 0.12, "cooldown": -0.06}])
+evolution_passive = &"might"
+evolution_title = "Pyre Tide"
+tags = Array[StringName]([&"fire", &"projectile"])

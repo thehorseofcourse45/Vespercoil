@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Iron Seeker</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#dfe6ff"/>
+      <stop offset="38%" stop-color="#8fa2e8"/>
+      <stop offset="100%" stop-color="#46538f"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 18 78 34 88 30 84 44 96 42 90 54 104 54 96 64 112 66 86 66 80 84 74 96 78 108 66 104 62.0 104 50.0 108 54.0 96 48.0 84 42.0 66 16.0 66 32.0 64 24.0 54 38.0 54 32.0 42 44.0 44 40.0 30 50.0 34 64.0 18Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 18 78 34 88 30 84 44 96 42 90 54 104 54 96 64 112 66 86 66 80 84 74 96 78 108 66 104 62.0 104 50.0 108 54.0 96 48.0 84 42.0 66 16.0 66 32.0 64 24.0 54 38.0 54 32.0 42 44.0 44 40.0 30 50.0 34 64.0 18Z" fill="url(#metal0)" stroke="#dfe6ff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 34 80 44 84 62 72 76 64 78 56 76 44 62 48 44Z" fill="#080d16" opacity=".28" stroke="#c8d8ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 42 73 50 74 62 66 72 64 73 62 72 54 62 55 50Z" fill="#080d16" opacity=".28" stroke="#dfe6ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M40 94 44 100 40 105 36 100Z" fill="#c8d8ff" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M48 102 52 108 48 113 44 108Z" fill="#c8d8ff" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M56 94 60 100 56 105 52 100Z" fill="#c8d8ff" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M64 102 68 108 64 113 60 108Z" fill="#c8d8ff" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M72 94 76 100 72 105 68 100Z" fill="#c8d8ff" opacity=".8" stroke="#080d16" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="52" cy="58" r="4" fill="#080d16"/><circle cx="52" cy="58" r="1.8" fill="#fff3bc"/>
+    <circle cx="76" cy="58" r="4" fill="#080d16"/><circle cx="76" cy="58" r="1.8" fill="#fff3bc"/>
+    <path d="M64 74 72 78 64 84 56 78Z" fill="#fff3bc" stroke="none"/>
+  </g>
+</svg>

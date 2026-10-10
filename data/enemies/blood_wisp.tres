@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"blood_wisp"
+title = "Blood Wisp"
+health = 28.0
+speed = 80.0
+damage = 9.0
+radius = 10.0
+xp = 3
+color = Color(1, 0.2, 0.3, 1)
+behaviour = &"orbiter"

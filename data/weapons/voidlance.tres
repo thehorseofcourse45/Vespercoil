@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"voidlance"
+title = "Voidlance"
+description = "A lance of unlight. Nothing in the veil resists it."
+behavior = &"forward"
+color = Color(0.62, 0.45, 1, 1)
+base_damage = 15.0
+cooldown = 1.05
+projectile_count = 1
+pierce = 3
+knockback = 30.0
+duration = 2.2
+projectile_speed = 720.0
+radius = 7.0
+weight = 1.15
+damage_type = 4
+level_changes = Array[Dictionary]([{"base_damage": 5.0, "cooldown": -0.08}, {"base_damage": 5.0, "projectile_count": 1}, {"base_damage": 5.0, "pierce": 2}, {"base_damage": 5.0, "projectile_count": 1}, {"base_damage": 5.0, "cooldown": -0.08}, {"base_damage": 5.0, "area_scale": 0.25}, {"base_damage": 5.0, "pierce": 2}])
+evolution_passive = &"voidglass"
+evolution_title = "Nullspike"
+tags = Array[StringName]([&"projectile", &"mobility"])

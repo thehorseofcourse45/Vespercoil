@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 128 128">
+  <title>Brine Wisp</title>
+  <defs>
+    <linearGradient id="metal0" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#bae8f4"/>
+      <stop offset="38%" stop-color="#66cce6"/>
+      <stop offset="100%" stop-color="#2e5c67"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M64 16C55 38 29 53 29 80 29 99 45 111 64 111 83 111 99 99 99 80 99 53 73 38 64 16Z" fill="#080d16" stroke="#080d16" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 16C55 38 29 53 29 80 29 99 45 111 64 111 83 111 99 99 99 80 99 53 73 38 64 16Z" fill="url(#metal0)" stroke="#bae8f4" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 16 54 55 39 79M54 55 79 45M54 55 72 78 99 80M39 79 72 78 64 111" fill="none" stroke="#bae8f4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="64" cy="73" r="13" fill="#080d16" stroke="#bae8f4" stroke-width="2"/><path d="M64 64 71 73 64 82 57 73Z" fill="#080d16" stroke="#080d16" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 68 68 73 64 78 60 73Z" fill="#fff3bc" stroke="none" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/><path d="M22 72Q18 106 48 115M106 72Q110 106 80 115" fill="none" stroke="#bae8f4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

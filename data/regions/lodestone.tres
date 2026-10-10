@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/region_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "lodestone"
+name = "LODESTONE FIELDS"
+subtitle = "Iron winds comb the hills where the compass dies."
+perk = "+15% lightning damage / Magnet Core incursions / charged ground"
+color = Color(0.55, 0.62, 0.9, 1)
+floor = Color(0.07, 0.08, 0.11, 1)
+motif = &"lodestone"
+hazard = &"storm"
+veil = 0.2
+incursion = &"magnet_core"
+enemy_roster = Array[StringName]([&"magnet_core", &"lodestone_ram", &"needle_wisp", &"coil_crawler", &"iron_shepherd", &"iron_seeker"])
+bonus = Array[Dictionary]([{"stat": &"mult_lightning", "flat": 0.15, "percent": 0.0}])
+unlock = {"type": "grounds", "count": 21}
+unlock_hint = "Clear twenty-one different grounds."
+reward_character = "Lodestar"
+reward_note = "Clearing the Lodestone Fields awakens the Lodestar."
+music = 23
+pitch = 0.92
+danger = 4
