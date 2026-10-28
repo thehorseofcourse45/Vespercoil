@@ -117,8 +117,8 @@ func run() -> void:
 	instance.free()
 
 	# A maxed-out node must refuse a purchase. A MAX=1 node has no second rank to compare, so
-	# the cost-rises check only applies where one exists -- `cost()` is 50*1.6^rank, so rank 0->1
-	# on a MAX=1 node is the only purchase and there is nothing to climb.
+	# the cost-rises check only applies where one exists -- `cost()` is quadratic in rank, so a
+	# MAX=1 node has only the rank 0->1 purchase and there is nothing to climb.
 	for id in all:
 		meta.bonuses[id] = 0
 		if int(meta.MAX[id]) > 1:

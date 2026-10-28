@@ -103,7 +103,7 @@ New enemies ramp with elapsed run time, compounding: HP +8% per minute (max +400
 | Expedition | trinket_slot | 1 | Reserve 3 | +1 trinket slot |
 | Risk | curse | 5 | — | +1 curse |
 
-Cost is `50 × 1.6^level`. Purchases are profile-persistent and apply to future expeditions. Existing non-zero ranks remain usable after the tree changes.
+Cost is `40 + 12 × rank + 3 × rank²`, so the first rank of any node costs 40 and the last rank of a twenty-rank node costs 1,351. The whole chart totals 79,197 gold, of which the three twenty-rank nodes (might, vitality, boots) are 40%; the previous `50 × 1.6^rank` curve made those three 97.6% of a 3.1-million-gold total. Purchases are profile-persistent and apply to future expeditions. Existing non-zero ranks remain usable after the tree changes.
 
 ## Guardian limit-break
 

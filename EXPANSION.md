@@ -74,8 +74,10 @@ Bindings are registered at runtime by the `Controls` autoload
 
 ## Meta, modes and records
 
-12. **Permanent Observatory tree.** Twenty-nine nodes across Offense, Survival, Expedition,
-     Risk and the boss-gated BOSSES branch. Existing ranks remain valid; new paths add projectiles, area, elemental damage,
+12. **Permanent Observatory tree.** 274 nodes / 876 ranks across Offense, Survival, Expedition,
+     Risk and the boss-gated BOSSES branch. The twenty-four original nodes are tabulated in
+     `EXPANSION_BALANCE.md`; `MetaProgression.MAX` is the source of truth for the full chart.
+     Existing ranks remain valid; new paths add projectiles, area, elemental damage,
     resistances, knockback, pickup, gold, banishes, and an extra trinket slot. Purchases are
     profile-persistent and apply to future expeditions.
 13. **Achievements and bestiary** (`scripts/autoload/achievements.gd`).

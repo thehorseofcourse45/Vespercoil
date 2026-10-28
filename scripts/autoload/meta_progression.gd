@@ -1412,7 +1412,11 @@ func unlocked_ground_count() -> int:
 	return total
 
 func cost(id: String) -> int:
-	return int(50.0 * pow(1.6, int(bonuses.get(id, 0))))
+	# Quadratic in rank: cheap enough that the 271 short nodes stay trivially affordable,
+	# but the top of a 20-rank node still costs real gold. The old 50 * 1.6^rank curve
+	# put 97.6% of the chart's three-million-gold total into might, vitality and boots.
+	var rank: int = int(bonuses.get(id, 0))
+	return 40 + 12 * rank + 3 * rank * rank
 
 func at_max(id: String) -> bool:
 	return int(bonuses.get(id, 0)) >= int(MAX.get(id, 20))
