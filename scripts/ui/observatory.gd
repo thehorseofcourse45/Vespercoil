@@ -683,8 +683,10 @@ func refresh() -> void:
 	chart.queue_redraw()
 
 func purchase() -> void:
-	if not MetaProgression.future_version:
-		MetaProgression.buy(selected)
+	if MetaProgression.future_version:
+		return
+	var bought: bool = MetaProgression.buy(selected)
+	GameEvents.ui_cue.emit(&"confirm" if bought else &"cancel")
 	refresh()
 
 func reset_view() -> void:

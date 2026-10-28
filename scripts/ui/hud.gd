@@ -500,11 +500,18 @@ func text_line(text: String, color: Color = MUTED) -> void:
 	value.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	menu_column.add_child(value)
+# Every menu press answers audibly. The cue goes through the signal bus so the audio node
+# stays the only thing that owns playback.
+func press(callback: Callable) -> Callable:
+	return func() -> void:
+		GameEvents.ui_cue.emit(&"click")
+		callback.call()
+
 func button(text: String, callback: Callable) -> Button:
 	var control := Button.new()
 	control.text = text
 	control.custom_minimum_size.y = 32
-	control.pressed.connect(callback)
+	control.pressed.connect(press(callback))
 	menu_column.add_child(control)
 	return control
 func title_screen(message: String = "") -> void:
@@ -578,7 +585,7 @@ func expedition_setup() -> void:
 	for character in MetaProgression.unlocked:
 		characters.add_item(character + "  /  " + character_description(character))
 	characters.select(MetaProgression.unlocked.find(MetaProgression.selected))
-	characters.item_selected.connect(func(index: int): MetaProgression.selected = MetaProgression.unlocked[index]; MetaProgression.save_data(); expedition_setup())
+	characters.item_selected.connect(set_keeper)
 	menu_column.add_child(characters)
 	text_line("%d of %d keepers awakened. Clearing grounds awakens the rest  /  Library and progression." % [MetaProgression.unlocked.size(), MetaProgression.keeper_total()], MUTED)
 	text_line("DIFFICULTY", GOLD)
@@ -587,7 +594,7 @@ func expedition_setup() -> void:
 	for option in MetaProgression.DIFFICULTIES:
 		difficulties.add_item(option.name + "  /  " + option.description)
 	difficulties.select(MetaProgression.difficulty)
-	difficulties.item_selected.connect(func(index: int): MetaProgression.difficulty = index; MetaProgression.save_data(); expedition_setup())
+	difficulties.item_selected.connect(set_difficulty)
 	menu_column.add_child(difficulties)
 	text_line("RUN MODE", GOLD)
 	var modes := HBoxContainer.new()
@@ -598,7 +605,7 @@ func expedition_setup() -> void:
 		pick.text = ("◆ " if MetaProgression.mode == entry[1] else "") + entry[0]
 		pick.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		pick.custom_minimum_size = Vector2(120, 30)
-		pick.pressed.connect(set_mode.bind(entry[1]))
+		pick.pressed.connect(press(set_mode.bind(entry[1])))
 		modes.add_child(pick)
 	if MetaProgression.mode == "daily":
 		text_line("Daily seed %d   /   best %d   /   ascension %d" % [MetaProgression.daily_seed(), MetaProgression.daily_best, MetaProgression.daily_best_ascension], GOLD)
@@ -1180,9 +1187,22 @@ func settings_menu() -> void:
 		menu_column.add_child(wipe)
 	button("Return", title_screen if from_title else pause_menu).grab_focus()
 
+func set_keeper(index: int) -> void:
+	GameEvents.ui_cue.emit(&"click")
+	MetaProgression.selected = MetaProgression.unlocked[index]
+	MetaProgression.save_data()
+	expedition_setup()
+
+func set_difficulty(index: int) -> void:
+	GameEvents.ui_cue.emit(&"click")
+	MetaProgression.difficulty = index
+	MetaProgression.save_data()
+	expedition_setup()
+
 func set_resolution(index: int) -> void:
 	if not MetaProgression.resolution_available(index):
 		return
+	GameEvents.ui_cue.emit(&"click")
 	MetaProgression.settings["resolution"] = index
 	MetaProgression.apply_resolution()
 	MetaProgression.save_data()

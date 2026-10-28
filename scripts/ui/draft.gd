@@ -199,6 +199,7 @@ func heading_for(entry: Dictionary) -> String:
 func reroll_cards() -> void:
 	if rerolls <= 0:
 		return
+	GameEvents.ui_cue.emit(&"click")
 	rerolls -= 1
 	choices = draw_choices()
 	render()
@@ -208,6 +209,7 @@ func banish_card(index: int) -> void:
 	var entry: Dictionary = choices[index]
 	if not entry.kind in ["weapon", "passive"]:
 		return
+	GameEvents.ui_cue.emit(&"cancel")
 	banished[entry.data.id] = true
 	banishes -= 1
 	choices = draw_choices()
@@ -215,6 +217,7 @@ func banish_card(index: int) -> void:
 func lock_card(index: int) -> void:
 	if index >= choices.size():
 		return
+	GameEvents.ui_cue.emit(&"click")
 	var entry: Dictionary = choices[index]
 	if entry.get("data", null) == locked_entry.get("data", null):
 		locked_entry = {}
@@ -273,6 +276,7 @@ func per_level_line(stat: StringName, flat: float, percent: float) -> String:
 func choose(index: int) -> void:
 	if not visible or index >= choices.size():
 		return
+	GameEvents.ui_cue.emit(&"confirm")
 	var entry: Dictionary = choices[index]
 	match entry.kind:
 		"weapon": arsenal.acquire_weapon(entry.data)
