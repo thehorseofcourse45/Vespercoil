@@ -292,6 +292,7 @@ func choose(index: int) -> void:
 			arsenal.player.refresh_stats()
 			GameEvents.inventory_changed.emit()
 			GameEvents.notice.emit("THE CURSE DEEPENS", "The horde grows hungrier. Your spoils grow richer.", CURSE_TINT)
+	GameEvents.draft_resolved.emit(index)
 	if entry.get("data", null) != null and entry.get("data", null) == locked_entry.get("data", null):
 		locked_entry = {}
 	pending -= 1

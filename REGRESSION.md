@@ -56,6 +56,7 @@ or economy must zero `bonuses` / `gold` first or they inherit a maxed Observator
 | 34 | Resolution | `resolution_settings` | Six window sizes through 4K, selector and application |
 | 35 | Performance | `late_run_perf` | Perf probe, not pass/fail: reports the late-run enemy tick cost |
 | 36 | Audio | `audio_cues` | Every UI and combat cue is non-silent after the layered-cue refactor, and a `hud.button()` press reaches the audio node through `GameEvents.ui_cue` |
+| 37 | Onboarding | `tutorial` | The guide is offered only to profiles with no win and at most two runs, its fixed seed reaches `RunManager.run_seed`, each of the four steps ticks off from its own action in any order, completion hides the label and retires the guide, and the title screen offers the guided run by name |
 
 > **2026-09-28:** rows 23-35 added from suites already on disk but missing from this
 > list; `projectile_stride` was fixed to disable the arsenal and drain pre-fired

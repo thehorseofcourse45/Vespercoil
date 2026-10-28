@@ -186,6 +186,15 @@ Settings offers six window sizes from 1280×720 to 3840×2160; unavailable sizes
 
 
 
+## First expedition
+
+A profile that has never finished a run is offered `BEGIN / FIRST EXPEDITION` on the title
+screen. That run seeds a fixed ground (`MetaProgression.TUTORIAL_SEED`) so the hints point at
+landmarks that are actually there, and a guide line above the ability rack ticks off four things
+in whatever order they happen: opening the atlas, taking a draft, opening a supply cache and
+completing a beacon. Finishing it -- or skipping it from the pause menu -- writes
+`progress.tutorial_done`; profiles with three or more runs, or a win, never see it at all.
+
 ## Controls
 
 

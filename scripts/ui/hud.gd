@@ -54,6 +54,9 @@ var inventory: HBoxContainer
 var debug: Label
 var objective_label: Label
 var prompt: Label
+var guide_label: Label
+var guide_active: bool = false
+var guide_done: Dictionary = {}
 var notice_panel: PanelContainer
 var notice_title: Label
 var notice_detail: Label
@@ -141,6 +144,7 @@ func _ready() -> void:
 	GameEvents.inventory_changed.connect(refresh_inventory)
 	GameEvents.run_ended.connect(end_run)
 	GameEvents.notice.connect(queue_notice)
+	GameEvents.draft_resolved.connect(_draft_resolved)
 	Controls.rebound.connect(_rebound)
 	refresh_inventory()
 
@@ -279,6 +283,13 @@ func build_gameplay() -> void:
 	prompt.custom_minimum_size = Vector2(560, 20)
 	prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	gameplay.add_child(prompt)
+	# Sits clear of the interact prompt and the ability rack.
+	guide_label = label("", 12, Color("9fd8ff"))
+	guide_label.position = Vector2(360, 572)
+	guide_label.custom_minimum_size = Vector2(560, 20)
+	guide_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	guide_label.hide()
+	gameplay.add_child(guide_label)
 	var rack := panel(gameplay, Vector2(8, 628), Vector2(1264, 84))
 	# The loadout can outgrow the bar (many passives plus trinkets), so the rack
 	# scrolls horizontally instead of pushing its cards past the screen edge.
@@ -303,6 +314,11 @@ func build_gameplay() -> void:
 func queue_notice(title: String, detail: String, color: Color) -> void:
 	if notices.size() < 5:
 		notices.append({"title": title, "detail": detail, "color": color})
+	# The guide watches the notice stream because caches and beacons report this way already.
+	if title == "SUPPLY CACHE":
+		guide_step("cache")
+	elif title == "BEACON RESTORED":
+		guide_step("beacon")
 func _process(delta: float) -> void:
 	# Input remains live while paused; frozen combat needs no HUD polling or layout work.
 	if get_tree().paused:
@@ -344,6 +360,7 @@ func _process(delta: float) -> void:
 	if not world.event_title.is_empty():
 		objective_label.text += "     %s %ds" % [world.event_title, maxi(0, int(world.event_until - RunManager.elapsed))]
 	prompt.text = world.interaction
+	refresh_guide()
 	if debug.visible:
 		debug.text = "FPS %d\nEnemies %d / pool %d\nDraw calls %d\nF6: 1,500-unit stress wave" % [Engine.get_frames_per_second(), enemies.active.size(), enemies.capacity, Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)]
 	refresh_status_chips()
@@ -416,6 +433,7 @@ func toggle_map() -> void:
 	else:
 		open_map(false)
 func open_map(from_pause: bool) -> void:
+	guide_step("map")
 	map_return_to_pause = from_pause
 	menu.hide()
 	shade.hide()
@@ -551,7 +569,10 @@ func title_screen(message: String = "") -> void:
 	var loadout_line := label("%s   /   %s   /   %s" % [MetaProgression.selected, MetaProgression.DIFFICULTIES[MetaProgression.difficulty].name, MetaProgression.mode_title()], 11, PALE)
 	loadout_line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	summary_lines.add_child(loadout_line)
-	var start := button("BEGIN  /  " + MetaProgression.mode_title(), restart)
+	var start_text: String = "BEGIN  /  " + MetaProgression.mode_title()
+	if MetaProgression.tutorial_pending():
+		start_text = "BEGIN  /  FIRST EXPEDITION"
+	var start := button(start_text, begin)
 	start.custom_minimum_size.y = 48
 	start.modulate = GOLD
 	start.grab_focus()
@@ -742,6 +763,8 @@ func pause_menu() -> void:
 	for relic in world.relics:
 		text_line(relic, GOLD)
 	button("RESUME", resume).grab_focus()
+	if guide_active:
+		button("Skip the first-expedition guide", skip_guide)
 	button("How to play / basics", how_to_play.bind(true))
 	button("Field guide / evolutions", codex.bind(true))
 	button("Bestiary / enemies and bosses", bestiary.bind(true))
@@ -1296,6 +1319,77 @@ func replay_code(code: String) -> void:
 func copy_build_code() -> void:
 	DisplayServer.clipboard_set(build_code)
 	GameEvents.notice.emit("BUILD COPIED", "The code is on your clipboard.", GOLD)
+
+# The first expedition walks a new player through the four things the HUD cannot explain by
+# itself. Steps are order-independent: whichever one the player reaches first ticks itself off,
+# so opening a cache before levelling up does not strand the guide on the draft.
+const GUIDE_STEPS: Array = [
+	{"key": "map", "action": "toggle_map", "text": "THE ATLAS   /   press %s to read the ground around you"},
+	{"key": "draft", "text": "THE DRAFT   /   press 1, 2 or 3 to take a boon"},
+	{"key": "cache", "action": "interact", "text": "SUPPLY CACHE   /   walk to a glimmer and press %s"},
+	{"key": "beacon", "text": "BEACON   /   hold its circle for ten clear seconds"},
+]
+
+# Decides whether this expedition is guided, and seeds it. Split out from begin() so the
+# decision can be checked without reloading the scene.
+func arm_tutorial() -> bool:
+	if not MetaProgression.tutorial_pending():
+		MetaProgression.tutorial_run = false
+		return false
+	# The guided run always seeds the same ground, so its hints point at things that are there.
+	# Re-entering after a quit keeps that seed rather than silently going random.
+	if MetaProgression.seed_override == 0:
+		MetaProgression.seed_override = MetaProgression.TUTORIAL_SEED
+	MetaProgression.tutorial_run = true
+	return true
+
+func begin() -> void:
+	if arm_tutorial():
+		restart(true)
+		return
+	restart()
+
+func refresh_guide() -> void:
+	if guide_active or not MetaProgression.tutorial_run or not RunManager.running:
+		return
+	guide_active = true
+	guide_label.show()
+	show_next_guide()
+
+func guide_step(key: String) -> void:
+	if not guide_active or guide_done.has(key):
+		return
+	guide_done[key] = true
+	show_next_guide()
+
+func show_next_guide() -> void:
+	for step in GUIDE_STEPS:
+		if guide_done.has(String(step.key)):
+			continue
+		var text: String = String(step.text)
+		if text.contains("%s"):
+			text = text % Controls.label(String(step.get("action", "interact")))
+		guide_label.text = text
+		return
+	finish_guide()
+
+func finish_guide(skipped: bool = false) -> void:
+	if not guide_active:
+		return
+	guide_active = false
+	guide_label.hide()
+	MetaProgression.complete_tutorial()
+	if not skipped:
+		GameEvents.notice.emit("GUIDE COMPLETE", "Contracts pay themselves. The rest explains itself.", GOLD)
+
+func skip_guide() -> void:
+	if not guide_active:
+		return
+	finish_guide(true)
+	pause_menu()
+
+func _draft_resolved(_index: int) -> void:
+	guide_step("draft")
 
 func restart(replay: bool = false) -> void:
 	if not replay:

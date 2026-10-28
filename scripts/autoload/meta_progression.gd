@@ -1307,6 +1307,25 @@ func progress_add_dict(key: String, values: Dictionary) -> void:
 func progress_of(key: String) -> float:
 	return float(progress.get(key, 0.0))
 
+# --- First expedition guide -------------------------------------------------------------
+# The guide is a run-start state, not a save value: it is armed by the title screen's begin
+# button and disarmed when the last step lands or the player skips it.
+const TUTORIAL_SEED: int = 0x5EED17
+var tutorial_run: bool = false
+
+func tutorial_pending() -> bool:
+	if progress_of("tutorial_done") > 0.0:
+		return false
+	# Profiles that already know the game are never interrupted by it.
+	return progress_of("wins") <= 0.0 and progress_of("runs") <= 2.0
+
+func complete_tutorial() -> void:
+	tutorial_run = false
+	if progress_of("tutorial_done") > 0.0:
+		return
+	progress["tutorial_done"] = 1.0
+	save_data()
+
 func _regional_boss_defeated(region_id: String, _title: String) -> void:
 	var defeated: Dictionary = progress.get("bosses_defeated", {})
 	if float(defeated.get(region_id, 0.0)) > 0.0:
