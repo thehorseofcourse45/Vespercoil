@@ -28,7 +28,32 @@ func run() -> void:
 	assert(picker.get_item_text(5).contains("3840 x 2160"))
 	game.hud.set_resolution(3)
 	assert(meta.settings.resolution == 3)
-	print("RESOLUTION SETTINGS PASS: six sizes through 4K, selector and application")
+	# Window mode: two states, reachable from the settings screen, and fullscreen must
+	# not resize or re-centre the window behind the display's back.
+	assert(meta.WINDOW_MODES.size() == 2)
+	assert(meta.WINDOW_MODES[0] == "WINDOWED" and meta.WINDOW_MODES[1] == "FULLSCREEN")
+	assert(int(meta.settings.get("window_mode", -1)) == 0) # Saves without the key stay windowed.
+	var mode_button: Button = null
+	for child in game.hud.menu_column.get_children():
+		if child is Button and child.text.begins_with("Window mode"):
+			mode_button = child
+			break
+	assert(mode_button != null)
+	assert(mode_button.text.contains("WINDOWED"))
+	meta.settings["resolution"] = 3
+	game.hud.cycle_window_mode()
+	assert(meta.settings.window_mode == 1)
+	assert(meta.settings.resolution == 3) # Fullscreen leaves the stored size untouched.
+	mode_button = null
+	for child in game.hud.menu_column.get_children():
+		if child is Button and child.text.begins_with("Window mode"):
+			mode_button = child
+			break
+	assert(mode_button != null and mode_button.text.contains("FULLSCREEN"))
+	game.hud.cycle_window_mode()
+	assert(meta.settings.window_mode == 0)
+	assert(meta.settings.resolution == 3)
+	print("RESOLUTION SETTINGS PASS: six sizes through 4K, windowed/fullscreen modes, selector and application")
 	game.queue_free()
 	await process_frame
 	quit()

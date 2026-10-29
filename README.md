@@ -6,7 +6,7 @@ Open `project.godot` in Godot 4.7.2 and press F5. Choose a ground, character and
 
 difficulty, then **Begin Expedition**. Everything needed to play is included locally.
 
-Settings offers six window sizes from 1280×720 to 3840×2160; unavailable sizes are disabled for the current display.
+Settings offers six window sizes from 1280×720 to 3840×2160; unavailable sizes are disabled for the current display. Window mode switches between windowed and fullscreen, and fullscreen ignores the chosen size.
 
 
 

@@ -53,7 +53,7 @@ or economy must zero `bonuses` / `gold` first or they inherit a maxed Observator
 | 31 | Crowd motion | `crowd_motion` | Separation stays stable at 60 Hz |
 | 32 | Bestiary | `bestiary_admin` | The three bestiary tabs list every enemy and guardian, and the admin run controls work in a live run |
 | 33 | Ground activities | `ground_activities` | Relays and elite hunts activate, complete and reward |
-| 34 | Resolution | `resolution_settings` | Six window sizes through 4K, selector and application |
+| 34 | Resolution | `resolution_settings` | Six window sizes through 4K, windowed/fullscreen window modes (fullscreen leaves the stored size alone), selector and application |
 | 35 | Performance | `late_run_perf` | Perf probe, not pass/fail: reports the late-run enemy tick cost |
 | 36 | Audio | `audio_cues` | Every UI and combat cue is non-silent after the layered-cue refactor, and a `hud.button()` press reaches the audio node through `GameEvents.ui_cue` |
 | 37 | Onboarding | `tutorial` | The guide is offered only to profiles with no win and at most two runs, its fixed seed reaches `RunManager.run_seed`, each of the four steps ticks off from its own action in any order, completion hides the label and retires the guide, and the title screen offers the guided run by name |

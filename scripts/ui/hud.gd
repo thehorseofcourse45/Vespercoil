@@ -1271,10 +1271,12 @@ func settings_menu() -> void:
 	resolutions.select(int(MetaProgression.settings.get("resolution", 0)))
 	resolutions.item_selected.connect(set_resolution)
 	menu_column.add_child(resolutions)
+	var mode_index: int = clampi(int(MetaProgression.settings.get("window_mode", 0)), 0, MetaProgression.WINDOW_MODES.size() - 1)
+	button("Window mode   /   %s" % MetaProgression.WINDOW_MODES[mode_index], cycle_window_mode)
 	for entry in [["shake", "Screen shake"], ["aim", "Auto-aim facing"], ["pause", "Pause on level-up"], ["hitstop", "Hit-stop on big kills"], ["vsync", "VSync"]]:
 		button("%s   /   %s" % [entry[1], "ON" if bool(MetaProgression.settings.get(entry[0], true)) else "OFF"], toggle_setting.bind(entry[0]))
 	button("Damage numbers   /   %s" % DAMAGE_MODES[int(MetaProgression.settings.get("damage", 1)) % 3], cycle_damage_numbers)
-	text_line("VSync reduces tearing; OFF favours higher frame rates.", MUTED)
+	text_line("Fullscreen fills the display and ignores the window size. VSync reduces tearing; OFF favours higher frame rates.", MUTED)
 	text_line("REBIND CONTROLS", GOLD)
 	for action in Controls.ACTIONS:
 		button("%s   /   %s" % [String(Controls.ACTIONS[action].label), Controls.label(action)], capture_rebind.bind(action))
@@ -1305,6 +1307,15 @@ func set_resolution(index: int) -> void:
 		return
 	GameEvents.ui_cue.emit(&"click")
 	MetaProgression.settings["resolution"] = index
+	MetaProgression.apply_resolution()
+	MetaProgression.save_data()
+	settings_menu()
+
+# Fullscreen has no meaningful window size, so the mode is applied first and
+# apply_resolution re-centres the saved size when the window comes back.
+func cycle_window_mode() -> void:
+	MetaProgression.settings["window_mode"] = 1 - clampi(int(MetaProgression.settings.get("window_mode", 0)), 0, 1)
+	MetaProgression.apply_window_mode()
 	MetaProgression.apply_resolution()
 	MetaProgression.save_data()
 	settings_menu()

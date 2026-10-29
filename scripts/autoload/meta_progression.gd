@@ -7,6 +7,9 @@ const DIFFICULTIES: Array[Dictionary] = [
 	{"name": "NIGHTMARE", "health": 2.0, "incoming": 1.5, "spawn": 0.65, "gold": 1.5, "description": "2x enemy HP / +50% damage / dense waves / +50% gold"},
 ]
 const RESOLUTIONS: Array[Vector2i] = [Vector2i(1280, 720), Vector2i(1366, 768), Vector2i(1600, 900), Vector2i(1920, 1080), Vector2i(2560, 1440), Vector2i(3840, 2160)]
+# Fullscreen is Godot's borderless fullscreen mode; exclusive fullscreen is deliberately
+# not offered because it makes alt-tab and multi-monitor behaviour worse for no gain.
+const WINDOW_MODES: Array[String] = ["WINDOWED", "FULLSCREEN"]
 # Every keeper that has to be earned. A fresh save awakens only FRESH_UNLOCKED.
 # Clearing a ground is the only route: each region file names its own keeper in
 # reward_character, so a keeper wakes exactly when its atlas card is cleared.
@@ -1147,11 +1150,12 @@ var daily_best: int = 0
 var daily_best_ascension: int = 0
 var progress: Dictionary = {}
 var unlocked_achievements: Array[String] = []
-var settings: Dictionary = {"shake": true, "damage": true, "aim": true, "pause": true, "palette": 0, "resolution": 0, "vsync": false, "hitstop": true, "volume_Master": 0.0, "volume_Music": 0.0, "volume_SFX": 0.0}
+var settings: Dictionary = {"shake": true, "damage": true, "aim": true, "pause": true, "palette": 0, "resolution": 0, "vsync": false, "window_mode": 0, "hitstop": true, "volume_Master": 0.0, "volume_Music": 0.0, "volume_SFX": 0.0}
 
 func _ready() -> void:
 	GameEvents.regional_boss_defeated.connect(_regional_boss_defeated)
 	load_save()
+	apply_window_mode()
 	apply_resolution()
 	apply_vsync()
 	apply_volumes()
@@ -1165,6 +1169,14 @@ func apply_volumes() -> void:
 func apply_vsync() -> void:
 	if DisplayServer.get_name() != "headless":
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if bool(settings.get("vsync", false)) else DisplayServer.VSYNC_DISABLED)
+
+# Window mode is a display preference like vsync: applied at boot, changed from the
+# settings screen, and skipped under the headless test runner.
+func apply_window_mode() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	var fullscreen: bool = int(settings.get("window_mode", 0)) == 1
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED)
 
 func resolution_available(index: int) -> bool:
 	if index < 0 or index >= RESOLUTIONS.size():
@@ -1180,6 +1192,10 @@ func apply_resolution() -> void:
 		index -= 1
 	settings["resolution"] = index
 	if DisplayServer.get_name() == "headless":
+		return
+	# Fullscreen is owned by the display; the stored size takes effect again once the
+	# window is back in windowed mode (the toggle applies the mode before this runs).
+	if int(settings.get("window_mode", 0)) == 1:
 		return
 	var target: Vector2i = RESOLUTIONS[index]
 	var screen: int = DisplayServer.window_get_current_screen()
