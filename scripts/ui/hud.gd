@@ -69,6 +69,7 @@ var shade: ColorRect
 var menu: PanelContainer
 var menu_column: VBoxContainer
 var menu_kind: String = ""
+var menu_tabs: TabContainer = null
 var admin_return: String = "title"
 var refresh_clock: float = 0.0
 var status_row: HBoxContainer
@@ -113,6 +114,9 @@ func _ready() -> void:
 	var scroll := ScrollContainer.new()
 	scroll.custom_minimum_size = Vector2(516, 566)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	# Menus like Settings are taller than the panel. Without this the focus highlight
+	# walks below the visible area and the panel never moves, so a pad looked stuck.
+	scroll.follow_focus = true
 	menu.add_child(scroll)
 	menu_column = VBoxContainer.new()
 	menu_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -390,7 +394,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F3:
 		debug.visible = not debug.visible
-	if Controls.matches(event, "pause") and RunManager.running and not draft.visible:
+	var back: bool = Controls.matches(event, "pause") or (menu.visible and event.is_action_pressed("ui_cancel"))
+	if back and RunManager.running and not draft.visible:
 		if menu.visible:
 			if menu_kind == "pause":
 				resume()
@@ -411,6 +416,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			pause_menu()
 
 func _input(event: InputEvent) -> void:
+	if cycle_menu_tab(event) or scroll_reference(event):
+		get_viewport().set_input_as_handled()
+		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_A and event.ctrl_pressed and event.shift_pressed:
 		# Toggle on what's actually ON SCREEN, not on menu_kind. menu_kind is one
 		# variable doing two jobs: naming the current menu AND remembering where
@@ -492,6 +500,7 @@ func refresh_inventory() -> void:
 func clear_menu(title: String) -> void:
 	if observatory != null:
 		observatory.hide()
+	menu_tabs = null
 	Controls.capturing = ""
 	menu.position = Vector2(370, 78)
 	menu.custom_minimum_size = Vector2(540, 590)
@@ -532,6 +541,68 @@ func button(text: String, callback: Callable) -> Button:
 	control.pressed.connect(press(callback))
 	menu_column.add_child(control)
 	return control
+
+# Reference screens (how to play, field guide, bestiary, credits) are text, so the only
+# focusable row is the button at the top and the d-pad had nothing to walk through. A
+# mouse wheel was the only way to read the rest of them. Page the panel instead, but only
+# once focus has nowhere left to go in the pressed direction, so ordinary menu navigation
+# is untouched.
+func scroll_reference(event: InputEvent) -> bool:
+	if not menu.visible or Controls.capturing != "":
+		return false
+	var step: float = 0.0
+	if event.is_action_pressed("ui_page_down"):
+		step = 330.0
+	elif event.is_action_pressed("ui_page_up"):
+		step = -330.0
+	elif event.is_action_pressed("ui_down"):
+		step = 90.0
+	elif event.is_action_pressed("ui_up"):
+		step = -90.0
+	if step == 0.0:
+		return false
+	var focused: Control = get_viewport().gui_get_focus_owner()
+	if focused is LineEdit or focused is TextEdit:
+		return false
+	if focused != null and focused.find_valid_focus_neighbor(SIDE_BOTTOM if step > 0.0 else SIDE_TOP) != null:
+		return false
+	var scroll := nearest_scroll(focused)
+	if scroll == null:
+		return false
+	var bar: VScrollBar = scroll.get_v_scroll_bar()
+	var limit: float = maxf(0.0, bar.max_value - scroll.size.y)
+	var target: float = clampf(float(scroll.scroll_vertical) + step, 0.0, limit)
+	if is_equal_approx(target, float(scroll.scroll_vertical)):
+		return false
+	scroll.scroll_vertical = int(target)
+	return true
+
+# The bestiary keeps its rows in scroll containers inside a tab, so walk out from whatever
+# holds focus: a focused tab list scrolls itself, everything else scrolls the menu panel.
+func nearest_scroll(from: Control) -> ScrollContainer:
+	var node: Node = from
+	while node != null:
+		if node is ScrollContainer:
+			return node as ScrollContainer
+		node = node.get_parent()
+	return menu.get_child(0) as ScrollContainer
+
+# The bestiary's tabs are pointer targets by default, so all but the first list were
+# unreachable on a pad. Shoulders cycle them.
+func cycle_menu_tab(event: InputEvent) -> bool:
+	if menu_tabs == null or not menu.visible or menu_tabs.get_tab_count() < 2:
+		return false
+	if not (event is InputEventJoypadButton) or not event.pressed:
+		return false
+	var direction: int = 0
+	if event.button_index == JOY_BUTTON_LEFT_SHOULDER:
+		direction = -1
+	elif event.button_index == JOY_BUTTON_RIGHT_SHOULDER:
+		direction = 1
+	if direction == 0:
+		return false
+	menu_tabs.current_tab = wrapi(menu_tabs.current_tab + direction, 0, menu_tabs.get_tab_count())
+	return true
 func title_screen(message: String = "") -> void:
 	get_tree().paused = true
 	map_view.hide()
@@ -670,6 +741,7 @@ func how_to_play(in_run: bool) -> void:
 	text_line("CONTROLS", GOLD)
 	text_line("MOVE  /  WASD, arrow keys, or left stick. Weapons fire automatically; positioning and timing are your job.", PALE)
 	text_line("DASH  /  Space or B. INTERACT  /  E or A. MAP  /  M. PAUSE  /  Escape or Start. REROLL DRAFT  /  R or Y.", PALE)
+	text_line("MENUS  /  d-pad or left stick moves the highlight, A confirms, B goes back, LB and RB cycle the bestiary tabs.", PALE)
 	text_line("COMBAT", GOLD)
 	text_line("Health, shields, resistances, status effects, elemental reactions, armor, and curse all change the risk. A hit gives brief invulnerability; a Second Wind can restore you once a run if purchased.", PALE)
 	text_line("DRAFTS AND EVOLUTIONS", GOLD)
@@ -841,9 +913,13 @@ func bestiary(in_run: bool) -> void:
 	tabs.custom_minimum_size.y = 460
 	tabs.add_theme_font_size_override("font_size", 12)
 	menu_column.add_child(tabs)
+	menu_tabs = tabs
 	var common := ScrollContainer.new()
 	common.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	common.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	# The rows are labels, so the list itself takes focus: without that a pad can reach the
+	# tab but never scroll the entries under it.
+	common.focus_mode = Control.FOCUS_ALL
 	common.name = "COMMON HORDE"
 	tabs.add_child(common)
 	var common_column := VBoxContainer.new()
@@ -852,6 +928,7 @@ func bestiary(in_run: bool) -> void:
 	var elite := ScrollContainer.new()
 	elite.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	elite.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	elite.focus_mode = Control.FOCUS_ALL
 	elite.name = "ELITE HORDE"
 	tabs.add_child(elite)
 	var elite_column := VBoxContainer.new()
@@ -859,6 +936,7 @@ func bestiary(in_run: bool) -> void:
 	elite.add_child(elite_column)
 	var regions := ScrollContainer.new()
 	regions.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	regions.focus_mode = Control.FOCUS_ALL
 	regions.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	regions.name = "REGIONS & GUARDIANS"
 	tabs.add_child(regions)

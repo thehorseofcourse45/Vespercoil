@@ -142,35 +142,39 @@ func _gui_input(event: InputEvent) -> void:
 				choose(index)
 		accept_event()
 
+# Actions rather than raw keys, so the d-pad, the left stick and the keyboard all drive the
+# atlas. This also has to own confirm and back: hud._unhandled_input returns early while the
+# atlas is open, so a pad player who entered it had no way to pick a ground and no way out.
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible:
 		return
-	if event is InputEventKey and event.pressed and not event.echo:
+	if Controls.matches(event, "pause") or event.is_action_pressed("ui_cancel"):
+		close()
+	elif event.is_action_pressed("ui_accept"):
+		choose(selected)
+	elif event.is_action_pressed("ui_left"):
+		move_selection(-1, 0)
+	elif event.is_action_pressed("ui_right"):
+		move_selection(1, 0)
+	elif event.is_action_pressed("ui_up"):
+		move_selection(0, -1)
+	elif event.is_action_pressed("ui_down"):
+		move_selection(0, 1)
+	elif event.is_action_pressed("ui_page_up"):
+		change_page(-1)
+	elif event.is_action_pressed("ui_page_down"):
+		change_page(1)
+	elif event is InputEventKey and event.pressed and not event.echo:
+		# The letter keys are not in any ui_ action; everything else is handled above.
 		match event.keycode:
-			KEY_ESCAPE:
-				close()
-				get_viewport().set_input_as_handled()
-			KEY_ENTER, KEY_KP_ENTER, KEY_SPACE:
-				choose(selected)
-				get_viewport().set_input_as_handled()
-			KEY_LEFT, KEY_A:
-				move_selection(-1, 0)
-				get_viewport().set_input_as_handled()
-			KEY_RIGHT, KEY_D:
-				move_selection(1, 0)
-				get_viewport().set_input_as_handled()
-			KEY_UP, KEY_W:
-				move_selection(0, -1)
-				get_viewport().set_input_as_handled()
-			KEY_DOWN, KEY_S:
-				move_selection(0, 1)
-				get_viewport().set_input_as_handled()
-			KEY_PAGEUP:
-				change_page(-1)
-				get_viewport().set_input_as_handled()
-			KEY_PAGEDOWN:
-				change_page(1)
-				get_viewport().set_input_as_handled()
+			KEY_A: move_selection(-1, 0)
+			KEY_D: move_selection(1, 0)
+			KEY_W: move_selection(0, -1)
+			KEY_S: move_selection(0, 1)
+			_: return
+	else:
+		return
+	get_viewport().set_input_as_handled()
 
 func change_page(direction: int) -> void:
 	page = clampi(page + direction, 0, (Regions.count() - 1) / PAGE_SIZE)
@@ -203,7 +207,7 @@ func _draw() -> void:
 	draw_rect(PANEL_RECT, PANEL)
 	draw_rect(PANEL_RECT, GOLD, false, 2.0)
 	draw_string(font, Vector2(56, 78), "T H E   C E L E S T I A L   A T L A S", HORIZONTAL_ALIGNMENT_LEFT, -1, 26, GOLD)
-	draw_string(font, Vector2(58, 105), "Charted grounds %d / %d     /     arrows or click to choose, ENTER to begin, ESC to return" % [MetaProgression.unlocked_ground_count(), Regions.count()], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, MUTED)
+	draw_string(font, Vector2(58, 105), "Charted grounds %d / %d     /     arrows, d-pad or click to choose, ENTER / A to begin, ESC / B to return" % [MetaProgression.unlocked_ground_count(), Regions.count()], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, MUTED)
 	draw_string(font, Vector2(1078, 81), "< PREV", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, GOLD if page > 0 else MUTED)
 	draw_string(font, Vector2(1164, 81), "NEXT >", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, GOLD if page < (Regions.count() - 1) / PAGE_SIZE else MUTED)
 	draw_string(font, Vector2(964, 105), "PAGE %d / %d" % [page + 1, (Regions.count() - 1) / PAGE_SIZE + 1], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, GOLD)

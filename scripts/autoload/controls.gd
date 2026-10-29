@@ -21,6 +21,24 @@ func _ready() -> void:
 	register()
 	load_overrides()
 	apply()
+	bind_ui_pad()
+
+# Godot's stock ui_accept carries no joypad event, so a pad could walk a menu's focus
+# and then had no way to press the button it landed on -- every title, pause, settings
+# and draft screen was a dead end without a keyboard. A confirms and B cancels, the same
+# two buttons the run already uses for interact and ability.
+func bind_ui_pad() -> void:
+	for pair in [[&"ui_accept", JOY_BUTTON_A], [&"ui_cancel", JOY_BUTTON_B]]:
+		var action: StringName = pair[0]
+		if not InputMap.has_action(action):
+			continue
+		var bound: bool = false
+		for existing in InputMap.action_get_events(action):
+			if existing is InputEventJoypadButton and existing.button_index == int(pair[1]):
+				bound = true
+				break
+		if not bound:
+			InputMap.action_add_event(action, button_event(int(pair[1])))
 
 func register() -> void:
 	for action in ACTIONS:
