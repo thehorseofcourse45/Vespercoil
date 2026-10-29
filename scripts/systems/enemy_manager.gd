@@ -553,6 +553,59 @@ func boss_ability(enemy, delta: float) -> void:
 					var wall_count: int = 11 if enraged else 9
 					for i in wall_count:
 						projectiles.hostile(enemy.position, facing.rotated(deg_to_rad((i - (wall_count - 1) * 0.5) * 13.0)), 16.0)
+				&"stalker":
+					# A slow orb that steers. Every other stage-0 pattern can be answered by
+					# standing still and firing back; this one cannot, so parking on it costs
+					# ground. Slow enough to outrun, persistent enough that stopping is wrong.
+					var chase: Vector2 = (player.position - enemy.position).normalized()
+					projectiles.hostile(enemy.position, chase, 14.0, [] as Array[StringName], DamageTypes.Type.PHYSICAL, 1.6, 95.0, Color("c9a0ff"), 7.0)
+					if enraged:
+						# Off to one side rather than straight back: a reversal would spend a
+						# second turning away from the player before it becomes a threat.
+						projectiles.hostile(enemy.position, chase.rotated(PI * 0.5), 14.0, [] as Array[StringName], DamageTypes.Type.PHYSICAL, 1.6, 95.0, Color("c9a0ff"), 7.0)
+				&"cordon":
+					# Fired inward from a ring around the PLAYER, not from the guardian, so
+					# backpedalling away from the boss does not back away from the attack. The
+					# seam between two orbs is the exit; the middle is the trap.
+					var cordon_count: int = 10 if enraged else 8
+					for i in cordon_count:
+						var ring_at: Vector2 = player.position + Vector2.from_angle(TAU * float(i) / float(cordon_count)) * 180.0
+						projectiles.hostile(ring_at, (player.position - ring_at).normalized(), 15.0, [] as Array[StringName], DamageTypes.Type.PHYSICAL, 0.0, 150.0, Color("7fd8ff"), 6.0)
+				&"sunder":
+					# Ground strikes marching from the guardian to the player, so the line you
+					# are kiting along becomes the hazard. Arrival is staggered, which means
+					# running back down the line walks into the tail of it.
+					var march: Vector2 = (player.position - enemy.position).normalized()
+					var march_gap: float = clampf(enemy.position.distance_to(player.position) / 7.0, 34.0, 60.0)
+					if world != null:
+						for i in (7 if enraged else 6):
+							world.telegraph(enemy.position + march * (march_gap * float(i + 1)), 42.0, 17.0, 0.5 + float(i) * 0.14)
+				&"mirror":
+					# Fires from the point mirrored across the player, so the shots come from the
+					# side nobody is watching. Tracking the guardian's aim is the answer to every
+					# other pattern; here it is the wrong thing to track.
+					var far_side: Vector2 = player.position * 2.0 - enemy.position
+					var back: Vector2 = (player.position - far_side).normalized()
+					for i in (3 if enraged else 2):
+						projectiles.hostile(far_side, back.rotated((float(i) - float((3 if enraged else 2) - 1) * 0.5) * 0.22), 16.0, [] as Array[StringName], DamageTypes.Type.PHYSICAL, 0.0, 210.0, Color("e0a6ff"), 6.0)
+					if world != null:
+						world.telegraph(enemy.position, 70.0, 18.0, 0.9)
+				&"beat":
+					# One cast leaves the guardian together but travels at three speeds, so it
+					# lands as separate waves. Counting the ability's rhythm and rolling on the
+					# beat is a habit every other pattern rewards; this one breaks it.
+					var beat_aim: Vector2 = (player.position - enemy.position).normalized()
+					var beat_count: int = 5 if enraged else 4
+					for i in beat_count:
+						var spread: float = (float(i) - float(beat_count - 1) * 0.5) * 0.15
+						projectiles.hostile(enemy.position, beat_aim.rotated(spread), 15.0, [] as Array[StringName], DamageTypes.Type.PHYSICAL, 0.0, 110.0 + float(i) * 62.0)
+				&"scatter":
+					# A wide fan with uneven spacing and re-rolled speeds, so the shape cannot be
+					# memorised the way the fixed patterns can. Answered by keeping space rather
+					# than by knowing where the gaps are.
+					var scatter_aim: Vector2 = (player.position - enemy.position).normalized()
+					for i in (13 if enraged else 10):
+						projectiles.hostile(enemy.position, scatter_aim.rotated(randf_range(-0.34, 0.34)), 13.0, [] as Array[StringName], DamageTypes.Type.PHYSICAL, 0.0, randf_range(150.0, 230.0), Color("ffd27f"), 5.0)
 				_:
 					for i in (14 if enraged else 10):
 						projectiles.hostile(enemy.position, Vector2.from_angle(TAU * i / (14 if enraged else 10) + RunManager.elapsed * 0.2), 12.0)

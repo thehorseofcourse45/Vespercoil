@@ -24,7 +24,7 @@ func run() -> void:
 		for boss in Regions.guardians(region):
 			assert(boss != null and boss.kind in region.enemy_roster and boss.title != "")
 			assert(not bosses.has(boss.title) and boss.ability_enraged < boss.ability_normal)
-			assert(boss.attack in [&"volley", &"slam", &"summon", &"cross", &"ring", &"spiral", &"carpet", &"shriek", &"hunt", &"pincer", &"cage", &"lance", &"furnace", &"wall"])
+			assert(boss.attack in [&"volley", &"slam", &"summon", &"cross", &"ring", &"spiral", &"carpet", &"shriek", &"hunt", &"pincer", &"cage", &"lance", &"furnace", &"wall", &"stalker", &"cordon", &"sunder", &"mirror", &"beat", &"scatter"])
 			bosses[boss.title] = true
 		if region.guardian_alt != "":
 			assert(ResourceLoader.exists("res://data/bosses/regions/%s.tres" % region.guardian_alt))

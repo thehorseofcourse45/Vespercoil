@@ -122,6 +122,18 @@ Settings offers six window sizes from 1280×720 to 3840×2160; unavailable sizes
 
   wide arc that leaves the guardian's back open.
 
+- Twenty stage-0 patterns, and no pattern opens more than two of the twenty-nine
+
+  guardians, so grounds stop repeating one another's opening. Six of them answer habits
+
+  the first ten left alone: an orb that steers and cannot be out-turned, a ring that
+
+  closes inward from around you rather than from the guardian, ground strikes marching
+
+  up the line you are kiting along, shots from the point mirrored across you, one cast
+
+  that arrives as three separate waves, and a fan whose gaps are re-rolled each time.
+
 - Field guide with evolution recipes, improved drafts, boss health bars, objective
 
   tracking, notices and volume sliders.
