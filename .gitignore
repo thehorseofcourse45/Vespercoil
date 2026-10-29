@@ -10,3 +10,7 @@ preview-*.png
 crop-*.png
 *.tmp
 .DS_Store
+# Windows redirect artifacts (`> nul`) and engine state from a run with a custom
+# user dir both land in the repo root and are never content.
+nul
+/Godot/
