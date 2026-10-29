@@ -828,7 +828,7 @@ func music_credits() -> void:
 	text_line("Original synthesized tracks for fifteen new grounds; earlier tracks are OpenGameArt CC0.", GOLD)
 	for entry in MUSIC_CREDITS:
 		text_line("%s  /  %s  /  %s  /  %s" % [entry[0], entry[1], entry[2], "ORIGINAL" if entry[2] == "Original synthesis" else "CC0"], PALE)
-	text_line("Files: region_0.ogg through region_9.ogg and region_10.wav through region_24.wav", MUTED)
+	text_line("Files: region_0.ogg through region_24.ogg, one per ground; regions 10-24 are original synthesis.", MUTED)
 
 func bestiary(in_run: bool) -> void:
 	get_tree().paused = true

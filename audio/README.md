@@ -20,8 +20,43 @@ project. The older procedural generator is no longer used by the game.
 
 ## New original music
 
-`region_10.wav` through `region_19.wav` were composed and generated for this game using
-Python standard-library synthesis. They contain no third-party
-samples, recordings or melodies. The tracks correspond to Fallow Marsh, Sundered Dunes,
-Clockwork Bastion, Drowned Coast, Comet Fields, Veilwood, Cinder Reach, Storm Citadel,
-Tidal Maw and Black Aurora, respectively. They loop in Godot.
+`region_10.ogg` through `region_24.ogg` were composed and generated for this game by
+`tools/generate_music.py` (numpy synthesis; no third-party samples, recordings or
+melodies) and contain no third-party content.
+
+Each track is a multi-section loop -- intro, A, B and outro -- of roughly 76 seconds.
+The generator renders the wrap length past the end of the piece and crossfades it back
+over the opening, so the seam is continuous when Godot repeats the track rather than the
+track fading out and back in. Output is OGG Vorbis: Godot streams Vorbis from disk, while
+a WAV music track is loaded into RAM in full. The tool therefore keeps no WAV source in
+the repository -- re-running it regenerates the OGG files in place.
+
+Composition is deterministic (fixed per-region seeds), but each Vorbis stream carries a
+random Ogg serial number, so re-running the tool rewrites every file byte-wise even when
+the audio is unchanged. Compare decoded PCM, not file hashes, before concluding that a
+regeneration altered the music.
+
+One track per ground, in atlas order:
+
+| File | Ground | Tempo |
+|---|---|---:|
+| `region_10.ogg` | Fallow Marsh | 84 BPM |
+| `region_11.ogg` | Sundered Dunes | 92 BPM |
+| `region_12.ogg` | Clockwork Bastion | 128 BPM |
+| `region_13.ogg` | Drowned Coast | 72 BPM |
+| `region_14.ogg` | Comet Fields | 108 BPM |
+| `region_15.ogg` | Veilwood | 96 BPM |
+| `region_16.ogg` | Cinder Reach | 140 BPM |
+| `region_17.ogg` | Storm Citadel | 124 BPM |
+| `region_18.ogg` | Tidal Maw | 68 BPM |
+| `region_19.ogg` | Black Aurora | 80 BPM |
+| `region_20.ogg` | Saltbound Flats | 100 BPM |
+| `region_21.ogg` | Amberhold | 112 BPM |
+| `region_22.ogg` | The Vesperine | 76 BPM |
+| `region_23.ogg` | Lodestone Fields | 132 BPM |
+| `region_24.ogg` | The Red Chancery | 88 BPM |
+
+All twenty-five tracks ship as OGG Vorbis; `scripts/systems/audio.gd` resolves
+`region_<music>.ogg` for every ground. `tools/generate_music.py` composes only the fifteen
+original grounds (10-24) -- `region_0` through `region_9` are the CC0 recordings and are
+never regenerated.

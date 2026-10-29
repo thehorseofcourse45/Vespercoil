@@ -130,7 +130,9 @@ Settings offers six window sizes from 1280×720 to 3840×2160; unavailable sizes
 
 - Temporary Fury, Haste, Ward and Magnetism pickups drop in combat and caches.
 
-- Ten new original synthesized region tracks, the earlier CC0 music and procedural sound effects;
+- Fifteen original synthesized region tracks, each a ~76-second intro/A/B/outro loop built by
+
+  `tools/generate_music.py`, plus the earlier CC0 music and procedural sound effects;
 
   `audio/README.md` records their origin.
 

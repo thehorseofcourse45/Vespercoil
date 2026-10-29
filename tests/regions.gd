@@ -21,7 +21,7 @@ func run() -> void:
 		assert(data.danger >= 1 and data.danger <= 5)
 		assert(not ids.has(data.id))
 		assert(not music.has(data.music))
-		assert(ResourceLoader.exists("res://audio/region_%d.%s" % [data.music, "wav" if data.music >= 10 else "ogg"]))
+		assert(ResourceLoader.exists("res://audio/region_%d.ogg" % data.music))
 		ids.append(data.id)
 		motifs.append(data.motif)
 		names.append(data.name)
@@ -149,8 +149,8 @@ func run() -> void:
 			if child is AudioStreamPlayer and child.bus == &"Music":
 				music_player = child
 		assert(music_player != null and music_player.playing)
-		assert(music_player.stream == load("res://audio/region_%d.%s" % [data.music, "wav" if data.music >= 10 else "ogg"]))
-		assert((music_player.stream is AudioStreamWAV and (music_player.stream as AudioStreamWAV).loop_mode == AudioStreamWAV.LOOP_FORWARD) if data.music >= 10 else (music_player.stream is AudioStreamOggVorbis and (music_player.stream as AudioStreamOggVorbis).loop))
+		assert(music_player.stream == load("res://audio/region_%d.ogg" % data.music))
+		assert(music_player.stream is AudioStreamOggVorbis and (music_player.stream as AudioStreamOggVorbis).loop)
 		assert(is_equal_approx(music_player.pitch_scale, data.pitch))
 		assert(game.world.REGIONS.size() == Regions.count())
 		assert(game.world.region.id == data.id and game.world.region.name == data.name)
