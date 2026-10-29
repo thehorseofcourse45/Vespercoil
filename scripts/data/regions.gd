@@ -47,3 +47,30 @@ static func get_region(index: int) -> RegionData:
 
 static func index_of(id: String) -> int:
 	return IDS.find(id)
+
+static func guardian(region: RegionData) -> BossData:
+	return load("res://data/bosses/regions/%s.tres" % region.id)
+
+# Null when the ground has only one guardian, which is most of them.
+static func guardian_alt(region: RegionData) -> BossData:
+	if region.guardian_alt.is_empty():
+		return null
+	return load("res://data/bosses/regions/%s.tres" % region.guardian_alt)
+
+# Every guardian a ground can field, standard one first. The atlas and the bestiary
+# list this so an alternate is visible before it ambushes someone.
+static func guardians(region: RegionData) -> Array[BossData]:
+	var list: Array[BossData] = [guardian(region)]
+	var alt: BossData = guardian_alt(region)
+	if alt != null:
+		list.append(alt)
+	return list
+
+# The ground's guardian for a given run. Two-guardian grounds alternate by seed, so
+# the same ground is a different fight on a different expedition while staying
+# reproducible from the seed alone (daily and weekly runs included).
+static func guardian_for_seed(region: RegionData, run_seed: int) -> BossData:
+	var alt: BossData = guardian_alt(region)
+	if alt == null:
+		return guardian(region)
+	return alt if (run_seed + index_of(region.id)) % 2 != 0 else guardian(region)

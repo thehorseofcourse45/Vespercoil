@@ -9,3 +9,6 @@ extends Resource
 @export var ability_normal: float = 4.0
 @export var ability_enraged: float = 2.5
 @export var attack: StringName = &"ring"
+# Extra gold paid on death, on top of the standard chest and boss drop. Alternate
+# guardians carry a bounty so a harder fight is also worth choosing.
+@export var bounty: int = 0

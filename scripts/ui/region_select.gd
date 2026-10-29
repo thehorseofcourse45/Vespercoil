@@ -377,12 +377,17 @@ func _draw_detail() -> void:
 	draw_string(font, box.position + Vector2(14, 18), clip_text("%s   /   THREAT %d   /   %s" % [data.name, data.danger, data.hazard_label()], width, 13), HORIZONTAL_ALIGNMENT_LEFT, -1, 13, data.color)
 	draw_string(font, box.position + Vector2(14, 34), clip_text(data.subtitle, width, 11), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, PALE)
 	draw_string(font, box.position + Vector2(14, 50), clip_text(data.perk + "   /   " + bonus_text(data), width, 11), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, MUTED)
-	var boss: BossData = load("res://data/bosses/regions/%s.tres" % data.id)
+	# A ground can field either of two guardians; name both here so the seed draw is not
+	# the first time the player learns the second one exists.
+	var guardian_titles: PackedStringArray = []
+	for guardian in Regions.guardians(data):
+		guardian_titles.append(guardian.title)
+	var guardians_label: String = ("GUARDIAN: " if guardian_titles.size() == 1 else "GUARDIANS: ") + " / ".join(guardian_titles)
 	var drop: String = ["STAR LANCE", "CINDER FORGE", "THORN BLOOM"][selected] if selected < 3 else (load("res://data/relics/regions/%s.tres" % data.id) as RelicData).title.to_upper()
 	var hunt: PackedStringArray = []
 	for kind in data.enemy_roster:
 		hunt.append((load("res://data/enemies/%s.tres" % kind) as EnemyData).title)
-	draw_string(font, box.position + Vector2(14, 66), clip_text("HUNT / %s   /   %s   /   BOSS DROP: %s" % [", ".join(hunt), boss.title, drop], width, 10), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, data.color)
+	draw_string(font, box.position + Vector2(14, 66), clip_text("HUNT / %s   /   %s   /   DROP: %s" % [", ".join(hunt), guardians_label, drop], width, 10), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, data.color)
 	var clears: int = MetaProgression.region_cleared(data.id)
 	var status: String = ""
 	if clears > 0:

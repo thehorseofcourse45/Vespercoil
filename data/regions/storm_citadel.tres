@@ -13,6 +13,7 @@ hazard = &"storm"
 veil = 0.25
 incursion = &"storm_caller"
 enemy_roster = Array[StringName]([&"arc_sentinel", &"storm_caller", &"static_colossus", &"arc_hound", &"static_wisp", &"storm_watcher"])
+guardian_alt = "storm_citadel_alt"
 bonus = Array[Dictionary]([{"stat": &"cdr", "flat": 0.1, "percent": 0.0}])
 unlock = {"type": "clear", "id": "cinder_reach"}
 unlock_hint = "Clear Cinder Reach."

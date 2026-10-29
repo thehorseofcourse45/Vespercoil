@@ -110,6 +110,18 @@ Settings offers six window sizes from 1280×720 to 3840×2160; unavailable sizes
 
   leaves their own relics (Reaver Heart, Mirror Scale, Coil Eye).
 
+- Four grounds field a second guardian: Fallow Marsh, Sable Abyss, Cinder Reach
+
+  and Storm Citadel. The run's seed picks which of the pair appears, so the same
+
+  ground is not the same fight twice. Alternates carry more health, a shield and a
+
+  faster cadence, and pay a gold bounty on death. Four new patterns back them: a
+
+  ring with a turning gap, a dense lane, a patch of ground that burns twice, and a
+
+  wide arc that leaves the guardian's back open.
+
 - Field guide with evolution recipes, improved drafts, boss health bars, objective
 
   tracking, notices and volume sliders.

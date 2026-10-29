@@ -19,6 +19,10 @@ extends Resource
 @export var incursion: StringName = &"charger"
 # Enemy families exclusive to this ground. Common horde enemies remain shared.
 @export var enemy_roster: Array[StringName] = []
+# Alternate guardian for this ground, as a file stem under data/bosses/regions.
+# Empty means the ground has only its standard guardian. When set, a run picks one
+# of the pair from its seed, so revisiting a ground is not the same fight twice.
+@export var guardian_alt: String = ""
 # Flat/percent stat bias applied to the player on this ground.
 @export var bonus: Array[Dictionary] = []
 # {"type": "default"} | {"type": "wins", "count": N} | {"type": "clear", "id": "ember"} | {"type": "grounds", "count": N}

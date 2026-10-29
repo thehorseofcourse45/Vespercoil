@@ -331,6 +331,7 @@ func hit(enemy, damage: float, weapon: StringName, push: Vector2, heavy: bool = 
 	var boss_title: String = enemy.boss_title
 	var affix: StringName = enemy.affix
 	var boss_stage: int = enemy.boss_stage
+	var boss_bounty: int = enemy.boss_bounty
 	var xp: int = enemy.drop.scaled(20 if enemy.boss else (8 if elite else 1))
 	var explosion_damage: float = enemy.hitbox.damage * 1.5
 	recycle(enemy)
@@ -351,6 +352,10 @@ func hit(enemy, damage: float, weapon: StringName, push: Vector2, heavy: bool = 
 			world.pickups.spawn(at + Vector2(0, 20), &"heal", 35)
 			if boss_stage == 0 and ground_guardian:
 				world.pickups.spawn(at + Vector2(0, -28), &"boss_reward", 1)
+			# Alternate guardians pay a bounty on top of the standard drop, so the harder
+			# fight is worth taking rather than something to dodge on an unlucky seed.
+			if boss_bounty > 0:
+				world.pickups.spawn(at + Vector2(0, -12), &"gold", boss_bounty)
 	if kind == &"exploder":
 		GameEvents.impact.emit(at, 5.0, Color.ORANGE)
 		if player.position.distance_to(at) < 64.0 + player.hurtbox.radius:
@@ -512,6 +517,42 @@ func boss_ability(enemy, delta: float) -> void:
 					var aim2: Vector2 = (player.position - enemy.position).normalized()
 					for i in (4 if enraged else 3):
 						projectiles.hostile(enemy.position, aim2.rotated((i - ((4 if enraged else 3) - 1) * 0.5) * 0.12), 18.0)
+				&"cage":
+					# A full ring with one gap, and the gap turns with the clock. Rolling
+					# through the wall is how the plain ring is answered; here the answer is
+					# to read where the hole is and walk it, so the two never blur together.
+					var gap_angle: float = RunManager.elapsed * 1.7
+					var cage_count: int = 20 if enraged else 16
+					for i in cage_count:
+						var cage_angle: float = TAU * float(i) / float(cage_count)
+						if absf(angle_difference(cage_angle, gap_angle)) < (0.42 if enraged else 0.55):
+							continue
+						projectiles.hostile(enemy.position, Vector2.from_angle(cage_angle), 13.0)
+				&"lance":
+					# A dense lane rather than a spread. Spreads are sidestepped once; a lane
+					# has to be crossed, which punishes holding a firing angle.
+					var lane: Vector2 = (player.position - enemy.position).normalized()
+					# Spacing has to scale with the gap, or a close guardian fires its lane straight
+					# past the player and the pattern costs nothing.
+					var lane_step: float = clampf(enemy.position.distance_to(player.position) / 8.0, 10.0, 28.0)
+					for i in (7 if enraged else 6):
+						projectiles.hostile(enemy.position + lane * (i * lane_step), lane, 18.0)
+				&"furnace":
+					# The same patch of ground burns twice. Every other telegraph pattern
+					# rewards one reaction; this one punishes the dodge that lands back on it,
+					# which is what a fixed-distance roll does.
+					if world != null:
+						world.telegraph(player.position, 82.0, 24.0, 0.75)
+						world.telegraph(player.position, 82.0, 24.0, 1.85)
+						if enraged:
+							world.telegraph(player.position, 118.0, 26.0, 2.6)
+				&"wall":
+					# A wide arc in front leaves the guardian's back open. Nothing else at
+					# stage 0 pays for circling behind, so this is the one that teaches it.
+					var facing: Vector2 = (player.position - enemy.position).normalized()
+					var wall_count: int = 11 if enraged else 9
+					for i in wall_count:
+						projectiles.hostile(enemy.position, facing.rotated(deg_to_rad((i - (wall_count - 1) * 0.5) * 13.0)), 16.0)
 				_:
 					for i in (14 if enraged else 10):
 						projectiles.hostile(enemy.position, Vector2.from_angle(TAU * i / (14 if enraged else 10) + RunManager.elapsed * 0.2), 12.0)

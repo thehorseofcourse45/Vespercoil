@@ -58,6 +58,7 @@ or economy must zero `bonuses` / `gold` first or they inherit a maxed Observator
 | 36 | Audio | `audio_cues` | Every UI and combat cue is non-silent after the layered-cue refactor, and a `hud.button()` press reaches the audio node through `GameEvents.ui_cue` |
 | 37 | Onboarding | `tutorial` | The guide is offered only to profiles with no win and at most two runs, its fixed seed reaches `RunManager.run_seed`, each of the four steps ticks off from its own action in any order, completion hides the label and retires the guide, and the title screen offers the guided run by name |
 | 38 | Menus on a pad | `menu_navigation` | A confirms and B backs out of every menu (Godot's stock `ui_accept` ships with no joypad event), the panel scrolls to keep the focused row visible, text screens page on the d-pad, the bestiary lists take focus and cycle tabs on the shoulders, and the atlas can be picked and left with a pad |
+| 39 | Alternate guardians | `guardian_variants` | Four grounds field two guardians; the alternate is drawn by run seed (same seed, same guardian), is harder and pays a bounty into a gold pickup, appears in both the atlas and the bestiary, and each of the four new patterns -- cage, lance, furnace, wall -- actually puts projectiles or telegraphs on the field |
 
 > **2026-09-28:** rows 23-35 added from suites already on disk but missing from this
 > list; `projectile_stride` was fixed to disable the arsenal and drain pre-fired

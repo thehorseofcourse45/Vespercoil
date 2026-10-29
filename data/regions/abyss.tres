@@ -13,6 +13,7 @@ hazard = &""
 veil = 1.0
 incursion = &"wraith"
 enemy_roster = Array[StringName]([&"wraith", &"screamer", &"voidling", &"void_hound", &"abyss_spitter"])
+guardian_alt = "abyss_alt"
 bonus = Array[Dictionary]([{"stat": &"crit_chance", "flat": 0.1, "percent": 0.0}])
 unlock = {"type": "wins", "count": 1}
 unlock_hint = "Clear any ground once."

@@ -956,8 +956,11 @@ func bestiary(in_run: bool) -> void:
 		bestiary_line(regions_column, ground.name + "  /  EXCLUSIVE VESSELS", ground.color)
 		for kind in ground.enemy_roster:
 			bestiary_enemy(kind, regions_column)
-		var guardian: BossData = load("res://data/bosses/regions/%s.tres" % ground.id)
-		bestiary_boss(guardian, "REGIONAL GUARDIAN", ground.color, regions_column)
+		# Grounds with a second guardian list both, standard first, so the alternate is
+		# something to read about before it turns up on a seed that draws it.
+		var guardians: Array[BossData] = Regions.guardians(ground)
+		for i in guardians.size():
+			bestiary_boss(guardians[i], "REGIONAL GUARDIAN" if i == 0 else "ALTERNATE GUARDIAN", ground.color, regions_column)
 	bestiary_line(regions_column, "LADDER AND ENDLESS GUARDIANS", GOLD)
 	for id in director.BOSS_IDS:
 		bestiary_boss(load("res://data/bosses/%s.tres" % id), "LADDER GUARDIAN", GOLD, regions_column)

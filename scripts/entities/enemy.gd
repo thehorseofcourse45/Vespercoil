@@ -32,6 +32,8 @@ var laser_end: Vector2 = Vector2.ZERO
 var boss_title: String = ""
 var boss_attack: StringName = &"ring"
 var boss_stage: int = 0
+# Gold this guardian pays on top of its standard drops; 0 for the ordinary ones.
+var boss_bounty: int = 0
 var ai_state: int = 0
 var ai_timer: float = 0.0
 var strafe_sign: float = 1.0
@@ -88,6 +90,7 @@ func activate(at: Vector2, token: int, is_elite: bool, is_boss: bool, final: boo
 	boss_title = ""
 	boss_attack = &"ring"
 	boss_stage = 0
+	boss_bounty = 0
 	ai_state = EnemyAI.State.APPROACH
 	ai_timer = 0.0
 	strafe_sign = 1.0 if randf() > 0.5 else -1.0

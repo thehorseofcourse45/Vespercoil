@@ -52,8 +52,10 @@ func run() -> void:
 		var data: EnemyData = load("res://data/enemies/%s.tres" % kind)
 		assert(entries.contains(data.title.to_upper()), "%s is missing from the Bestiary" % data.title)
 	for ground in Regions.all():
-		var boss: BossData = load("res://data/bosses/regions/%s.tres" % ground.id)
-		assert(entries.contains(boss.title))
+		# Both guardians of a two-guardian ground belong in the list, or the alternate
+		# arrives as an enemy the player has no entry for.
+		for boss in Regions.guardians(ground):
+			assert(entries.contains(boss.title), "%s is missing from the Bestiary" % boss.title)
 	for id in game.director.BOSS_IDS:
 		var boss: BossData = load("res://data/bosses/%s.tres" % id)
 		assert(entries.contains(boss.title))

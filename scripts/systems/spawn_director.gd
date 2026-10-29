@@ -192,10 +192,13 @@ func spawn_guardian(stage: int, final: bool = false):
 	# the Guardian Gauntlet and Endless cycles -- walk the true ladder instead,
 	# which starts at The Gatekeeper (boss_catalog[0]).
 	if stage == 0 and world != null and world.region != null and _uses_ground_guardian():
-		data = load("res://data/bosses/regions/%s.tres" % world.region.id)
+		# Grounds with a second guardian alternate by run seed, so the same ground is a
+		# different fight on a different expedition and daily/weekly seeds still agree.
+		data = Regions.guardian_for_seed(world.region, RunManager.run_seed)
 	var enemy = enemies.spawn(data.kind, offscreen(Vector2.UP), true, stage > 0, final)
 	enemy.boss_title = data.title
 	enemy.boss_stage = data.stage
+	enemy.boss_bounty = data.bounty
 	var time_health: float = RunManager.time_health_scale()
 	enemy.health.reset(data.health * float(MetaProgression.DIFFICULTIES[RunManager.difficulty].health) * time_health * (1.0 + RunManager.ascension * 0.6))
 	enemy.shield_max = data.shield * float(MetaProgression.DIFFICULTIES[RunManager.difficulty].health) * time_health
@@ -205,7 +208,12 @@ func spawn_guardian(stage: int, final: bool = false):
 	enemy.boss_attack = data.attack
 	enemy.movement.speed = (36.0 + stage * 5.0) * RunManager.time_speed_scale()
 	enemy.ability_clock = 2.0
-	GameEvents.notice.emit("GUARDIAN APPROACHING", data.title + " / attacks intensify below half health", Color(1, .4, .4))
+	# The alternate guardians announce themselves as such: the fight is harder and the
+	# bounty is the reason to want it, so the player should know which of the two came.
+	if data.bounty > 0:
+		GameEvents.notice.emit("ALTERNATE GUARDIAN APPROACHING", "%s / attacks intensify below half health / bounty %d gold" % [data.title, data.bounty], Color(1, .55, .3))
+	else:
+		GameEvents.notice.emit("GUARDIAN APPROACHING", data.title + " / attacks intensify below half health", Color(1, .4, .4))
 	return enemy
 
 func _uses_ground_guardian() -> bool:

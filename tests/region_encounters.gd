@@ -19,11 +19,16 @@ func run() -> void:
 			assert(enemy_data != null and enemy_data.id == kind and enemy_data.health > 0.0)
 			assert(enemy_data.behaviour in [&"chaser", &"kiter", &"sniper", &"charger", &"summoner", &"swarm", &"shielder", &"burrower", &"stalker", &"mender", &"wraith", &"buffer", &"screamer", &"leaper", &"orbiter", &"mortar", &"shepherd", &"breaker", &"seeker", &"laser_sniper", &"trapper"])
 			assert(ResourceLoader.exists("res://art/%s.svg" % kind))
-		var boss: BossData = load("res://data/bosses/regions/%s.tres" % region.id)
-		assert(boss != null and boss.kind in region.enemy_roster and boss.title != "")
-		assert(not bosses.has(boss.title) and boss.ability_enraged < boss.ability_normal)
-		assert(boss.attack in [&"volley", &"slam", &"summon", &"cross", &"ring", &"spiral", &"carpet", &"shriek", &"hunt", &"pincer"])
-		bosses[boss.title] = true
+		# A ground can field more than one guardian, so every entry has to be valid:
+		# distinct title, a kind drawn from the ground's own roster, a known pattern.
+		for boss in Regions.guardians(region):
+			assert(boss != null and boss.kind in region.enemy_roster and boss.title != "")
+			assert(not bosses.has(boss.title) and boss.ability_enraged < boss.ability_normal)
+			assert(boss.attack in [&"volley", &"slam", &"summon", &"cross", &"ring", &"spiral", &"carpet", &"shriek", &"hunt", &"pincer", &"cage", &"lance", &"furnace", &"wall"])
+			bosses[boss.title] = true
+		if region.guardian_alt != "":
+			assert(ResourceLoader.exists("res://data/bosses/regions/%s.tres" % region.guardian_alt))
+			assert(Regions.guardian_alt(region).bounty > 0, "%s's alternate pays no bounty" % region.id)
 		var relic: RelicData = load("res://data/relics/regions/%s.tres" % region.id)
 		assert(relic != null and not relics.has(relic.id))
 		relics[relic.id] = true
@@ -32,6 +37,9 @@ func run() -> void:
 		assert(weapon != null and not weapons.has(weapon.id))
 		weapons[weapon.id] = true
 	var meta = root.get_node("MetaProgression")
+	# Autoload names are not compile-time identifiers in a --script main loop, so the
+	# run state has to come off the tree like everything else here.
+	var run = root.get_node("RunManager")
 	meta.future_version = true
 	meta.selected = "Artificer"
 	meta.launching = false
@@ -76,7 +84,7 @@ func run() -> void:
 		assert(raiders >= 3, "%s's incursion raid spawned %d units" % [region.id, raiders])
 		assert(heads >= 1, "%s's raid did not lead with %s" % [region.id, region.incursion])
 		var guardian = game.director.spawn_guardian(0)
-		assert(guardian.boss_title == load("res://data/bosses/regions/%s.tres" % region.id).title)
+		assert(guardian.boss_title == Regions.guardian_for_seed(region, run.run_seed).title, "%s fielded %s, not the guardian its seed picks" % [region.id, guardian.boss_title])
 		assert(guardian.data.id in region.enemy_roster)
 		game.enemies.hit(guardian, guardian.health.current + guardian.shield + 10000.0, &"test", Vector2.ZERO, false, DamageTypes.Type.TRUE)
 		if index >= 15:
