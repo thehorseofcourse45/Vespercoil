@@ -53,7 +53,7 @@ func _reaction(kind: StringName, at: Vector2, _amount: float) -> void:
 	burst(at, tint, 14)
 	ring(at, 70.0, tint)
 	shake = maxf(shake, 3.0)
-	if not bool(MetaProgression.settings.get("damage", true)):
+	if int(MetaProgression.settings.get("damage", 1)) == 0:
 		return
 	var effect = available(labels)
 	if effect != null:
@@ -71,7 +71,9 @@ func available(pool: Array[Effect]):
 			return effect
 	return null
 func _damage(_weapon: StringName, amount: float, at: Vector2, heavy: bool) -> void:
-	if bool(MetaProgression.settings.get("damage", true)):
+	# "damage": 0 off, 1 all, 2 reduced (heavy hits only). Old bool saves map via int().
+	var mode := int(MetaProgression.settings.get("damage", 1))
+	if mode == 1 or (mode == 2 and heavy):
 		var effect = available(labels)
 		if effect != null:
 			effect.at = at

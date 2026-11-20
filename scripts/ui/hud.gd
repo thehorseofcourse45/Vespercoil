@@ -1163,8 +1163,9 @@ func settings_menu() -> void:
 	resolutions.select(int(MetaProgression.settings.get("resolution", 0)))
 	resolutions.item_selected.connect(set_resolution)
 	menu_column.add_child(resolutions)
-	for entry in [["shake", "Screen shake"], ["damage", "Damage numbers"], ["aim", "Auto-aim facing"], ["pause", "Pause on level-up"], ["hitstop", "Hit-stop on big kills"], ["vsync", "VSync"]]:
+	for entry in [["shake", "Screen shake"], ["aim", "Auto-aim facing"], ["pause", "Pause on level-up"], ["hitstop", "Hit-stop on big kills"], ["vsync", "VSync"]]:
 		button("%s   /   %s" % [entry[1], "ON" if bool(MetaProgression.settings.get(entry[0], true)) else "OFF"], toggle_setting.bind(entry[0]))
+	button("Damage numbers   /   %s" % DAMAGE_MODES[int(MetaProgression.settings.get("damage", 1)) % 3], cycle_damage_numbers)
 	text_line("VSync reduces tearing; OFF favours higher frame rates.", MUTED)
 	text_line("REBIND CONTROLS", GOLD)
 	for action in Controls.ACTIONS:
@@ -1201,6 +1202,14 @@ func capture_rebind(action: String) -> void:
 func reset_bindings() -> void:
 	for action in Controls.ACTIONS:
 		Controls.reset_action(action)
+	settings_menu()
+
+const DAMAGE_MODES: Array[String] = ["OFF", "ALL", "REDUCED"]
+
+func cycle_damage_numbers() -> void:
+	# Cycle ALL -> REDUCED -> OFF.
+	MetaProgression.settings["damage"] = [1, 2, 0][int(MetaProgression.settings.get("damage", 1)) % 3]
+	MetaProgression.save_data()
 	settings_menu()
 
 func cycle_palette() -> void:

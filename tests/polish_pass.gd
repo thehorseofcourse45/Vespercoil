@@ -64,5 +64,17 @@ func run() -> void:
 			found = child.player == main.player and child.enemies == main.enemies
 	assert(found)
 
-	print("POLISH PASS: run history cap/order, volume settings, draft evolution hint, hit-stop restore/toggle, combat overlay mounted")
+	# Damage number density: 0 off, 1 all, 2 reduced (heavy only); old bool saves still work.
+	var shown := func(setting, heavy: bool) -> bool:
+		for label in effects.labels:
+			label.life = 0.0
+		meta.settings["damage"] = setting
+		effects._damage(&"test", 10.0, Vector2.ZERO, heavy)
+		return effects.labels.any(func(label): return label.life > 0.0)
+	assert(shown.call(1, false) and shown.call(true, false))
+	assert(not shown.call(0, true) and not shown.call(false, true))
+	assert(shown.call(2, true) and not shown.call(2, false))
+	meta.settings["damage"] = 1
+
+	print("POLISH PASS: damage number density, run history cap/order, volume settings, draft evolution hint, hit-stop restore/toggle, combat overlay mounted")
 	quit(0)
