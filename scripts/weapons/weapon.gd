@@ -87,6 +87,29 @@ func resolved() -> Dictionary:
 			&"whipsnap":
 				spec.projectile_count += 2
 				spec.pierce += 4
+			&"dart_fan":
+				spec.projectile_count += 2
+				spec.pierce += 3
+				spec.projectile_speed *= 1.3
+			&"nova_shard":
+				spec.projectile_count += 4
+				spec.area_scale *= 1.4
+			&"cascade":
+				spec.projectile_count += 2
+				spec.pierce += 2
+			&"rend":
+				spec.projectile_count += 2
+				spec.pierce += 4
+			&"miasma":
+				spec.projectile_count += 3
+				spec.pierce += 3
+				spec.area_scale *= 1.4
+			&"voidlance":
+				spec.projectile_count += 2
+				spec.pierce += 8
+			&"thunderhead":
+				spec.projectile_count += 6
+				spec.area_scale *= 1.4
 	if hyper:
 		spec.base_damage *= 1.5
 		match data.id:
@@ -99,6 +122,8 @@ func resolved() -> Dictionary:
 			&"seeker":
 				spec.projectile_count += 1
 				spec.projectile_speed *= 1.2
+			&"flask":
+				spec.area_scale *= 1.3
 			&"lightning":
 				spec.projectile_count += 3
 			&"field":
@@ -127,6 +152,32 @@ func resolved() -> Dictionary:
 				spec.pierce += 4
 			&"shardstorm":
 				spec.projectile_count += 1
+			&"cinder_jet":
+				spec.projectile_count += 1
+				spec.pierce += 2
+			&"sleetfall":
+				spec.area_scale *= 1.3
+				spec.duration += 0.5
+			&"whipsnap":
+				spec.projectile_count += 1
+				spec.pierce += 2
+			&"dart_fan":
+				spec.projectile_count += 1
+				spec.pierce += 2
+			&"nova_shard":
+				spec.projectile_count += 2
+			&"cascade":
+				spec.projectile_count += 1
+			&"rend":
+				spec.projectile_count += 1
+				spec.pierce += 2
+			&"miasma":
+				spec.projectile_count += 1
+				spec.pierce += 2
+			&"voidlance":
+				spec.pierce += 4
+			&"thunderhead":
+				spec.projectile_count += 3
 			_:
 				pass
 	return spec

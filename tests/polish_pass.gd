@@ -76,5 +76,39 @@ func run() -> void:
 	assert(shown.call(2, true) and not shown.call(2, false))
 	meta.settings["damage"] = 1
 
-	print("POLISH PASS: damage number density, run history cap/order, volume settings, draft evolution hint, hit-stop restore/toggle, combat overlay mounted")
+	# Sub-1.0 periodic damage ticks are not floored up to 1.0 by armour resolution,
+	# while hits >= 1.0 still respect the 1.0 armour floor.
+	var micro_hit := DamageInfo.new()
+	micro_hit.base = 0.05
+	micro_hit.type = DamageTypes.Type.FIRE
+	assert(is_equal_approx(micro_hit.resolve(), 0.05))
+	var armoured_hit := DamageInfo.new()
+	armoured_hit.base = 5.0
+	armoured_hit.armour = 10.0
+	armoured_hit.type = DamageTypes.Type.PHYSICAL
+	assert(is_equal_approx(armoured_hit.resolve(), 1.0))
+
+	# Elemental weapons carry their matching damage_type and lightning synergy applies.
+	assert((load("res://data/weapons/lightning.tres") as WeaponData).damage_type == DamageTypes.Type.LIGHTNING)
+	assert((load("res://data/weapons/flask.tres") as WeaponData).damage_type == DamageTypes.Type.FIRE)
+	assert((load("res://data/weapons/meteor.tres") as WeaponData).damage_type == DamageTypes.Type.FIRE)
+	assert((load("res://data/weapons/frost.tres") as WeaponData).damage_type == DamageTypes.Type.ICE)
+	assert(Synergy.BONUSES.has(&"lightning"))
+
+	# Regional percent bonuses live in percent, not flat.
+	for rid in ["saltbound", "amberhold", "lodestone", "chancery"]:
+		var reg: RegionData = load("res://data/regions/%s.tres" % rid)
+		assert(float(reg.bonus[0].get("flat", 1.0)) == 0.0 and float(reg.bonus[0].get("percent", 0.0)) > 0.0)
+	for rrelic in ["chancery", "spire", "dunes", "ember", "vein"]:
+		var rel: RelicData = load("res://data/relics/regions/%s.tres" % rrelic)
+		assert(rel.flat == 0.0 and rel.percent > 0.0)
+
+	# Boss weapon pickup appends to weapon_catalog before HUD refresh and loads fallback icon cleanly.
+	assert(main.hud.icon("star_lance", 24).texture != null)
+	assert(main.hud.draft.icon_texture("star_lance").texture != null)
+
+	# RunCode.decode rejects malformed/non-base64 strings without errors.
+	assert(RunCode.decode("not a valid base64 build code!!!").is_empty())
+
+	print("POLISH PASS: damage number density, run history cap/order, volume settings, draft evolution hint, hit-stop restore/toggle, combat overlay mounted, bug fix checks")
 	quit(0)

@@ -192,7 +192,8 @@ func label(text: String, size: int, tint: Color = PALE) -> Label:
 	return value
 func icon(id: String, size: float) -> TextureRect:
 	var texture := TextureRect.new()
-	texture.texture = load("res://art/icons/%s.svg" % id)
+	var path: String = "res://art/icons/%s.svg" % id
+	texture.texture = load(path) if ResourceLoader.exists(path) else preload("res://art/icons/needle.svg")
 	texture.custom_minimum_size = Vector2(size, size)
 	texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -358,6 +359,8 @@ func _process(delta: float) -> void:
 		boss_health.max_value = boss.health.maximum + boss.shield_max
 		boss_health.value = boss.health.current + boss.shield
 func _unhandled_input(event: InputEvent) -> void:
+	if not Controls.capturing.is_empty():
+		return
 	if observatory != null and observatory.visible:
 		return
 	if atlas != null and atlas.visible:
@@ -373,24 +376,27 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F3:
 		debug.visible = not debug.visible
-	if Controls.matches(event, "pause") and RunManager.running and not draft.visible:
+	if Controls.matches(event, "pause") and not draft.visible:
 		if menu.visible:
 			if menu_kind == "pause":
 				resume()
-			elif menu_kind == "codex_pause":
+			elif menu_kind in ["codex_pause", "bestiary_pause", "basics_pause"]:
 				pause_menu()
-			elif menu_kind == "music_credits":
-				title_screen()
-			elif menu_kind == "basics_pause":
-				pause_menu()
-			elif menu_kind == "basics":
+			elif menu_kind in ["settings", "legacies"]:
+				if title_backdrop.visible or not RunManager.running:
+					title_screen()
+				else:
+					pause_menu()
+			elif menu_kind == "history":
+				library_menu()
+			elif menu_kind in ["setup", "library", "codex", "keepers", "bestiary", "music_credits", "basics", "import"]:
 				title_screen()
 			elif menu_kind == "admin":
 				# The console was missing here, so ESC did nothing while it was up and
 				# the only way out was the Return button. Any kind the match forgets is
 				# a menu the player cannot close with the key they expect.
 				close_admin()
-		else:
+		elif RunManager.running:
 			pause_menu()
 
 func _input(event: InputEvent) -> void:
@@ -906,8 +912,8 @@ func open_admin() -> void:
 		# `menu.visible` is true while the CONSOLE itself is up, so using it here
 		# meant a console reopened over a closed console recorded "pause" and then
 		# Return showed the pause menu with the console still live on top. The
-		# screen we are returning TO is the pause menu only if its own kind is set.
-		admin_return = "pause" if menu.visible and menu_kind == "pause" else "play"
+		# screen we are returning TO is the pause menu whenever any non-admin in-run menu is open.
+		admin_return = "pause" if menu.visible and menu_kind != "admin" else "play"
 	else:
 		admin_return = "title"
 	admin_menu()
@@ -1218,6 +1224,7 @@ func cycle_palette() -> void:
 
 func achievements_screen() -> void:
 	get_tree().paused = true
+	var from_title: bool = title_backdrop.visible or not RunManager.running
 	menu_kind = "legacies"
 	clear_menu("HALL OF LEGACIES")
 	text_line("GOLD IN THE VAULT   %d     /     LEGACIES   %d of %d" % [MetaProgression.gold, Achievements.count(), Achievements.LIST.size()], GOLD)
@@ -1233,7 +1240,7 @@ func achievements_screen() -> void:
 	for kind in kinds:
 		text_line("%s   x%d" % [String(kind).capitalize(), int(by_kind[kind])])
 	text_line("TOTAL KILLS %d   /   RUNS %d   /   WINS %d" % [int(MetaProgression.progress_of("total_kills")), int(MetaProgression.progress_of("runs")), int(MetaProgression.progress_of("wins"))], GOLD)
-	button("Return", title_screen if not RunManager.running else pause_menu).grab_focus()
+	button("Return", title_screen if from_title else pause_menu).grab_focus()
 
 func import_code() -> void:
 	get_tree().paused = true
@@ -1264,6 +1271,7 @@ func show_decoded(code: String) -> void:
 func replay_code(code: String) -> void:
 	var decoded: Dictionary = RunCode.decode(code)
 	if decoded.is_empty():
+		text_line("That code could not be read.", RED)
 		return
 	MetaProgression.seed_override = int(decoded.seed)
 	if MetaProgression.unlocked.has(String(decoded.character)):

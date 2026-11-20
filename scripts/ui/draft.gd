@@ -55,6 +55,10 @@ func eligible(entry: Dictionary) -> bool:
 			var data: PassiveData = entry.data
 			return not banished.has(data.id) and int(arsenal.passive_levels.get(data.id, 0)) < data.max_level
 		"trinket":
+			var data: TrinketData = entry.data
+			for owned in arsenal.trinkets:
+				if owned.id == data.id:
+					return false
 			return arsenal.trinkets.size() < arsenal.trinket_slots()
 	return true
 func draw_choices() -> Array:
@@ -101,7 +105,7 @@ func small(text: String, color: Color, size: int) -> Label:
 func icon_texture(id: String) -> TextureRect:
 	var image := TextureRect.new()
 	var path: String = "res://art/icons/%s.svg" % id
-	image.texture = load(path) if ResourceLoader.exists(path) else null
+	image.texture = load(path) if ResourceLoader.exists(path) else preload("res://art/icons/needle.svg")
 	image.custom_minimum_size = Vector2(44, 44)
 	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -182,11 +186,16 @@ func render() -> void:
 	reroll.disabled = rerolls <= 0
 	reroll.pressed.connect(reroll_cards)
 	footer.add_child(reroll)
+	var cull_target: int = -1
+	for idx in choices.size():
+		if choices[idx].kind in ["weapon", "passive"]:
+			cull_target = idx
+			break
 	var cull := Button.new()
 	cull.text = "BANISH %d" % banishes
-	cull.disabled = banishes <= 0
+	cull.disabled = banishes <= 0 or cull_target < 0
 	cull.custom_minimum_size = Vector2(170, 32)
-	cull.pressed.connect(banish_card.bind(0))
+	cull.pressed.connect(banish_card.bind(maxi(0, cull_target)))
 	footer.add_child(cull)
 	column.get_child(3).grab_focus()
 func heading_for(entry: Dictionary) -> String:
@@ -209,6 +218,8 @@ func banish_card(index: int) -> void:
 	if not entry.kind in ["weapon", "passive"]:
 		return
 	banished[entry.data.id] = true
+	if locked_entry.get("data", null) == entry.data:
+		locked_entry = {}
 	banishes -= 1
 	choices = draw_choices()
 	render()
@@ -260,15 +271,15 @@ func description(entry: Dictionary) -> String:
 func per_level_line(stat: StringName, flat: float, percent: float) -> String:
 	var label: String = String(stat).replace("_", " ").capitalize()
 	if stat in [&"crit_chance", &"crit_damage"]:
-		return "%s +%d%%" % [label, int(flat * 100)]
+		return "%s +%d%%" % [label, roundi(flat * 100)]
 	if String(stat).begins_with("resist_"):
-		return "%s resistance +%d%%" % [String(stat).trim_prefix("resist_").capitalize(), int(flat * 100)]
+		return "%s resistance +%d%%" % [String(stat).trim_prefix("resist_").capitalize(), roundi(flat * 100)]
 	if String(stat).begins_with("mult_"):
-		return "%s damage +%d%%" % [String(stat).trim_prefix("mult_").capitalize(), int(percent * 100)]
+		return "%s damage +%d%%" % [String(stat).trim_prefix("mult_").capitalize(), roundi(percent * 100)]
 	if stat == &"cdr":
-		return "Cooldown recovery +%d%%" % int(flat * 100)
+		return "Cooldown recovery +%d%%" % roundi(flat * 100)
 	if percent > 0.0:
-		return "%s +%d%%" % [label, int(percent * 100)]
+		return "%s +%d%%" % [label, roundi(percent * 100)]
 	return "%s +%.1f" % [label, flat]
 func choose(index: int) -> void:
 	if not visible or index >= choices.size():
@@ -299,9 +310,9 @@ func choose(index: int) -> void:
 			overlay.hide()
 		get_tree().paused = false
 func _unhandled_input(event: InputEvent) -> void:
-	if not visible or not (event is InputEventKey) or not event.pressed or event.echo:
+	if not visible:
 		return
 	if Controls.matches(event, "reroll"):
 		reroll_cards()
-	elif event.keycode >= KEY_1 and event.keycode <= KEY_3:
+	elif event is InputEventKey and event.pressed and not event.echo and event.keycode >= KEY_1 and event.keycode <= KEY_3:
 		choose(event.keycode - KEY_1)

@@ -7,4 +7,4 @@ title = "Storm Sigil"
 stat = &"mult_lightning"
 percent_per_level = 0.1
 color = Color(0.81, 0.68, 1, 1)
-tags = Array[StringName]([&"projectile"])
+tags = Array[StringName]([&"lightning", &"projectile"])

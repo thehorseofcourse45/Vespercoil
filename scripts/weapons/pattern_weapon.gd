@@ -20,8 +20,9 @@ func fire(spec: Dictionary) -> void:
 			var radius: float = float(spec.radius) * float(spec.area_scale)
 			effects.ring(player.position, radius, data.color)
 			for enemy in enemies.nearby(player.position, radius):
-				enemy.status.apply(StatusLibrary.get_effect(&"chill"))
 				enemies.hit(enemy, float(spec.base_damage) * (1.0 + 0.25 * (count - 1)), data.id, (enemy.position - player.position).normalized() * float(spec.knockback), false, DamageTypes.Type.ICE)
+				if enemy.active:
+					enemy.status.apply(StatusLibrary.get_effect(&"chill"))
 		&"seeker":
 			var target = enemies.nearest(player.position)
 			var direction: Vector2 = player.facing if target == null else (target.position - player.position).normalized()

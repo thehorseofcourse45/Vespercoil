@@ -5,6 +5,7 @@ extends RefCounted
 const BONUSES: Dictionary = {
 	&"fire": {"threshold": 2, "stat": &"mult_fire", "flat": 0.0, "percent": 0.2},
 	&"ice": {"threshold": 2, "stat": &"mult_ice", "flat": 0.0, "percent": 0.2},
+	&"lightning": {"threshold": 2, "stat": &"mult_lightning", "flat": 0.0, "percent": 0.2},
 	&"physical": {"threshold": 2, "stat": &"damage", "flat": 0.0, "percent": 0.12},
 	&"mobility": {"threshold": 2, "stat": &"speed", "flat": 0.0, "percent": 0.1},
 	&"area": {"threshold": 2, "stat": &"area", "flat": 0.0, "percent": 0.15},

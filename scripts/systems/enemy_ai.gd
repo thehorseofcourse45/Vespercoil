@@ -345,7 +345,7 @@ static func _swarm(enemy: VesperEnemy, to_player: Vector2, distance: float, delt
 						break
 			if enemy.swarm_count >= 3:
 				break
-	var base_speed: float = enemy.data.speed * RunManager.time_speed_scale()
+	var base_speed: float = enemy.data.speed * RunManager.time_speed_scale() * RunManager.mutator_speed * (1.4 if enemy.affix_fired else 1.0)
 	enemy.movement.speed = base_speed * 1.25 if enemy.swarm_count >= 3 else base_speed
 	if enemy.swarm_count >= 3:
 		enemy.ai_state = State.APPROACH

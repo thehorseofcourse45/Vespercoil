@@ -37,11 +37,12 @@ func _scan() -> void:
 	var to_screen: Transform2D = get_viewport().get_canvas_transform()
 	var elites: Array = []
 	for enemy in enemies.active:
-		if not (enemy.boss or enemy.elite):
+		var is_guardian: bool = enemy.boss or not enemy.boss_title.is_empty()
+		if not (is_guardian or enemy.elite):
 			continue
 		if view.has_point(to_screen * enemy.position):
 			continue
-		if enemy.boss:
+		if is_guardian:
 			targets.append(enemy)
 		else:
 			elites.append(enemy)
@@ -91,8 +92,9 @@ func _draw_arrows() -> void:
 		if direction.y != 0.0:
 			reach = minf(reach, ((inner.end.y if direction.y > 0.0 else inner.position.y) - center.y) / direction.y)
 		var tip: Vector2 = center + direction * reach
-		var length: float = 18.0 if enemy.boss else 11.0
-		var tint: Color = Color(1.0, 0.3, 0.3) if enemy.boss else Color(1.0, 0.8, 0.35)
+		var is_guardian: bool = enemy.boss or not enemy.boss_title.is_empty()
+		var length: float = 18.0 if is_guardian else 11.0
+		var tint: Color = Color(1.0, 0.3, 0.3) if is_guardian else Color(1.0, 0.8, 0.35)
 		var side: Vector2 = direction.orthogonal() * length * 0.6
 		var back: Vector2 = tip - direction * length
 		var points := PackedVector2Array([tip, back + side, back - side])

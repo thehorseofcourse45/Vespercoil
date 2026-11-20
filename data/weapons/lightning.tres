@@ -17,5 +17,6 @@ radius = 170.0
 level_changes = Array[Dictionary]([{"base_damage": 8.4, "cooldown": -0.16}, {"base_damage": 8.4, "projectile_count": 1}, {"base_damage": 8.4, "area_scale": 0.25}, {"base_damage": 8.4, "projectile_count": 1}, {"base_damage": 8.4, "cooldown": -0.16}, {"base_damage": 8.4, "projectile_count": 1}, {"base_damage": 8.4, "area_scale": 0.25}])
 evolution_passive = &"duplicator"
 evolution_title = "Tempest"
-tags = Array[StringName]([&"area", &"projectile"])
+damage_type = 3
+tags = Array[StringName]([&"lightning", &"area", &"projectile"])
 description = "Arc between distinct enemies in a chain."

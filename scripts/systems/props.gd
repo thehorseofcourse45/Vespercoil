@@ -63,10 +63,11 @@ func _break(prop: Dictionary, by_player: bool) -> void:
 		if rng.randf() < 0.12:
 			pickups.spawn(at - Vector2(14, 0), &"heal", 8)
 		MetaProgression.progress_add("props", 1.0)
-	for enemy in enemies.nearby(at, 90.0):
-		enemies.hit(enemy, 16.0, &"scenery", (enemy.position - at).normalized() * 90.0, false)
+		for enemy in enemies.nearby(at, 90.0):
+			enemies.hit(enemy, 16.0, &"scenery", (enemy.position - at).normalized() * 90.0, false)
 	effects.burst(at, COLORS.get(prop.kind, Color.WHITE), 8)
-	GameEvents.impact.emit(at, 1.5, COLORS.get(prop.kind, Color.WHITE))
+	if by_player or (player != null and player.position.distance_squared_to(at) < 1000000.0):
+		GameEvents.impact.emit(at, 1.5, COLORS.get(prop.kind, Color.WHITE))
 
 func _physics_process(delta: float) -> void:
 	if not RunManager.running:
@@ -102,6 +103,8 @@ func _physics_process(delta: float) -> void:
 		tick_clock = 0.3
 		for prop in props:
 			if prop.broken:
+				continue
+			if player != null and player.position.distance_squared_to(prop.at) > 4000000.0:
 				continue
 			if not enemies.nearby(prop.at, 34.0).is_empty():
 				_break(prop, false)

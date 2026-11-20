@@ -7,4 +7,4 @@ title = "Spark Ward"
 stat = &"resist_lightning"
 flat_per_level = 0.08
 color = Color(0.83, 0.71, 1, 1)
-tags = Array[StringName]([])
+tags = Array[StringName]([&"lightning"])

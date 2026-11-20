@@ -68,6 +68,7 @@ var nearest_point: int = -1
 var interaction: String = ""
 var font: Font = ThemeDB.fallback_font
 var redraw_clock: float = 0.0
+var terrain_tick: float = 0.0
 # Floor palette resolved per region before tiles are stamped (see _draw).
 var _stone: Color = Color("17212b")
 var _grout: Color = Color("26333d")
@@ -101,10 +102,11 @@ func _boss_reward_pickup(kind: StringName, _value: int) -> void:
 	boss_reward_claimed = true
 	var weapon_ids := {"asterfall": "star_lance", "ember": "cinder_forge", "garden": "thorn_bloom"}
 	var weapon_id: String = weapon_ids.get(region.id, "")
-	if not weapon_id.is_empty() and arsenal != null and arsenal.weapons.size() < arsenal.WEAPON_SLOTS:
+	if not weapon_id.is_empty() and arsenal != null and (arsenal.weapons.size() < arsenal.WEAPON_SLOTS or arsenal.weapons.has(StringName(weapon_id))):
 		var weapon: WeaponData = load("res://data/weapons/boss/%s.tres" % weapon_id)
+		if not arsenal.weapon_catalog.has(weapon):
+			arsenal.weapon_catalog.append(weapon)
 		arsenal.acquire_weapon(weapon)
-		arsenal.weapon_catalog.append(weapon)
 		GameEvents.notice.emit("BOSS WEAPON / " + weapon.title.to_upper(), weapon.description, region.color)
 		return
 	var relic: RelicData = load("res://data/relics/regions/%s.tres" % region.id)
@@ -416,6 +418,7 @@ func _physics_process(delta: float) -> void:
 		return
 	if inside_room >= 0:
 		_process_room()
+		_tick_hazards_and_contracts(delta)
 		return
 	for room in rooms:
 		if player.position.distance_squared_to(room.at) < 250000.0:
@@ -486,6 +489,47 @@ func _physics_process(delta: float) -> void:
 			return
 		if distance < 175.0:
 			interaction = "WALK INTO THE DOORWAY / " + room.name
+	_tick_hazards_and_contracts(delta)
+	if RunManager.elapsed >= next_event:
+		start_event((event_index + 1) % 3)
+		next_event = RunManager.elapsed + 90.0
+	if event_until > RunManager.elapsed:
+		event_tick -= delta
+		if event_tick <= 0.0:
+			event_tick = 1.5
+			if event_index == 0:
+				for i in 3:
+					var direction := Vector2.from_angle(randf() * TAU)
+					enemies.spawn(&"swarmer", player.position + direction * 850.0)
+			elif event_index == 1:
+				telegraph(player.position + Vector2(randf_range(-120, 120), randf_range(-120, 120)), 72.0, 16.0, 1.5)
+			else:
+				pickups.spawn(player.position + Vector2.from_angle(randf() * TAU) * randf_range(100, 300), &"gold", 3)
+	elif not event_title.is_empty():
+		GameEvents.notice.emit("INCIDENT RESOLVED", event_title + " has passed. Keep moving.", region.color)
+		event_title = ""
+	redraw_clock -= delta
+	if redraw_clock <= 0.0:
+		redraw_clock = 0.033
+		queue_redraw()
+	# Soft terrain: one membership test per player per frame (5 patches).
+	player.terrain_slow = 1.0
+	var on_hazard: bool = false
+	for patch in terrain:
+		if player.position.distance_squared_to(patch.at) <= patch.radius * patch.radius:
+			player.terrain_slow = patch.slow
+			if patch.dps > 0.0:
+				on_hazard = true
+				terrain_tick += delta
+				if terrain_tick >= 0.5:
+					terrain_tick -= 0.5
+					var dtype: DamageTypes.Type = DamageTypes.Type.ICE if region.hazard == &"frost" else (DamageTypes.Type.LIGHTNING if region.hazard == &"storm" else DamageTypes.Type.FIRE)
+					player.take_damage(patch.dps * 0.5, dtype, true)
+			break
+	if not on_hazard:
+		terrain_tick = 0.0
+
+func _tick_hazards_and_contracts(delta: float) -> void:
 	for hazard in hazards:
 		if hazard.life <= 0.0:
 			continue
@@ -511,36 +555,6 @@ func _physics_process(delta: float) -> void:
 		contract_clock += delta
 		if contract_clock >= 75.0:
 			_complete_contract()
-	if RunManager.elapsed >= next_event:
-		start_event((event_index + 1) % 3)
-		next_event = RunManager.elapsed + 90.0
-	if event_until > RunManager.elapsed:
-		event_tick -= delta
-		if event_tick <= 0.0:
-			event_tick = 1.5
-			if event_index == 0:
-				for i in 3:
-					var direction := Vector2.from_angle(randf() * TAU)
-					enemies.spawn(&"swarmer", player.position + direction * 850.0)
-			elif event_index == 1:
-				telegraph(player.position + Vector2(randf_range(-120, 120), randf_range(-120, 120)), 72.0, 16.0, 1.5)
-			else:
-				pickups.spawn(player.position + Vector2.from_angle(randf() * TAU) * randf_range(100, 300), &"gold", 3)
-	elif not event_title.is_empty():
-		GameEvents.notice.emit("INCIDENT RESOLVED", event_title + " has passed. Keep moving.", region.color)
-		event_title = ""
-	redraw_clock -= delta
-	if redraw_clock <= 0.0:
-		redraw_clock = 0.033
-		queue_redraw()
-	# Soft terrain: one membership test per player per frame (5 patches).
-	player.terrain_slow = 1.0
-	for patch in terrain:
-		if player.position.distance_squared_to(patch.at) <= patch.radius * patch.radius:
-			player.terrain_slow = patch.slow
-			if patch.dps > 0.0:
-				player.take_damage(patch.dps * delta, DamageTypes.Type.FIRE, true)
-			break
 
 func start_event(index: int) -> void:
 	event_index = index
@@ -764,6 +778,11 @@ func _draw_room_interior() -> void:
 	draw_arc(center + INSIDE_DOOR, 34, 0, TAU, 24, region.color, 2)
 	draw_string(font, center + Vector2(-20, 150), "EXIT", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, PALE)
 	draw_string(font, center + Vector2(-100, -oy - 20), room.name, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, room.tint)
+	for hazard in hazards:
+		if hazard.life > 0.0:
+			draw_circle(hazard.at, hazard.radius, Color("d34e46", .22))
+			draw_arc(hazard.at, hazard.radius, 0, TAU, 36, Color("ff9b70"), 4)
+			draw_arc(hazard.at, hazard.radius * (1 - hazard.life / hazard.duration), 0, TAU, 32, Color("fff0cb"), 3)
 
 # --- Floor motifs -----------------------------------------------------------
 # One routine per ground. They draw inside a 128x128 tile and read the palette
