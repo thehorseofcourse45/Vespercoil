@@ -29,8 +29,8 @@ func resolve() -> float:
 	value *= attacker_mult
 	if type != DamageTypes.Type.TRUE:
 		value *= clampf(1.0 - resist, 0.2, 1.0)
-		value -= armour
-		value = maxf(1.0, value)
+		var floor_val: float = minf(1.0, value)
+		value = maxf(floor_val, value - armour)
 	value *= 1.0 + vulnerability
 	final = maxf(0.0, value)
 	return final

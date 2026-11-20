@@ -17,5 +17,6 @@ radius = 65.0
 level_changes = Array[Dictionary]([{"base_damage": 2.45, "cooldown": -0.22399999999999998}, {"base_damage": 2.45, "projectile_count": 1}, {"base_damage": 2.45, "area_scale": 0.25}, {"base_damage": 2.45, "projectile_count": 1}, {"base_damage": 2.45, "cooldown": -0.22399999999999998}, {"base_damage": 2.45, "projectile_count": 1}, {"base_damage": 2.45, "area_scale": 0.25}])
 evolution_passive = &"wisdom"
 evolution_title = "Wildfire"
+damage_type = 1
 description = "Lob volatile flasks that leave burning pools."
 tags = Array[StringName]([&"fire", &"area"])

@@ -91,13 +91,14 @@ func _physics_process(delta: float) -> void:
 					hit_with_status(enemy, shot, shot.hitbox.damage, (enemy.position - shot.position).normalized() * shot.knockback)
 		elif shot.behavior != null and shot.behavior.kind == ProjectileBehavior.Kind.ORBIT:
 			shot.behavior_state.angle += delta * shot.behavior.orbit_speed
-			shot.position = shot.behavior_state.origin + Vector2.from_angle(shot.behavior_state.angle) * shot.behavior.orbit_radius
+			var center: Vector2 = player.position if player != null else shot.behavior_state.origin
+			shot.position = center + Vector2.from_angle(shot.behavior_state.angle) * shot.behavior.orbit_radius
 			shot.rotation = shot.behavior_state.angle
 			for enemy in enemies.nearby(shot.position, shot.hitbox.radius):
 				if shot.hit_ids.has(enemy.serial):
 					continue
 				shot.hit_ids[enemy.serial] = true
-				hit_with_status(enemy, shot, shot.hitbox.damage, 				shot.direction * shot.knockback)
+				hit_with_status(enemy, shot, shot.hitbox.damage, shot.direction * shot.knockback)
 		else:
 			if shot.kind == &"hostile" and float(shot.behavior_state.get("homing_turn", 0.0)) > 0.0:
 				# Seeker orbs chase the player; the per-family turn rate is the dodge clock.
@@ -123,7 +124,12 @@ func _physics_process(delta: float) -> void:
 					ProjectileBehavior.Kind.BOOMERANG:
 						var total: float = float(spec_duration_of(shot))
 						if shot.age >= total * shot.behavior.boomerang_return_ratio:
-							shot.direction = (shot.behavior_state.get("origin", shot.start) - shot.position).normalized()
+							if not shot.behavior_state.get("returned", false):
+								shot.behavior_state["returned"] = true
+								shot.hit_ids.clear()
+							var return_to: Vector2 = player.position if player != null else shot.behavior_state.get("origin", shot.start)
+							if return_to.distance_squared_to(shot.position) > 1.0:
+								shot.direction = (return_to - shot.position).normalized()
 					_:
 						pass
 			elif shot.kind == &"seeker":
@@ -168,6 +174,13 @@ func _physics_process(delta: float) -> void:
 							shot.behavior_state.bounces = int(shot.behavior_state.get("bounces", 0)) + 1
 							shot.direction = (bounce.position - shot.position).normalized()
 							break
+					if shot.behavior != null and shot.behavior.kind == ProjectileBehavior.Kind.CHAIN:
+						var next_chain = enemies.nearest(shot.position, shot.behavior.chain_range, shot.hit_ids)
+						shot.behavior_state.target = next_chain
+						shot.behavior_state.target_serial = next_chain.serial if next_chain != null else -1
+						shot.behavior_state.retarget = 0.15
+						if next_chain != null and next_chain.position.distance_squared_to(shot.position) > 0.0001:
+							shot.direction = (next_chain.position - shot.position).normalized()
 					shot.pierce -= 1
 					if shot.kind == &"sawdisc" and shot.pierce >= 0:
 						var bounce2 = enemies.nearest(shot.position, 360.0, shot.hit_ids)
@@ -188,5 +201,7 @@ func spec_duration_of(shot) -> float:
 func _split(shot, count: int) -> void:
 	for i in maxi(0, count):
 		var dir: Vector2 = shot.direction.rotated(TAU * i / maxf(1, count) - PI / maxf(1, count))
-		var spec: Dictionary = {"base_damage": shot.hitbox.damage * 0.6, "duration": shot.remaining if shot.remaining > 0 else 1.5, "pierce": shot.pierce, "knockback": shot.knockback, "radius": shot.hitbox.radius, "area_scale": 1.0, "projectile_speed": shot.movement.speed, "damage_type": shot.hitbox.damage_type, "on_hit_status": shot.status_payload}
-		fire(shot.position, dir, spec, &"bolt", shot.weapon_id, shot.tint, Vector2.ZERO, shot.status_payload)
+		var spec: Dictionary = {"base_damage": shot.hitbox.damage * 0.6, "duration": shot.remaining if shot.remaining > 0 else 1.5, "pierce": maxi(0, shot.pierce), "knockback": shot.knockback, "radius": shot.hitbox.radius, "area_scale": 1.0, "projectile_speed": shot.movement.speed, "damage_type": shot.hitbox.damage_type, "on_hit_status": shot.status_payload}
+		var child = fire(shot.position, dir, spec, &"bolt", shot.weapon_id, shot.tint, Vector2.ZERO, shot.status_payload)
+		for hit_id in shot.hit_ids:
+			child.hit_ids[hit_id] = true

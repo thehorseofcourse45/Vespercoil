@@ -19,8 +19,10 @@ var _tint: Color = Color.WHITE
 var sink: Callable = Callable()
 var target
 func apply(effect: StatusEffect) -> void:
+	if target != null and target.get("active") == false:
+		return
 	_apply_internal(effect)
-	if target != null and effect != null and not effect.id.is_empty() and target.get("data") != null and RunManager.running:
+	if target != null and target.get("active") != false and effect != null and not effect.id.is_empty() and target.get("data") != null and RunManager.running:
 		Reactions.check(target, effect.id, self)
 
 func remove(id: StringName) -> void:

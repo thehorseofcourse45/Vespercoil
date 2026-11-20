@@ -24,8 +24,13 @@ static func encode(arsenal, seed: int, character: String, region: int) -> String
 
 static func decode(code: String) -> Dictionary:
 	var clean: String = code.strip_edges()
-	if clean.is_empty():
+	if clean.length() < 4 or clean.length() % 4 != 0 or not clean.begins_with("djF8"):
 		return {}
+	for i in clean.length():
+		var c: int = clean.unicode_at(i)
+		var valid: bool = (c >= 65 and c <= 90) or (c >= 97 and c <= 122) or (c >= 48 and c <= 57) or c == 43 or c == 47 or (c == 61 and i >= clean.length() - 2)
+		if not valid:
+			return {}
 	var text: String = Marshalls.base64_to_utf8(clean)
 	var fields: PackedStringArray = text.split("|")
 	if fields.size() < 4 or fields[0] != VERSION:

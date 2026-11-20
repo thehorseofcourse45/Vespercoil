@@ -33,4 +33,4 @@ proj_behavior = SubResource("behavior")
 level_changes = Array[Dictionary]([{"base_damage": 5.0, "cooldown": -0.06}, {"base_damage": 5.0, "pierce": 1}, {"base_damage": 5.0, "cooldown": -0.06}, {"base_damage": 5.0, "pierce": 1}, {"base_damage": 5.0, "cooldown": -0.06}, {"base_damage": 5.0, "pierce": 1}, {"base_damage": 5.0, "area_scale": 0.25}])
 evolution_passive = &"storm_sigil"
 evolution_title = "Tesla Noose"
-tags = Array[StringName]([&"projectile"])
+tags = Array[StringName]([&"lightning", &"projectile"])
